@@ -1,0 +1,31 @@
+<svg width="1200" height="1500" viewBox="0 0 1200 1500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="1500" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF1F2"/>
+      <stop offset="0.45" stop-color="#F5F3FF"/>
+      <stop offset="1" stop-color="#EFF6FF"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(830 430) rotate(118) scale(720 540)">
+      <stop stop-color="#FB7185" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#FB7185" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(360 980) rotate(-18) scale(820 620)">
+      <stop stop-color="#60A5FA" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#60A5FA" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="1500" fill="url(#bg)"/>
+  <rect width="1200" height="1500" fill="url(#glow)"/>
+  <rect width="1200" height="1500" fill="url(#glow2)"/>
+  <g opacity="0.9">
+    <path d="M600 735c84-80 172-108 252-86 71 20 118 75 118 146 0 120-121 232-370 389C351 1027 230 915 230 795c0-71 47-126 118-146 80-22 168 6 252 86z" fill="#ffffff" fill-opacity="0.65"/>
+    <path d="M600 735c84-80 172-108 252-86 71 20 118 75 118 146 0 120-121 232-370 389C351 1027 230 915 230 795c0-71 47-126 118-146 80-22 168 6 252 86z" stroke="#ffffff" stroke-opacity="0.75" stroke-width="10"/>
+  </g>
+  <text x="600" y="210" text-anchor="middle" font-size="46" font-family="ui-serif, Georgia, 'Times New Roman', serif" fill="#111827" opacity="0.9" letter-spacing="2">
+    YOUR PHOTO
+  </text>
+  <text x="600" y="270" text-anchor="middle" font-size="22" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" fill="#374151" opacity="0.8">
+    public/hero.svg | P´Xt ü”
+  </text>
+</svg>
+
