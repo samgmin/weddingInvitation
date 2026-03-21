@@ -15,8 +15,8 @@ const sans = Noto_Sans_KR({
 });
 
 export const metadata: Metadata = {
-  title: "청첩장",
-  description: "초대합니다",
+  title: "정훈 & 유진 결혼식에 초대합니다",
+  description: "2026.09.26 노블발렌티 삼성 단독홀",
 };
 
 export default function RootLayout({
