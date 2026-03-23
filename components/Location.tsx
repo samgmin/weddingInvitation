@@ -62,7 +62,8 @@ export function Location({
         </a>
       </div>
       <p className="mt-2 text-center text-xs text-zinc-500">
-        모바일에서 탭하면 각 지도 앱에서 "{mapSearchKeyword}" 검색 화면으로 이동합니다.
+        모바일에서 탭하면 각 지도 앱에서 &quot;{mapSearchKeyword}&quot; 검색 화면으로
+        이동합니다.
       </p>
     </SectionShell>
   );
