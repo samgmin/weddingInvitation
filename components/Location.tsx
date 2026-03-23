@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect, useMemo, useRef, useState } from "react";
+import Image from "next/image";
 import { SectionHeading } from "@/components/SectionHeading";
 import { SectionShell } from "@/components/SectionShell";
 import { NaverMap } from "@/components/NaverMap";
@@ -21,8 +25,95 @@ export function Location({
     process.env.NAVER_MAP_CLIENT_ID?.trim() ||
     "";
   const mapSearchKeyword = "새마을운동중앙회";
-  const encodedKeyword = encodeURIComponent(mapSearchKeyword);
-  const encodedAppName = encodeURIComponent("com.my-invitation.web");
+  const [toast, setToast] = useState<string | null>(null);
+  const toastTimerRef = useRef<number | null>(null);
+
+  const urls = useMemo(() => {
+    const encodedKeyword = encodeURIComponent(mapSearchKeyword);
+    const encodedAppName = encodeURIComponent("com.my-invitation.web");
+    return {
+      naverApp: `nmap://search?query=${encodedKeyword}&appname=${encodedAppName}`,
+      kakaoApp: `kakaomap://search?q=${encodedKeyword}`,
+      tmapApp: `tmap://search?name=${encodedKeyword}`,
+      naverWeb: `https://map.naver.com/p/search/${encodedKeyword}`,
+      kakaoWeb: `https://map.kakao.com/?q=${encodedKeyword}`,
+      naverStore:
+        "https://apps.apple.com/kr/app/id311867728",
+      kakaoStore:
+        "https://apps.apple.com/kr/app/id304608425",
+      tmapStore:
+        "https://apps.apple.com/kr/app/t-map/id431589174",
+      naverPlay:
+        "https://play.google.com/store/apps/details?id=com.nhn.android.nmap",
+      kakaoPlay:
+        "https://play.google.com/store/apps/details?id=net.daum.android.map",
+      tmapPlay:
+        "https://play.google.com/store/apps/details?id=com.skt.tmap.ku",
+    };
+  }, [mapSearchKeyword]);
+
+  const isMobile = () => {
+    if (typeof navigator === "undefined") return false;
+    return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  };
+
+  const isIos = () => {
+    if (typeof navigator === "undefined") return false;
+    return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+  };
+
+  const showToast = (message: string) => {
+    setToast(message);
+    if (toastTimerRef.current) window.clearTimeout(toastTimerRef.current);
+    toastTimerRef.current = window.setTimeout(() => {
+      setToast(null);
+      toastTimerRef.current = null;
+    }, 2000);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (toastTimerRef.current) window.clearTimeout(toastTimerRef.current);
+    };
+  }, []);
+
+  const openAppWithFallback = (appUrl: string, storeUrl: string) => {
+    if (typeof window === "undefined") return;
+    let didHide = false;
+    const onHide = () => {
+      didHide = true;
+    };
+    window.addEventListener("pagehide", onHide, { once: true });
+    document.addEventListener("visibilitychange", onHide, { once: true });
+    window.location.href = appUrl;
+    window.setTimeout(() => {
+      if (!didHide) window.location.href = storeUrl;
+    }, 1300);
+  };
+
+  const handleOpenNaver = () => {
+    if (!isMobile()) {
+      window.open(urls.naverWeb, "_blank", "noopener,noreferrer");
+      return;
+    }
+    openAppWithFallback(urls.naverApp, isIos() ? urls.naverStore : urls.naverPlay);
+  };
+
+  const handleOpenKakao = () => {
+    if (!isMobile()) {
+      window.open(urls.kakaoWeb, "_blank", "noopener,noreferrer");
+      return;
+    }
+    openAppWithFallback(urls.kakaoApp, isIos() ? urls.kakaoStore : urls.kakaoPlay);
+  };
+
+  const handleOpenTmap = () => {
+    if (!isMobile()) {
+      showToast("T맵은 웹 미지원입니다. 모바일에서 앱으로 열어주세요.");
+      return;
+    }
+    openAppWithFallback(urls.tmapApp, isIos() ? urls.tmapStore : urls.tmapPlay);
+  };
 
   return (
     <SectionShell id="location">
@@ -39,32 +130,69 @@ export function Location({
           lng={mapLng}
           clientId={naverClientId}
           searchLabel={`${venueName} ${address}`}
+          markerLabel="새마을운동중앙회"
         />
       </div>
       <div className="mt-4 grid grid-cols-3 gap-2">
-        <a
-          href={`nmap://search?query=${encodedKeyword}&appname=${encodedAppName}`}
-          className="rounded-xl border border-[#e3dece] bg-white px-3 py-2 text-center text-sm font-medium text-zinc-700"
+        <button
+          type="button"
+          onClick={handleOpenNaver}
+          className="group flex flex-col items-center justify-start gap-1.5 py-1 text-center"
         >
-          네이버지도
-        </a>
-        <a
-          href={`kakaomap://search?q=${encodedKeyword}`}
-          className="rounded-xl border border-[#e3dece] bg-white px-3 py-2 text-center text-sm font-medium text-zinc-700"
+          <span className="overflow-hidden rounded-[15px] shadow-[0_6px_18px_rgba(15,23,42,0.18)] transition-transform duration-200 group-active:scale-95">
+            <Image
+              src="/brands/naver-map.jpg"
+              alt="네이버지도"
+              width={56}
+              height={56}
+              className="h-14 w-14"
+            />
+          </span>
+          <span className="text-[11px] font-medium text-zinc-700">네이버지도</span>
+        </button>
+        <button
+          type="button"
+          onClick={handleOpenKakao}
+          className="group flex flex-col items-center justify-start gap-1.5 py-1 text-center"
         >
-          카카오맵
-        </a>
-        <a
-          href={`tmap://search?name=${encodedKeyword}`}
-          className="rounded-xl border border-[#e3dece] bg-white px-3 py-2 text-center text-sm font-medium text-zinc-700"
+          <span className="overflow-hidden rounded-[15px] shadow-[0_6px_18px_rgba(15,23,42,0.18)] transition-transform duration-200 group-active:scale-95">
+            <Image
+              src="/brands/kakao-map.jpg"
+              alt="카카오맵"
+              width={56}
+              height={56}
+              className="h-14 w-14"
+            />
+          </span>
+          <span className="text-[11px] font-medium text-zinc-700">카카오맵</span>
+        </button>
+        <button
+          type="button"
+          onClick={handleOpenTmap}
+          className="group flex flex-col items-center justify-start gap-1.5 py-1 text-center"
         >
-          T맵
-        </a>
+          <span className="overflow-hidden rounded-[15px] shadow-[0_6px_18px_rgba(15,23,42,0.18)] transition-transform duration-200 group-active:scale-95">
+            <Image
+              src="/brands/tmap.jpg"
+              alt="T맵"
+              width={56}
+              height={56}
+              className="h-14 w-14"
+            />
+          </span>
+          <span className="text-[11px] font-medium text-zinc-700">T맵</span>
+        </button>
       </div>
-      <p className="mt-2 text-center text-xs text-zinc-500">
-        모바일에서 탭하면 각 지도 앱에서 &quot;{mapSearchKeyword}&quot; 검색 화면으로
-        이동합니다.
-      </p>
+      {toast ? (
+        <div className="pointer-events-none fixed inset-x-0 top-6 z-50 flex justify-center px-4">
+          <p
+            role="alert"
+            className="rounded-xl bg-zinc-900/90 px-4 py-2 text-sm font-medium text-white shadow-lg backdrop-blur"
+          >
+            {toast}
+          </p>
+        </div>
+      ) : null}
     </SectionShell>
   );
 }

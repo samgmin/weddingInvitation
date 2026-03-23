@@ -6,7 +6,15 @@ type NaverMaps = {
   maps: {
     Map: new (el: HTMLElement, options: { center: unknown; zoom: number }) => void;
     LatLng: new (lat: number, lng: number) => unknown;
-    Marker: new (options: { position: unknown; map: unknown }) => void;
+    Marker: new (options: { position: unknown; map: unknown }) => unknown;
+    InfoWindow: new (options: {
+      content: string;
+      borderWidth?: number;
+      backgroundColor?: string;
+      disableAnchor?: boolean;
+    }) => {
+      open: (map: unknown, anchor: unknown) => void;
+    };
   };
 };
 
@@ -135,11 +143,13 @@ export function NaverMap({
   lng,
   clientId,
   searchLabel,
+  markerLabel,
 }: {
   lat: number;
   lng: number;
   clientId: string;
   searchLabel: string;
+  markerLabel?: string;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(!!clientId);
@@ -178,10 +188,22 @@ export function NaverMap({
           center,
           zoom: 16,
         });
-        new window.naver.maps.Marker({
+        const marker = new window.naver.maps.Marker({
           position: center,
           map,
         });
+        if (markerLabel) {
+          const info = new window.naver.maps.InfoWindow({
+            content:
+              `<div style="padding:6px 10px;border-radius:10px;background:#fff;` +
+              `box-shadow:0 2px 10px rgba(15,23,42,0.12);font-size:12px;font-weight:600;` +
+              `color:#334155;white-space:nowrap;">${markerLabel}</div>`,
+            borderWidth: 0,
+            backgroundColor: "transparent",
+            disableAnchor: true,
+          });
+          info.open(map, marker);
+        }
         mapDoneRef.current = true;
         if (!cancelled) setLoading(false);
       } catch {
@@ -196,7 +218,7 @@ export function NaverMap({
       cancelled = true;
       el.innerHTML = "";
     };
-  }, [lat, lng, clientId]);
+  }, [lat, lng, clientId, markerLabel]);
 
   if (!clientId) {
     return (

@@ -15,9 +15,17 @@ function getRemaining(target: Date) {
 
 export function Countdown({ dateIso }: { dateIso: string }) {
   const target = useMemo(() => new Date(dateIso), [dateIso]);
-  const [remaining, setRemaining] = useState(() => getRemaining(target));
+  const [mounted, setMounted] = useState(false);
+  const [remaining, setRemaining] = useState(() => ({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  }));
 
   useEffect(() => {
+    setMounted(true);
+    setRemaining(getRemaining(target));
     const timer = setInterval(() => setRemaining(getRemaining(target)), 1000);
     return () => clearInterval(timer);
   }, [target]);
@@ -38,7 +46,7 @@ export function Countdown({ dateIso }: { dateIso: string }) {
       <div className="mt-4 grid grid-cols-4 gap-2">
         {items.map((item) => (
           <div key={item.label} className="rounded-2xl bg-[#f4f0e8] p-3 text-center">
-            <p className="text-xl font-semibold text-forest">{item.value}</p>
+            <p className="text-xl font-semibold text-forest">{mounted ? item.value : "-"}</p>
             <p className="text-[11px] text-zinc-500">{item.label}</p>
           </div>
         ))}
