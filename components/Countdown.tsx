@@ -39,10 +39,7 @@ export function Countdown({ dateIso }: { dateIso: string }) {
 
   return (
     <SectionShell>
-      <SectionHeading
-        title="D-Day"
-        description="결혼식까지 남은 시간 (초 단위로 갱신됩니다)"
-      />
+      <SectionHeading title="D-Day" />
       <div className="mt-4 grid grid-cols-4 gap-2">
         {items.map((item) => (
           <div key={item.label} className="rounded-2xl bg-[#f4f0e8] p-3 text-center">

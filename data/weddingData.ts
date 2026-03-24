@@ -61,7 +61,7 @@ export const weddingData = {
     { src: "/hero.svg", alt: "daily 2", category: "daily" },
   ] as GalleryImage[],
   notice:
-    "마음만으로도 충분히 감사드립니다. 축하 화환·화분은 정중히 사양합니다. 너그러운 양해 부탁드립니다.",
+    "화환은 정중히 사양합니다.\n예식 장소 특성상 화환 관리가 어려워 부득이하게 반송될 수 있으니\n마음만 감사히 받겠습니다.",
   accounts: [
     { role: "신랑", name: "정상민", bank: "토스뱅크", number: "1000-1111-2222" },
     { role: "신부", name: "장혜림", bank: "카카오뱅크", number: "3333-4444-5555" },

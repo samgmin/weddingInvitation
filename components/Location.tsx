@@ -118,11 +118,8 @@ export function Location({
   return (
     <SectionShell id="location">
       <SectionHeading title="오시는 길" />
-      <p className="mt-4 text-sm font-semibold text-zinc-800">{venueName}</p>
-      <p className="text-sm leading-6 text-zinc-600">{address}</p>
-      {addressDetail ? (
-        <p className="mt-2 text-sm leading-6 text-zinc-600">{addressDetail}</p>
-      ) : null}
+      <p className="mt-4 text-center text-sm font-semibold text-zinc-800">{venueName}</p>
+      <p className="text-center text-sm leading-6 text-zinc-600">{address}</p>
 
       <div className="mt-4">
         <NaverMap
@@ -182,6 +179,21 @@ export function Location({
           </span>
           <span className="text-[11px] font-medium text-zinc-700">T맵</span>
         </button>
+      </div>
+      <div className="mt-5 space-y-3 rounded-2xl border border-[#ece6d8] bg-[#fffdf8] p-4 text-left">
+        <div className="grid grid-cols-[110px_1fr] items-center gap-x-4 gap-y-0.5">
+          <p className="self-center justify-self-center text-center text-sm font-semibold text-forest">대중교통</p>
+          <p className="whitespace-pre-line text-sm leading-7 text-zinc-700">
+            {"[수인분당선 서현역] AK플라자 2층 출구\n육교 맞은편 [누리 2번] 탑승\n'새마을연수원사거리' 하차 후 도보 10분"}
+          </p>
+        </div>
+        <div className="h-px bg-[#efe9dc]" />
+        <div className="grid grid-cols-[110px_1fr] items-center gap-x-4 gap-y-0.5">
+          <p className="self-center justify-self-center text-center text-sm font-semibold text-forest">셔틀버스</p>
+          <p className="whitespace-pre-line text-sm leading-7 text-zinc-700">
+            {"[수인분당선 서현역] 2번 출구 앞 탑승\n11:30부터 20분 간격 운행"}
+          </p>
+        </div>
       </div>
       {toast ? (
         <div className="pointer-events-none fixed inset-x-0 top-6 z-50 flex justify-center px-4">
