@@ -8,6 +8,8 @@ import { SectionShell } from "@/components/SectionShell";
 import { submitRsvp } from "@/app/actions/rsvp";
 import { initialRsvpState, type RsvpState } from "@/lib/rsvp-state";
 
+const OPEN_RSVP_EVENT = "open-rsvp-modal";
+
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
@@ -114,6 +116,17 @@ export function RSVP() {
   const [open, setOpen] = useState(false);
   const [modalKey, setModalKey] = useState(0);
 
+  const openModal = () => {
+    setModalKey((k) => k + 1);
+    setOpen(true);
+  };
+
+  useEffect(() => {
+    const handler = () => openModal();
+    window.addEventListener(OPEN_RSVP_EVENT, handler);
+    return () => window.removeEventListener(OPEN_RSVP_EVENT, handler);
+  }, []);
+
   return (
     <SectionShell>
       <SectionHeading
@@ -122,10 +135,7 @@ export function RSVP() {
       />
       <button
         type="button"
-        onClick={() => {
-          setModalKey((k) => k + 1);
-          setOpen(true);
-        }}
+        onClick={openModal}
         className="mt-4 w-full rounded-full bg-forest py-3 text-sm font-medium text-white"
       >
         참석의사 체크하기

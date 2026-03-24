@@ -130,11 +130,11 @@ export function Location({
           markerLabel="새마을운동중앙회"
         />
       </div>
-      <div className="mt-4 grid grid-cols-3 gap-2">
+      <div className="mx-auto mt-4 grid max-w-[240px] grid-cols-3 gap-x-1.5 gap-y-1">
         <button
           type="button"
           onClick={handleOpenNaver}
-          className="group flex flex-col items-center justify-start gap-1.5 py-1 text-center"
+          className="group flex flex-col items-center justify-start gap-1 py-0.5 text-center"
         >
           <span className="overflow-hidden rounded-[15px] shadow-[0_6px_18px_rgba(15,23,42,0.18)] transition-transform duration-200 group-active:scale-95">
             <Image
@@ -150,7 +150,7 @@ export function Location({
         <button
           type="button"
           onClick={handleOpenKakao}
-          className="group flex flex-col items-center justify-start gap-1.5 py-1 text-center"
+          className="group flex flex-col items-center justify-start gap-1 py-0.5 text-center"
         >
           <span className="overflow-hidden rounded-[15px] shadow-[0_6px_18px_rgba(15,23,42,0.18)] transition-transform duration-200 group-active:scale-95">
             <Image
@@ -166,7 +166,7 @@ export function Location({
         <button
           type="button"
           onClick={handleOpenTmap}
-          className="group flex flex-col items-center justify-start gap-1.5 py-1 text-center"
+          className="group flex flex-col items-center justify-start gap-1 py-0.5 text-center"
         >
           <span className="overflow-hidden rounded-[15px] shadow-[0_6px_18px_rgba(15,23,42,0.18)] transition-transform duration-200 group-active:scale-95">
             <Image

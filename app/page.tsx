@@ -12,6 +12,8 @@ import { Notice } from "@/components/Notice";
 import { Location } from "@/components/Location";
 import { Gift } from "@/components/Gift";
 import { ShareActions } from "@/components/ShareActions";
+import { RsvpReminderPopup } from "@/components/RsvpReminderPopup";
+import { BgmPlayer } from "@/components/BgmPlayer";
 
 export default function Page() {
   return (
@@ -51,6 +53,8 @@ export default function Page() {
         shareDescription={weddingData.shareDescription}
         imageUrl={weddingData.shareImageUrl || undefined}
       />
+      <RsvpReminderPopup reminder={weddingData.rsvpReminder} />
+      <BgmPlayer src="/audio/完全感覚Dreamer.mp3" />
     </main>
   );
 }

@@ -12,6 +12,17 @@ export type GalleryImage = {
   category: GalleryCategory;
 };
 
+export type RsvpReminderData = {
+  delaySeconds: number;
+  title: string;
+  messageLines: string[];
+  namesLine: string;
+  dateLine: string;
+  venueLine: string;
+  ctaLabel: string;
+  dismissForTodayLabel: string;
+};
+
 export const weddingData = {
   groom: { name: "정상민", image: "/hero.svg" },
   bride: { name: "장혜림", image: "/hero.svg" },
@@ -22,7 +33,7 @@ export const weddingData = {
   /** 예식장 상세 주소 (도로명/지번 등 한 줄에 모두 적어도 됩니다) */
   address: "경기도 성남시 분당구 새마을로 257",
   addressDetail:
-    "새마을운동중앙회 내 돌뜰정원 (네비: 새마을운동중앙회 또는 돌뜰정원)",
+    "새마을운동중앙회 내 돌뜰정원",
   /** 네이버 지도 마커 위치 (네이버 지도에서 좌표 확인 후 수정) */
   mapLat: 37.392979, 
   mapLng: 127.158305,
@@ -61,7 +72,7 @@ export const weddingData = {
     { src: "/hero.svg", alt: "daily 2", category: "daily" },
   ] as GalleryImage[],
   notice:
-    "화환은 정중히 사양합니다.\n예식 장소 특성상 화환 관리가 어려워 부득이하게 반송될 수 있으니\n마음만 감사히 받겠습니다.",
+    "화환은 정중히 사양합니다.\n예식 장소 특성상 화환 관리가 어려워 부득이하게 반송될 예정입니다\n마음만 감사히 받겠습니다",
   accounts: [
     { role: "신랑", name: "정상민", bank: "토스뱅크", number: "1000-1111-2222" },
     { role: "신부", name: "장혜림", bank: "카카오뱅크", number: "3333-4444-5555" },
@@ -70,4 +81,20 @@ export const weddingData = {
     { role: "신부측 아버지", name: "장완균", bank: "우리은행", number: "1002-123-456789" },
     { role: "신부측 어머니", name: "김다임", bank: "농협", number: "302-1234-5678-91" },
   ],
+  rsvpReminder: {
+    delaySeconds: 10,
+    title: "참석 여부 전달",
+    messageLines: [
+      "소중한 시간을 내어 결혼식에",
+      "참석해주시는 모든 분들께 감사드립니다.",
+      "예식이 지정좌석제로 진행되오니,",
+      "참석 여부를 회신해 주시면",
+      "더욱 감사하겠습니다.",
+    ],
+    namesLine: "♡ 신랑 정상민, 신부 장혜림",
+    dateLine: "▣ 2026년 5월 24일 일요일 오후 12시 30분",
+    venueLine: "➤ 새마을운동중앙회 돌뜰정원",
+    ctaLabel: "참석 여부 전달",
+    dismissForTodayLabel: "오늘하루 보지않기",
+  } satisfies RsvpReminderData,
 };

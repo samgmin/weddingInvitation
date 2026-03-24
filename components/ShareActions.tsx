@@ -261,7 +261,6 @@ export function ShareActions({
     <SectionShell>
       <SectionHeading
         title="공유하기"
-        description="카카오톡으로 초대장을 보내거나 링크를 복사해 주세요."
       />
       <div className="mt-4 flex flex-col gap-2">
         <button
