@@ -47,7 +47,7 @@ export function RsvpReminderPopup({ reminder }: { reminder: RsvpReminderData }) 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[80] flex items-center justify-center bg-black/40 p-4"
+          className="fixed inset-0 z-[80] flex items-center justify-center bg-black/45 p-4"
           style={{ backdropFilter: "grayscale(100%)" }}
           onClick={close}
         >
@@ -56,29 +56,29 @@ export function RsvpReminderPopup({ reminder }: { reminder: RsvpReminderData }) 
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 20, opacity: 0 }}
             transition={{ duration: 0.22, ease: "easeOut" }}
-            className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl"
+            className="w-full max-w-md rounded-2xl border border-[#e4dfd4] bg-[#fbfaf6] p-5 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               type="button"
               onClick={close}
-              className="ml-auto block text-3xl leading-none text-zinc-400"
+              className="ml-auto block text-2xl leading-none text-zinc-400/90"
               aria-label="팝업 닫기"
             >
               ×
             </button>
 
-            <h3 className="mt-1 text-center font-[var(--font-serif)] text-3xl text-zinc-800">
+            <h3 className="mt-1 text-center text-2xl text-[#3c4339]">
               {reminder.title}
             </h3>
 
-            <p className="mt-4 whitespace-pre-line text-center text-lg leading-10 text-zinc-700">
+            <p className="mt-4 whitespace-pre-line text-center text-base leading-8 text-zinc-700">
               {reminder.messageLines.join("\n")}
             </p>
 
-            <div className="my-5 border-t border-dashed border-[#ded8cc]" />
+            <div className="my-5 border-t border-dashed border-[#d9d2c4]" />
 
-            <div className="space-y-2 text-lg text-zinc-700">
+            <div className="space-y-1.5 text-center text-base text-zinc-700">
               <p>{reminder.namesLine}</p>
               <p>{reminder.dateLine}</p>
               <p>{reminder.venueLine}</p>
@@ -87,7 +87,7 @@ export function RsvpReminderPopup({ reminder }: { reminder: RsvpReminderData }) 
             <button
               type="button"
               onClick={openRsvp}
-              className="mt-8 w-full rounded-full bg-forest py-3 text-sm font-medium text-white"
+              className="mt-7 w-full rounded-lg bg-forest py-2.5 text-sm font-medium text-white"
             >
               {reminder.ctaLabel}
             </button>

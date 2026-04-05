@@ -44,7 +44,7 @@ function RsvpModal({
       className="mx-auto mt-8 max-h-[85vh] max-w-md overflow-y-auto rounded-2xl bg-white p-5"
       onClick={(e) => e.stopPropagation()}
     >
-      <h3 className="font-[var(--font-serif)] text-xl text-forest">참석 의사</h3>
+      <h3 className="text-xl text-forest">참석 의사</h3>
       <form action={formAction} className="mt-4 space-y-4">
         <FieldSet label="누구 손님이신가요?">
           <Radio name="guestSide" value="groom" label="신랑" defaultChecked />

@@ -1,7 +1,12 @@
 import Image from "next/image";
 import { SectionHeading } from "@/components/SectionHeading";
 import { SectionShell } from "@/components/SectionShell";
-import type { TimelineItem } from "@/data/weddingData";
+
+type TimelineItem = {
+  year: string;
+  image: string;
+  description: string;
+};
 
 export function Story({ items }: { items: TimelineItem[] }) {
   return (

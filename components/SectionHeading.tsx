@@ -14,13 +14,13 @@ export function SectionHeading({
   return (
     <header
       className={cn(
-        "border-b border-[#e8e3da]/90 pb-4 text-center",
+        "border-b border-[#b7a68d]/35 pb-4 text-center",
         className,
       )}
     >
-      <h2 className="font-[var(--font-serif)] text-2xl text-forest">{title}</h2>
+      <h2 className="text-[19px] font-semibold text-[#3a3024]">{title}</h2>
       {description ? (
-        <div className="mt-2 text-sm text-zinc-600">{description}</div>
+        <div className="mt-2 text-[13px] leading-6 text-[#6f6455]">{description}</div>
       ) : null}
     </header>
   );

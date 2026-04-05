@@ -4,22 +4,60 @@
 
 html {
   scroll-behavior: smooth;
+  font-size: 14px;
+}
+
+@media (max-width: 430px) {
+  html {
+    font-size: 13px;
+  }
 }
 
 body {
   margin: 0;
-  background: #f8f5ef;
-  color: #33383a;
+  background-color: #e9e1d2;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.38), rgba(255, 255, 255, 0.38)),
+    repeating-linear-gradient(
+      0deg,
+      rgba(132, 109, 83, 0.045) 0px,
+      rgba(132, 109, 83, 0.045) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  color: #3d352b;
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 
 h1,
 h2,
 h3 {
-  font-family: var(--font-serif), Georgia, serif;
+  font-family: var(--font-uhbee-namsoyoung), var(--font-sans), system-ui,
+    sans-serif;
   letter-spacing: 0.01em;
 }
 
 button {
   cursor: pointer;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (hover: hover) {
+  button,
+  a {
+    transition: transform 220ms ease, opacity 220ms ease;
+  }
+
+  button:hover,
+  a:hover {
+    transform: scale(1.015);
+  }
 }

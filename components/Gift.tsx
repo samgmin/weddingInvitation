@@ -57,20 +57,21 @@ export function Gift({ accounts }: { accounts: Account[] }) {
                 const key = `${account.role}-${account.number}`;
                 const copied = copiedKey === key;
                 return (
-                  <div key={key} className="grid grid-cols-[1fr_auto] gap-3 px-4 py-4">
-                    <div>
-                      <p className="text-sm font-semibold text-zinc-700">{account.role}</p>
-                      <p className="mt-2 text-xl tracking-wide text-zinc-800">{account.number}</p>
-                      <p className="mt-1 text-base text-zinc-600">
-                        {account.bank} {account.name}
+                  <div key={key} className="grid grid-cols-[1fr_auto] gap-2 px-3 py-3 text-left">
+                    <div className="text-left">
+                      <p className="text-xs font-semibold tracking-[0.02em] text-[#7f715f]">{account.role}</p>
+                      <p className="mt-1 text-base font-medium text-[#3f3529]">{account.name}</p>
+                      <p className="mt-1 text-[15px] tracking-wide text-[#5e5243]">
+                        {account.bank} {account.number}
                       </p>
                     </div>
                     <button
                       type="button"
                       onClick={() => copyAccount(account)}
-                      className="h-10 rounded-md border border-[#ded8cc] bg-white px-4 text-sm font-medium text-zinc-700"
+                      className="h-9 w-9 self-center rounded-full border border-[#ccb79c] bg-[#f3e9db] text-base text-[#6d5f4d]"
+                      aria-label={copied ? "복사 완료" : "계좌 복사"}
                     >
-                      {copied ? "복사됨" : "복사"}
+                      {copied ? "✓" : "⧉"}
                     </button>
                   </div>
                 );
@@ -93,31 +94,29 @@ export function Gift({ accounts }: { accounts: Account[] }) {
 
   return (
     <SectionShell>
-      <SectionHeading
-        title="마음 전하실 곳"
-      />
-      <div className="mt-4 space-y-4">
-        <div className="overflow-hidden rounded-2xl border border-[#ece6d8] bg-[#fffdf8]">
+      <SectionHeading title="마음 전하실 곳" />
+      <div className="mt-3 space-y-2.5">
+        <div className="overflow-hidden rounded-xl border border-[#d8ccb9] bg-[#f8f1e7]">
           <button
             type="button"
             onClick={() => toggle("groom")}
-            className="flex w-full items-center justify-between px-4 py-3 text-left"
+            className="flex w-full items-center justify-between px-3 py-2.5 text-left"
             aria-expanded={openSections.groom}
           >
-            <span className="text-lg font-semibold text-forest">신랑측</span>
+            <span className="text-base font-semibold text-[#4f4336]">신랑측 계좌번호</span>
             {caret(openSections.groom)}
           </button>
           {renderRows("groom", grouped.groom)}
         </div>
 
-        <div className="overflow-hidden rounded-2xl border border-[#ece6d8] bg-[#fffdf8]">
+        <div className="overflow-hidden rounded-xl border border-[#d8ccb9] bg-[#f8f1e7]">
           <button
             type="button"
             onClick={() => toggle("bride")}
-            className="flex w-full items-center justify-between px-4 py-3 text-left"
+            className="flex w-full items-center justify-between px-3 py-2.5 text-left"
             aria-expanded={openSections.bride}
           >
-            <span className="text-lg font-semibold text-forest">신부측</span>
+            <span className="text-base font-semibold text-[#4f4336]">신부측 계좌번호</span>
             {caret(openSections.bride)}
           </button>
           {renderRows("bride", grouped.bride)}

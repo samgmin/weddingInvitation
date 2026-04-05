@@ -19,7 +19,10 @@ export function SectionShell({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className={cn("rounded-3xl border border-[#e9e4d9] bg-white/70 p-5 shadow-card", className)}
+      className={cn(
+        "px-5 py-6 text-center text-[#3d352b]",
+        className,
+      )}
     >
       {children}
     </motion.section>

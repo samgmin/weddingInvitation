@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { SectionHeading } from "@/components/SectionHeading";
+import Image from "next/image";
 import { SectionShell } from "@/components/SectionShell";
 
 declare global {
@@ -258,29 +258,38 @@ export function ShareActions({
   }, [shareTitle, shareDescription, imageUrl]);
 
   return (
-    <SectionShell>
-      <SectionHeading
-        title="공유하기"
-      />
-      <div className="mt-4 flex flex-col gap-2">
+    <SectionShell className="py-4">
+      <div className="mt-1 flex items-center justify-center gap-2">
         <button
           type="button"
           onClick={shareKakao}
-          className="w-full rounded-full bg-[#fee500] py-3 text-sm font-semibold text-[#3c1e1e]"
+          className="flex items-center gap-1.5 rounded-full border border-[#ccb79c] bg-[#f6eee2]/85 px-3 py-1.5 text-center"
         >
-          카카오톡 공유하기
+          <Image
+            src="/brands/kakaotalk.jpg"
+            alt="카카오톡"
+            width={16}
+            height={16}
+            className="h-4 w-4 rounded"
+          />
+          <span className="text-[11px] font-medium leading-none text-[#6a5d4d]">카카오 공유</span>
         </button>
         <button
           type="button"
           onClick={copyLink}
-          className="w-full rounded-full border border-[#e3dece] bg-white py-3 text-sm font-medium text-forest"
+          className="flex items-center gap-1.5 rounded-full border border-[#ccb79c] bg-[#f6eee2]/85 px-3 py-1.5 text-center"
         >
-          {copied ? "복사되었습니다!" : "모바일청첩장 링크 복사"}
+          <span className="flex h-4 w-4 items-center justify-center text-[12px] leading-none text-[#6a5d4d]">
+            🔗
+          </span>
+          <span className="text-[11px] font-medium leading-none text-[#6a5d4d]">
+            {copied ? "복사 완료" : "링크 복사"}
+          </span>
         </button>
-        {kakaoError ? (
-          <p className="text-center text-xs text-coral">{kakaoError}</p>
-        ) : null}
       </div>
+      {kakaoError ? (
+        <p className="mt-2 text-center text-[10px] text-coral">{kakaoError}</p>
+      ) : null}
     </SectionShell>
   );
 }

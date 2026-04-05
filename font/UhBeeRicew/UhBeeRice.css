@@ -1,0 +1,5 @@
+/* 어비폰트 - 웹폰트 설정영역 */
+@font-face {font-family: 'UhBeeRice';src: url('UhBeeRice.eot');}
+@font-face {font-family: 'UhBeeRice';src: url('UhBeeRice.woff') format('woff');}
+article { font-family: "UhBeeRice", serif;}
+textarea  {font-family: "UhBeeRice", serif; }

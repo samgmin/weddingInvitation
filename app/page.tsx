@@ -1,60 +1,93 @@
 import { weddingData } from "@/data/weddingData";
 import { Cover } from "@/components/Cover";
-import { Message } from "@/components/Message";
-import { WeddingInfo } from "@/components/WeddingInfo";
-import { Couple } from "@/components/Couple";
-import { Parents } from "@/components/Parents";
-import { Story } from "@/components/Story";
-import { Gallery } from "@/components/Gallery";
-import { RSVP } from "@/components/RSVP";
-import { Countdown } from "@/components/Countdown";
-import { Notice } from "@/components/Notice";
+import { InvitationCard } from "@/components/InvitationCard";
+import { InvitationInfoSection } from "@/components/InvitationInfoSection";
+import { AboutStorySection } from "@/components/AboutStorySection";
+import { DateCountdownSection } from "@/components/DateCountdownSection";
 import { Location } from "@/components/Location";
+import { VenueGuide } from "@/components/VenueGuide";
+import { RSVP } from "@/components/RSVP";
 import { Gift } from "@/components/Gift";
+import { Gallery } from "@/components/Gallery";
 import { ShareActions } from "@/components/ShareActions";
+import { CongratsBoard } from "@/components/CongratsBoard";
+import { StarDivider } from "@/components/StarDivider";
 import { RsvpReminderPopup } from "@/components/RsvpReminderPopup";
 import { BgmPlayer } from "@/components/BgmPlayer";
 
 export default function Page() {
   return (
-    <main className="mx-auto w-full max-w-xl space-y-4 px-4 py-4">
-      <Cover
-        groomName={weddingData.groom.name}
-        brideName={weddingData.bride.name}
-        dateLabel={weddingData.dateLabel}
-        image="/hero.svg"
-      />
-      <Message lines={weddingData.invitationMessage} />
-      <WeddingInfo
-        date={weddingData.dateLabel}
-        time={weddingData.timeLabel}
-        venue={weddingData.venueName}
-      />
-      <Couple groom={weddingData.groom} bride={weddingData.bride} />
-      <Parents
-        groomParents={weddingData.parents.groom}
-        brideParents={weddingData.parents.bride}
-      />
-      <Story items={weddingData.timeline} />
-      <Gallery images={weddingData.gallery} />
-      <RSVP />
-      <Countdown dateIso={weddingData.date} />
-      <Notice text={weddingData.notice} />
-      <Location
-        venueName={weddingData.venueName}
-        address={weddingData.address}
-        addressDetail={weddingData.addressDetail}
-        mapLat={weddingData.mapLat}
-        mapLng={weddingData.mapLng}
-      />
-      <Gift accounts={weddingData.accounts} />
-      <ShareActions
-        shareTitle={weddingData.shareTitle}
-        shareDescription={weddingData.shareDescription}
-        imageUrl={weddingData.shareImageUrl || undefined}
-      />
+    <main className="mx-auto min-h-screen w-full max-w-[480px] space-y-2 bg-[#f6f0e6] px-3 py-4 shadow-[0_14px_38px_rgba(66,51,35,0.16)]">
+      <Cover src={weddingData.coverGif} alt={weddingData.shareTitle} />
+      <StarDivider />
+      <section id="invitation">
+        <InvitationCard
+          invitationMessage={weddingData.invitationMessage}
+        />
+        <InvitationInfoSection lines={weddingData.simpleWeddingInfo} />
+      </section>
+      <StarDivider />
+      <section id="about-story">
+        <AboutStorySection
+          items={weddingData.storyItems}
+          groomBrideImage={weddingData.groomBrideImage}
+          groomBrideImageWidth={weddingData.groomBrideImageWidth}
+          groomBrideImageHeight={weddingData.groomBrideImageHeight}
+          parents={{
+            groom: weddingData.parentsIntro.groom,
+            bride: weddingData.parentsIntro.bride,
+          }}
+        />
+      </section>
+      <StarDivider />
+      <section id="date-countdown">
+        <DateCountdownSection
+          dateIso={weddingData.date}
+          namesLabel={`${weddingData.groom.name} ❤️ ${weddingData.bride.name}`}
+        />
+      </section>
+      <StarDivider />
+      <section id="location">
+        <Location
+          venueName={weddingData.venueName}
+          address={weddingData.address}
+          addressDetail={weddingData.addressDetail}
+          mapLat={weddingData.mapLat}
+          mapLng={weddingData.mapLng}
+        />
+      </section>
+      <StarDivider />
+      <section id="venue-guide">
+        <VenueGuide guides={weddingData.venueGuides} />
+      </section>
+      <StarDivider />
+      <section id="rsvp">
+        <RSVP />
+      </section>
+      <StarDivider />
+      <section id="gift">
+        <Gift accounts={weddingData.accounts} />
+      </section>
+      <StarDivider />
+      <section id="gallery">
+        <Gallery snaps={weddingData.gallerySnaps} />
+      </section>
+      <StarDivider />
+      <section id="guestbook">
+        <CongratsBoard />
+      </section>
+      <StarDivider />
+      <footer id="share" className="pb-4">
+        <ShareActions
+          shareTitle={weddingData.shareTitle}
+          shareDescription={weddingData.shareDescription}
+          imageUrl={weddingData.shareImageUrl || undefined}
+        />
+      </footer>
       <RsvpReminderPopup reminder={weddingData.rsvpReminder} />
-      <BgmPlayer src="/audio/完全感覚Dreamer.mp3" />
+      <BgmPlayer
+        src={`/audio/${encodeURIComponent("105 - The Black Skirts.mp3")}`}
+      />
     </main>
   );
 }

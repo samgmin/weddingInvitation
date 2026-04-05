@@ -118,8 +118,8 @@ export function Location({
   return (
     <SectionShell id="location">
       <SectionHeading title="오시는 길" />
-      <p className="mt-4 text-center text-sm font-semibold text-zinc-800">{venueName}</p>
-      <p className="text-center text-sm leading-6 text-zinc-600">{address}</p>
+      <p className="mt-4 text-sm font-semibold text-[#3f3529]">{venueName}</p>
+      <p className="text-sm leading-6 text-[#6e6150]">{address}</p>
 
       <div className="mt-4">
         <NaverMap
@@ -130,67 +130,74 @@ export function Location({
           markerLabel="새마을운동중앙회"
         />
       </div>
-      <div className="mx-auto mt-4 grid max-w-[240px] grid-cols-3 gap-x-1.5 gap-y-1">
+      <div className="mt-5 grid grid-cols-3 gap-2">
         <button
           type="button"
           onClick={handleOpenNaver}
-          className="group flex flex-col items-center justify-start gap-1 py-0.5 text-center"
+          className="group flex w-full items-center justify-center gap-2 rounded-2xl border border-[#d9cbb8] bg-[#f8f1e8] px-3 py-3 text-center shadow-[0_4px_10px_rgba(84,66,44,0.08)]"
         >
-          <span className="overflow-hidden rounded-[15px] shadow-[0_6px_18px_rgba(15,23,42,0.18)] transition-transform duration-200 group-active:scale-95">
+          <span className="overflow-hidden rounded-md border border-[#e7dccd] bg-white transition-transform duration-200 group-active:scale-95">
             <Image
               src="/brands/naver-map.jpg"
               alt="네이버지도"
-              width={56}
-              height={56}
-              className="h-14 w-14"
+              width={28}
+              height={28}
+              className="h-7 w-7"
             />
           </span>
-          <span className="text-[11px] font-medium text-zinc-700">네이버지도</span>
-        </button>
-        <button
-          type="button"
-          onClick={handleOpenKakao}
-          className="group flex flex-col items-center justify-start gap-1 py-0.5 text-center"
-        >
-          <span className="overflow-hidden rounded-[15px] shadow-[0_6px_18px_rgba(15,23,42,0.18)] transition-transform duration-200 group-active:scale-95">
-            <Image
-              src="/brands/kakao-map.jpg"
-              alt="카카오맵"
-              width={56}
-              height={56}
-              className="h-14 w-14"
-            />
-          </span>
-          <span className="text-[11px] font-medium text-zinc-700">카카오맵</span>
+          <span className="text-[15px] font-semibold text-[#4e4235]">네이버지도</span>
         </button>
         <button
           type="button"
           onClick={handleOpenTmap}
-          className="group flex flex-col items-center justify-start gap-1 py-0.5 text-center"
+          className="group flex w-full items-center justify-center gap-2 rounded-2xl border border-[#d9cbb8] bg-[#f8f1e8] px-3 py-3 text-center shadow-[0_4px_10px_rgba(84,66,44,0.08)]"
         >
-          <span className="overflow-hidden rounded-[15px] shadow-[0_6px_18px_rgba(15,23,42,0.18)] transition-transform duration-200 group-active:scale-95">
+          <span className="overflow-hidden rounded-md border border-[#e7dccd] bg-white transition-transform duration-200 group-active:scale-95">
             <Image
               src="/brands/tmap.jpg"
               alt="T맵"
-              width={56}
-              height={56}
-              className="h-14 w-14"
+              width={28}
+              height={28}
+              className="h-7 w-7"
             />
           </span>
-          <span className="text-[11px] font-medium text-zinc-700">T맵</span>
+          <span className="text-[15px] font-semibold text-[#4e4235]">T맵</span>
+        </button>
+        <button
+          type="button"
+          onClick={handleOpenKakao}
+          className="group flex w-full items-center justify-center gap-2 rounded-2xl border border-[#d9cbb8] bg-[#f8f1e8] px-3 py-3 text-center shadow-[0_4px_10px_rgba(84,66,44,0.08)]"
+        >
+          <span className="overflow-hidden rounded-md border border-[#e7dccd] bg-white transition-transform duration-200 group-active:scale-95">
+            <Image
+              src="/brands/kakao-map.jpg"
+              alt="카카오맵"
+              width={28}
+              height={28}
+              className="h-7 w-7"
+            />
+          </span>
+          <span className="text-[15px] font-semibold text-[#4e4235]">카카오맵</span>
         </button>
       </div>
-      <div className="mt-5 space-y-3 rounded-2xl border border-[#ece6d8] bg-[#fffdf8] p-4 text-left">
+      <div className="mt-5 space-y-3 p-4 text-left">
         <div className="grid grid-cols-[110px_1fr] items-center gap-x-4 gap-y-0.5">
-          <p className="self-center justify-self-center text-center text-sm font-semibold text-forest">대중교통</p>
-          <p className="whitespace-pre-line text-sm leading-7 text-zinc-700">
+          <p className="text-left text-sm font-semibold text-[#8f7b61]">🚗 자가용</p>
+          <p className="whitespace-pre-line text-left text-sm leading-7 text-[#5a4e40]">
+            {"새마을운동중앙회 내부 무료주차 가능"}
+          </p>
+        </div>
+        <div className="h-px bg-[#b7a68d]/25" />
+        <div className="grid grid-cols-[110px_1fr] items-center gap-x-4 gap-y-0.5">
+          <p className="text-left text-sm font-semibold text-[#8f7b61]">🚌 대중교통</p>
+          <p className="whitespace-pre-line text-left text-sm leading-7 text-[#5a4e40]">
             {"[수인분당선 서현역] AK플라자 2층 출구\n육교 맞은편 [누리 2번] 탑승\n'새마을연수원사거리' 하차 후 도보 10분"}
           </p>
         </div>
-        <div className="h-px bg-[#efe9dc]" />
+        <div className="h-px bg-[#b7a68d]/25" />
         <div className="grid grid-cols-[110px_1fr] items-center gap-x-4 gap-y-0.5">
-          <p className="self-center justify-self-center text-center text-sm font-semibold text-forest">셔틀버스</p>
-          <p className="whitespace-pre-line text-sm leading-7 text-zinc-700">
+          <p className="text-left text-sm font-semibold text-[#8f7b61]">🚐 셔틀버스</p>
+          <p className="whitespace-pre-line text-left text-sm leading-7 text-[#5a4e40]">
             {"[수인분당선 서현역] 2번 출구 앞 탑승\n11:30부터 20분 간격 운행"}
           </p>
         </div>

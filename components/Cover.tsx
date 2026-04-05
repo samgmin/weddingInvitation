@@ -1,32 +1,23 @@
-"use client";
-
 import Image from "next/image";
-import { motion } from "framer-motion";
 
-export function Cover({
-  groomName,
-  brideName,
-  dateLabel,
-  image,
-}: {
-  groomName: string;
-  brideName: string;
-  dateLabel: string;
-  image: string;
-}) {
+/** 풀스크린 커버 — GIF 등 단일 에셋으로 전체 대체 */
+export function Cover({ src, alt }: { src: string; alt?: string }) {
   return (
-    <section className="relative h-[92svh] overflow-hidden rounded-3xl">
-      <Image src="https://res.cloudinary.com/dp4u12ke2/image/upload/f_auto,q_auto/IMG_5285_keehje" alt="Wedding cover" fill className="object-cover" priority />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/45 to-black/5" />
-      <motion.div
-        className="absolute inset-x-0 bottom-14 px-6 text-center text-white"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9, ease: "easeOut" }}
-      >
-        <p className="font-[var(--font-serif)] text-4xl">{groomName} & {brideName}</p>
-        <p className="mt-3 text-sm tracking-[0.18em]">{dateLabel}</p>
-      </motion.div>
+    <section
+      id="cover"
+      className="relative -mx-3 h-[100svh] w-[calc(100%+1.5rem)] max-w-none overflow-hidden bg-[#e9e1d2]"
+    >
+      {src ? (
+        <Image
+          src={src}
+          alt={alt ?? "청첩장 커버"}
+          fill
+          className="object-cover object-center"
+          sizes="100vw"
+          priority
+          unoptimized
+        />
+      ) : null}
     </section>
   );
 }

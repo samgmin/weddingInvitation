@@ -1,17 +1,35 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Noto_Sans_KR } from "next/font/google";
+import { Gowun_Batang, Noto_Sans_KR } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const serif = Cormorant_Garamond({
-  subsets: ["latin"],
+const serif = Gowun_Batang({
+  subsets: ["latin", "latin-ext"],
   variable: "--font-serif",
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "700"],
 });
 
 const sans = Noto_Sans_KR({
   subsets: ["latin"],
   variable: "--font-sans",
   weight: ["400", "500", "700"],
+});
+
+const uhbeeNamsoyoung = localFont({
+  src: [
+    {
+      path: "../font/UhBeenamsoyoung/UhBee namsoyoung.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../font/UhBeenamsoyoung/UhBee namsoyoung Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-uhbee-namsoyoung",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -24,7 +42,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ko">
-      <body className={`${serif.variable} ${sans.variable}`}>{children}</body>
+      <body className={`${serif.variable} ${sans.variable} ${uhbeeNamsoyoung.variable}`}>{children}</body>
     </html>
   );
 }
