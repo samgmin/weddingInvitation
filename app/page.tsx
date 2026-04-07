@@ -30,7 +30,7 @@ export default function Page() {
         simpleWeddingInfo={weddingData.simpleWeddingInfo}
       />
       <section id="groom-bride" className="-mx-3 w-[calc(100%+1.5rem)] bg-[#d2a7a7]">
-        <div className="px-8 py-3">
+        <div className="px-8 py-5">
           <GroomBrideSection
             image={weddingData.groomBrideImage}
             imageWidth={weddingData.groomBrideImageWidth}

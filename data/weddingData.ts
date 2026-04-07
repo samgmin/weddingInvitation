@@ -150,9 +150,17 @@ export const weddingData = {
         alt: "studio cover",
       },
       photos: [
-        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775408350/studio_cover_gtrotd.png", alt: "snap1 photo1" },
-        { src: "/hero.svg", alt: "snap1 photo2" },
-        { src: "/hero.svg", alt: "snap1 photo3" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/q_auto/f_auto/v1775571129/IMG_7077_pqp2it.jpg", alt: "snap1 photo1" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/q_auto/f_auto/v1775575303/SM_2_rbxe2e.jpg", alt: "snap1 photo1-extra" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/q_auto/f_auto/v1775571077/IMG_6701_nlbycu.jpg", alt: "snap1 photo1" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775571089/IMG_6706_sqdutf.jpg", alt: "snap1 photo2" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/q_auto/f_auto/v1775571045/IMG_6670_ngin8v.jpg", alt: "snap1 photo3" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/q_auto/f_auto/v1775575297/SM_1_vgigga.jpg", alt: "snap1 photo8" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775571082/IMG_6703_puqgbe.jpg", alt: "snap1 photo4" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/q_auto/f_auto/v1775571060/IMG_6673_qoraz7.jpg", alt: "snap1 photo5" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/q_auto/f_auto/v1775571031/IMG_6664_zz6rum.jpg", alt: "snap1 photo6" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775571112/IMG_6825_ou7mih.jpg", alt: "snap1 photo7" },
+        
       ],
     },
     {
@@ -164,8 +172,17 @@ export const weddingData = {
       },
       photos: [
         { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775495549/IMG_8913_deowsq.jpg", alt: "snap2 photo1" },
-        { src: "/hero.svg", alt: "snap2 photo2" },
-        { src: "/hero.svg", alt: "snap2 photo3" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775495589/IMG_8873_nqmsgg.jpg", alt: "snap2 photo2" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775495580/DSCF8572_wc0wcv.jpg", alt: "snap2 photo3" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775495605/DSCF8790_c0uzsm.jpg", alt: "snap2 photo4" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775495594/DSCF8674_orxez7.jpg", alt: "snap2 photo5" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/q_auto/f_auto/v1775568768/DSCF8824_k6eakc.jpg", alt: "snap2 photo6" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775495578/IMG_8870_wcn8xf.jpg", alt: "snap2 photo7" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/q_auto/f_auto/v1775568772/DSCF8923_stc5bw.jpg", alt: "snap2 photo8" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/q_auto/f_auto/v1775495599/IMG_8869_ojhgan.jpg", alt: "snap2 photo9" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/q_auto/f_auto/v1775568781/DSCF9153_lagno1.jpg", alt: "snap2 photo10" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/q_auto/f_auto/v1775495618/DSCF9161_wvwuku.jpg", alt: "snap2 photo11" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/q_auto/f_auto/v1775568786/DSCF9228_rygo3o.jpg", alt: "snap2 photo12" },
       ],
     },
     {
@@ -176,8 +193,8 @@ export const weddingData = {
         alt: "sokcho cover",
       },
       photos: [
-        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775408214/sokcho_cover_rxdnrk.png", alt: "snap3 photo1" },
-        { src: "/hero.svg", alt: "snap3 photo2" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775574865/IMG_5530_odr5rg.jpg", alt: "snap3 photo2" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775574870/IMG_5569_zzvdqu.jpg", alt: "snap3 photo1" },
         { src: "/hero.svg", alt: "snap3 photo3" },
       ],
     },
@@ -190,8 +207,12 @@ export const weddingData = {
       },
       photos: [
         { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775494718/IMG_3575_nngsvc.jpg", alt: "snap4 photo1" },
-        { src: "/hero.svg", alt: "snap4 photo2" },
-        { src: "/hero.svg", alt: "snap4 photo3" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775494726/IMG_3567_cqyjkr.jpg", alt: "snap4 photo2" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775494760/IMG_3574_yddtmx.jpg", alt: "snap4 photo3" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775494770/IMG_2645_otss5g.jpg", alt: "snap4 photo4" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775494783/IMG_2644_fljbky.jpg", alt: "snap4 photo5" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775494792/IMG_2646_cptvle.jpg", alt: "snap4 photo6" },
+        { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775494751/IMG_3583_znr7mq.jpg", alt: "snap4 photo7" },
       ],
     },
   ] as GallerySnap[],
@@ -208,25 +229,28 @@ export const weddingData = {
     ] as ContactPerson[],
   },
   venueGuides: [
-    { title: "주차 안내", description: "예식 당일 새마을운동중앙회 내 주차장을 이용하실 수 있습니다." },
-    
     {
       title: "화환 안내",
       description:
-        "화환은 정중히 사양합니다.\n예식 장소 특성상 화환 관리가 어려워 부득이하게 반송될 예정입니다. \n마음만 감사히 받겠습니다",
+        "화환은 정중히 사양합니다\n예식 장소 특성상 화환 관리가 어려워 부득이하게 반송될 예정입니다 \n마음만 감사히 받겠습니다",
     },
+    { title: "주차 안내", description: "예식 당일 새마을운동중앙회 내 주차장을 이용하실 수 있습니다." },
     {
       title: "식사 안내",
       description: "식사는 본식 1부 종료 후 시작됩니다.",
+    },
+    {
+      title: "ATM 안내",
+      description: "예식장 내 ATM이 마련되어 있지 않습니다.",
     },
   ] as VenueGuideItem[],
   notice:
     "화환은 정중히 사양합니다.\n예식 장소 특성상 화환 관리가 어려워 부득이하게 반송될 예정입니다. \n마음만 감사히 받겠습니다",
   accounts: [
-    { role: "신랑", name: "정상민", bank: "국민은행", number: "92562417555" },
+    { role: "신랑", name: "정상민", bank: "국민은행", number: "9-2562-4175-55" },
     { role: "신부", name: "장혜림", bank: "우리은행", number: "1002-853-314470" },
     { role: "신랑측 아버지", name: "정기영", bank: "국민은행", number: "702702-01-006349" },
-    { role: "신랑측 어머니", name: "최명숙", bank: "신한은행", number: "110-123-456789" },
+    { role: "신랑측 어머니", name: "최명숙", bank: "농협", number: "394-0202-2758" },
     { role: "신부측 아버지", name: "장완균", bank: "농협", number: "351-0799-8507-63" },
     { role: "신부측 어머니", name: "김다임", bank: "국민은행", number: "276701-04-242385" },
   ],

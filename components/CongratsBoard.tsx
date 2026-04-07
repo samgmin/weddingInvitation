@@ -226,7 +226,7 @@ export function CongratsBoard() {
                       backgroundSize: "1.2px 1.2px, 1.4px 1.4px, 1.1px 1.1px, 1.3px 1.3px",
                     }}
                   />
-                  <p className="relative whitespace-pre-line break-words text-[18px] leading-8 text-[#3f3529] [font-family:var(--font-sans)]">
+                  <p className="relative whitespace-pre-line break-words text-[18px] leading-8 text-[#3f3529] [font-family:var(--font-uhbee-keongkeong)]">
                     {item.message || (item.placeholder ? " " : "")}
                   </p>
                   <div className="relative my-3 h-px bg-[#8b7660]/35" />

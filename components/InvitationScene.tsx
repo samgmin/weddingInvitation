@@ -104,7 +104,7 @@ export function InvitationScene({
     <section
       ref={sectionRef}
       id="invitation"
-      className="-mx-3 w-[calc(100%+1.5rem)] bg-[#C9BF83] pb-0 pt-3"
+      className="-mx-3 w-[calc(100%+1.5rem)] bg-[#C9BF83] pb-4 pt-5"
     >
       <div ref={wrapRef} className="px-10 pt-16">
         <div className="relative mx-auto w-[70%]">

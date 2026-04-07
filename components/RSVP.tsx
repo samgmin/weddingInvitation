@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { SectionHeading } from "@/components/SectionHeading";
 import { SectionShell } from "@/components/SectionShell";
@@ -116,11 +117,16 @@ function RsvpMessage({ state }: { state: RsvpState }) {
 export function RSVP() {
   const [open, setOpen] = useState(false);
   const [modalKey, setModalKey] = useState(0);
+  const [mounted, setMounted] = useState(false);
 
   const openModal = () => {
     setModalKey((k) => k + 1);
     setOpen(true);
   };
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handler = () => openModal();
@@ -149,19 +155,24 @@ export function RSVP() {
         참석의사 체크하기
       </button>
 
-      <AnimatePresence>
-        {open ? (
-          <motion.div
-            className="fixed inset-0 z-[95] bg-black/55 p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setOpen(false)}
-          >
-            <RsvpModal key={modalKey} onClose={() => setOpen(false)} />
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
+      {mounted
+        ? createPortal(
+            <AnimatePresence>
+              {open ? (
+                <motion.div
+                  className="fixed inset-0 z-[120] bg-black/55 p-4"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setOpen(false)}
+                >
+                  <RsvpModal key={modalKey} onClose={() => setOpen(false)} />
+                </motion.div>
+              ) : null}
+            </AnimatePresence>,
+            document.body,
+          )
+        : null}
     </SectionShell>
   );
 }

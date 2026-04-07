@@ -22,7 +22,7 @@ export function SectionShell({
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
       className={cn(
-        "-mx-3 w-[calc(100%+1.5rem)] px-10 py-8 text-center text-[#3d352b]",
+        "-mx-3 w-[calc(100%+1.5rem)] px-10 py-10 text-center text-[#3d352b]",
         className,
       )}
       style={style}

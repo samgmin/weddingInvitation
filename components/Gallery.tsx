@@ -84,31 +84,64 @@ export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
           transition={{ duration: 0.28, ease: "easeOut" }}
           className="mt-4 grid grid-cols-2 gap-2.5"
         >
-          {(activeSnap?.photos ?? []).map((image, idx) => (
-            <div
-              key={`${activeSnap?.id}-${image.src}-${idx}`}
-              className={`relative overflow-hidden ${
-                idx === 0
+          {(() => {
+            const photos = activeSnap?.photos ?? [];
+            const isSnap4Extended = activeSnap?.id === "snap-4" && photos.length >= 7;
+            const isSnap2Extended = activeSnap?.id === "snap-2" && photos.length >= 12;
+            return photos.map((image, idx) => {
+              const className = isSnap4Extended
+                ? idx === 0
                   ? "col-span-2 -mx-8 aspect-[3/4] min-h-[420px] w-[calc(100%+4rem)] max-w-[calc(100%+4rem)]"
-                  : "aspect-[3/4] w-[calc(100%+0.6rem)] max-w-none"
-              }`}
-              style={idx === 1 ? { marginLeft: "-0.3rem" } : idx === 2 ? { marginRight: "-0.3rem" } : undefined}
-            >
-              {image.src ? (
-                <Image
-                  src={image.src}
-                  alt={image.alt}
-                  fill
-                  className={idx === 0 ? "object-contain" : "object-contain"}
-                  sizes={idx === 0 ? "(max-width:480px) 100vw, 480px" : "(max-width:480px) 52vw, 250px"}
-                />
-              ) : (
-                <div className="flex h-full min-h-[140px] items-center justify-center bg-[#ece3d7] text-[#8a7a66]">
-                  <p className="text-xs">gallery placeholder</p>
+                  : idx === 3 || idx === 4
+                    ? "col-span-2 aspect-[16/10]"
+                    : "aspect-[3/4] w-[calc(100%+0.6rem)] max-w-none"
+                : isSnap2Extended
+                  ? idx === 0
+                    ? "col-span-2 -mx-8 aspect-[3/4] min-h-[420px] w-[calc(100%+4rem)] max-w-[calc(100%+4rem)]"
+                    : idx === 5 || idx === 10 || idx === 11
+                      ? "col-span-2 aspect-[16/10]"
+                      : "aspect-[3/4] w-[calc(100%+0.6rem)] max-w-none"
+                : idx === 0
+                  ? "col-span-2 -mx-8 aspect-[3/4] min-h-[420px] w-[calc(100%+4rem)] max-w-[calc(100%+4rem)]"
+                  : "aspect-[3/4] w-[calc(100%+0.6rem)] max-w-none";
+
+              const style =
+                idx === 1
+                  ? { marginLeft: "-0.3rem" }
+                  : idx === 2
+                    ? { marginRight: "-0.3rem" }
+                    : undefined;
+
+              const sizes =
+                idx === 0 ||
+                (isSnap4Extended && (idx === 3 || idx === 4)) ||
+                (isSnap2Extended && (idx === 5 || idx === 10 || idx === 11))
+                  ? "(max-width:480px) 100vw, 480px"
+                  : "(max-width:480px) 52vw, 250px";
+
+              return (
+                <div
+                  key={`${activeSnap?.id}-${image.src}-${idx}`}
+                  className={`relative overflow-hidden ${className}`}
+                  style={style}
+                >
+                  {image.src ? (
+                    <Image
+                      src={image.src}
+                      alt={image.alt}
+                      fill
+                      className="object-contain"
+                      sizes={sizes}
+                    />
+                  ) : (
+                    <div className="flex h-full min-h-[140px] items-center justify-center bg-[#ece3d7] text-[#8a7a66]">
+                      <p className="text-xs">gallery placeholder</p>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          ))}
+              );
+            });
+          })()}
           {(activeSnap?.photos ?? []).length === 0 ? (
             <div className="col-span-2 flex h-[220px] items-center justify-center bg-[#ece3d7] text-[#8a7a66]">
               <p className="text-xs">스냅 이미지를 추가해 주세요</p>

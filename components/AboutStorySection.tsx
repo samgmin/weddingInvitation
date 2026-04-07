@@ -20,9 +20,11 @@ function splitStoryYearAndHeading(raw: string): { year: string; heading: string 
 function StoryPhotos({
   photos,
   firstStory,
+  storyIndex,
 }: {
   photos: { src: string; alt: string }[];
   firstStory?: boolean;
+  storyIndex?: number;
 }) {
   if (!photos.length) {
     return (
@@ -37,11 +39,11 @@ function StoryPhotos({
     const follow = firstStory ? first : second;
     return (
       <div className="flex w-full min-w-0 flex-col items-center">
-        <div className="relative h-[378px] w-full max-w-[388px]">
+        <div className="relative h-[492px] w-full max-w-[504px]">
           <img
             src={lead.src}
             alt={lead.alt}
-            className={`absolute left-[1%] top-[1%] h-auto max-h-[305px] w-[82%] rounded-xl object-contain shadow-[0_8px_16px_rgba(40,28,16,0.16)] rotate-[-5deg] ${
+            className={`absolute left-[1%] top-[1%] h-auto max-h-[398px] w-[100%] rounded-xl object-contain shadow-[0_8px_16px_rgba(40,28,16,0.16)] rotate-[-5deg] ${
               firstStory ? "z-[3]" : "z-[1]"
             }`}
             loading="lazy"
@@ -49,8 +51,8 @@ function StoryPhotos({
           <img
             src={follow.src}
             alt={follow.alt}
-            className={`absolute right-[1%] z-[2] h-auto max-h-[305px] w-[82%] rounded-xl object-contain shadow-[0_8px_16px_rgba(40,28,16,0.18)] rotate-[5deg] ${
-              firstStory ? "top-[36%]" : "top-[40%]"
+            className={`absolute right-[1%] z-[2] h-auto max-h-[398px] w-[100%] rounded-xl object-contain shadow-[0_8px_16px_rgba(40,28,16,0.18)] rotate-[5deg] ${
+              firstStory ? "top-[38%]" : "top-[42%]"
             }`}
             loading="lazy"
           />
@@ -60,7 +62,7 @@ function StoryPhotos({
             key={`${ph.src}-${i + 2}`}
             src={ph.src}
             alt={ph.alt}
-            className="mt-2 h-auto max-h-[320px] w-auto max-w-full rounded-xl object-contain"
+            className="mt-2 h-auto max-h-[416px] w-auto max-w-full rounded-xl object-contain"
             loading="lazy"
           />
         ))}
@@ -75,7 +77,11 @@ function StoryPhotos({
           key={`${ph.src}-${i}`}
           src={ph.src}
           alt={ph.alt}
-          className="h-auto max-h-[430px] w-auto max-w-full rounded-xl object-contain"
+          className={`h-auto max-w-full rounded-xl object-contain ${
+            storyIndex === 1 || storyIndex === 2
+              ? "w-[102%] max-h-[580px]"
+              : "w-auto max-w-full max-h-[559px]"
+          }`}
           loading="lazy"
         />
       ))}
@@ -102,22 +108,20 @@ export function AboutStorySection({
 
             const textBlock = (
               <div
-                className={`flex min-w-0 max-w-[190px] flex-col justify-center gap-1.5 px-2 py-2 ${
-                  photoLeft ? "ml-auto items-end text-right" : "mr-auto items-start text-left"
-                } ${
-                  hasMultiPhotos ? (photoLeft ? "pl-2 pr-8" : "pl-8 pr-2") : ""
+                className={`mx-auto flex min-w-0 max-w-[190px] flex-col items-center justify-center gap-1.5 px-2 py-2 text-center ${
+                  hasMultiPhotos ? (photoLeft ? "pl-2 pr-4" : "pl-4 pr-2") : ""
                 }`}
               >
-                <p className="text-[13px] font-semibold leading-snug text-[#2c261c] whitespace-nowrap">
+                <p className="text-[13px] font-semibold leading-snug text-[#2c261c] whitespace-nowrap text-center">
                   <span className="mr-1.5 text-[#7b6a57]">•</span>
                   {year}
                 </p>
                 {heading ? (
-                  <p className="text-[12px] font-medium leading-snug text-[#3f3529] whitespace-nowrap">
+                  <p className="text-[12px] font-medium leading-snug text-[#3f3529] whitespace-nowrap text-center">
                     {heading}
                   </p>
                 ) : null}
-                <p className="text-xs leading-relaxed text-[#5e5243] break-keep whitespace-pre-line">
+                <p className="text-center text-xs leading-relaxed text-[#5e5243] break-keep whitespace-pre-line">
                   {item.text}
                 </p>
               </div>
@@ -126,29 +130,32 @@ export function AboutStorySection({
             const photoBlock = (
               <div
                 className={`flex min-w-0 flex-col items-center justify-center py-2 ${
-                  photoLeft ? "pr-6" : "pl-6"
+                  photoLeft ? "pr-3" : "pl-3"
                 }`}
               >
-                <StoryPhotos photos={photos} firstStory={idx === 0} />
+                <StoryPhotos photos={photos} firstStory={idx === 0} storyIndex={idx} />
               </div>
             );
 
             return (
               <article
                 key={`${item.year}-${item.text}`}
-                className="grid grid-cols-[minmax(0,1fr)_2rem_minmax(0,1fr)] items-center gap-x-0 gap-y-0 pb-0.5 last:pb-0"
-                style={{ minHeight: idx === 0 ? 286 : hasMultiPhotos ? 306 : 232 }}
+                className="grid grid-cols-[minmax(0,1fr)_0.5rem_minmax(0,1fr)] items-center gap-x-0 gap-y-0 pb-0.5 last:pb-0"
+                style={{
+                  minHeight:
+                    idx === 0 ? 372 : hasMultiPhotos ? 398 : idx === 1 || idx === 2 ? 360 : 302,
+                }}
               >
                 {photoLeft ? (
                   <>
                     {photoBlock}
-                    <div className="w-7" />
+                    <div className="w-2" />
                     {textBlock}
                   </>
                 ) : (
                   <>
                     {textBlock}
-                    <div className="w-7" />
+                    <div className="w-2" />
                     {photoBlock}
                   </>
                 )}
