@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { SectionHeading } from "@/components/SectionHeading";
 import { SectionShell } from "@/components/SectionShell";
 
 function getRemaining(target: Date) {
@@ -45,41 +44,44 @@ export function DateCountdownSection({
 
   return (
     <SectionShell>
-      <SectionHeading title="Wedding Day & Countdown" />
-      <p className="mt-4 text-sm text-[#5e5243]">
-        {namesLabel}의 결혼식이 <span className="text-[#8f7b61]">{mounted ? remaining.days : "-"}</span>일 남았습니다
+      <p className="mt-1 text-sm text-[#5f6160]">
+        {namesLabel}의 결혼식이 <span className="text-[#9a6561]">{mounted ? remaining.days : "-"}</span>일 남았습니다
       </p>
-      <p className="mt-2 text-xs text-[#7f7364]">
-        {`${target.getFullYear()}년 ${target.getMonth() + 1}월 ${target.getDate()}일 ${target.getHours()}시`}
+      <p className="mt-2 text-xs text-[#7a807c]">
+        {`${target.getFullYear()}년 ${target.getMonth() + 1}월 ${target.getDate()}일 오후 ${
+          target.getHours() % 12 || 12
+        }시 ${String(target.getMinutes()).padStart(2, "0")}분`}
       </p>
 
-      <div className="mt-4 grid grid-cols-4 gap-2 text-[#3f3529]">
+      <div className="mt-4 grid grid-cols-4 gap-2 text-[#4f5654]">
         {[
-          ["일", remaining.days],
-          ["시", remaining.hours],
-          ["분", remaining.minutes],
-          ["초", remaining.seconds],
-        ].map(([label, value]) => (
-          <div key={String(label)} className="rounded-lg border border-[#cbb9a2] bg-[#f4ecdf] py-2">
-            <p className="text-lg font-semibold">{mounted ? value : "-"}</p>
-            <p className="text-xs text-[#8f7b61]">{label}</p>
+          { label: "일", value: remaining.days },
+          { label: "시간", value: remaining.hours },
+          { label: "분", value: remaining.minutes },
+          { label: "초", value: remaining.seconds },
+        ].map(({ label, value }) => (
+          <div key={label} className="rounded-lg border border-[#cfd2ce] bg-[#ece9e2] py-2">
+            <p className="text-lg font-semibold tracking-tight text-[#5c6160]">
+              {mounted ? value : "-"}
+              {label}
+            </p>
           </div>
         ))}
       </div>
 
-      <div className="mt-4 rounded-lg border border-[#cbb9a2] bg-[#f4ecdf] p-3">
-        <div className="grid grid-cols-7 text-center text-[11px] text-[#8f7b61]">
+      <div className="mt-4 rounded-lg border border-[#cfd2ce] bg-[#ece9e2] p-3">
+        <div className="grid grid-cols-7 text-center text-[11px] text-[#8d918d]">
           {["일", "월", "화", "수", "목", "금", "토"].map((d) => (
             <span key={d}>{d}</span>
           ))}
         </div>
-        <div className="mt-2 grid grid-cols-7 gap-y-1 text-center text-sm text-[#3f3529]">
+        <div className="mt-2 grid grid-cols-7 gap-y-1 text-center text-sm text-[#5c6160]">
           {cells.map((d, idx) => (
             <span
               key={`${d}-${idx}`}
               className={
                 d === String(weddingDate)
-                  ? "mx-auto flex h-7 w-7 items-center justify-center rounded-full bg-[#cab498] text-[#2f2418]"
+                  ? "mx-auto flex h-7 w-7 items-center justify-center rounded-full bg-[#d3a6a7] text-[#3b2a2f]"
                   : ""
               }
             >

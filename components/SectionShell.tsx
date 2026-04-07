@@ -6,10 +6,12 @@ import { cn } from "@/lib/utils";
 export function SectionShell({
   id,
   className,
+  style,
   children,
 }: {
   id?: string;
   className?: string;
+  style?: React.CSSProperties;
   children: React.ReactNode;
 }) {
   return (
@@ -20,9 +22,10 @@ export function SectionShell({
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
       className={cn(
-        "px-5 py-6 text-center text-[#3d352b]",
+        "-mx-3 w-[calc(100%+1.5rem)] px-10 py-8 text-center text-[#3d352b]",
         className,
       )}
+      style={style}
     >
       {children}
     </motion.section>

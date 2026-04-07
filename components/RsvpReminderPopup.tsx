@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import type { RsvpReminderData } from "@/data/weddingData";
 
 const OPEN_RSVP_EVENT = "open-rsvp-modal";
+const OPEN_RSVP_DIRECT = "__openRsvpModal";
 
 function todayKey() {
   const d = new Date();
@@ -23,10 +24,25 @@ export function RsvpReminderPopup({ reminder }: { reminder: RsvpReminderData }) 
   useEffect(() => {
     const dismissed = localStorage.getItem(storageKey);
     if (dismissed === todayKey()) return;
+    const invitationEl = document.getElementById("invitation");
+    if (!invitationEl) return;
 
-    const timer = window.setTimeout(() => setOpen(true), reminder.delaySeconds * 1000);
-    return () => window.clearTimeout(timer);
-  }, [reminder.delaySeconds, storageKey]);
+    let opened = false;
+    const onScroll = () => {
+      if (opened) return;
+      const rect = invitationEl.getBoundingClientRect();
+      // invitation 섹션이 화면 위로 지나가면(=다음 섹션을 보기 시작하면) 팝업 노출
+      if (rect.bottom < 0) {
+        opened = true;
+        setOpen(true);
+        window.removeEventListener("scroll", onScroll);
+      }
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [storageKey]);
 
   const close = () => {
     if (dismissForToday) {
@@ -36,7 +52,10 @@ export function RsvpReminderPopup({ reminder }: { reminder: RsvpReminderData }) 
   };
 
   const openRsvp = () => {
+    const directOpen = (window as Window & { [OPEN_RSVP_DIRECT]?: () => void })[OPEN_RSVP_DIRECT];
+    if (typeof directOpen === "function") directOpen();
     window.dispatchEvent(new CustomEvent(OPEN_RSVP_EVENT));
+    document.dispatchEvent(new CustomEvent(OPEN_RSVP_EVENT));
     close();
   };
 
@@ -56,7 +75,7 @@ export function RsvpReminderPopup({ reminder }: { reminder: RsvpReminderData }) 
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 20, opacity: 0 }}
             transition={{ duration: 0.22, ease: "easeOut" }}
-            className="w-full max-w-md rounded-2xl border border-[#e4dfd4] bg-[#fbfaf6] p-5 shadow-2xl"
+            className="w-full max-w-md rounded-2xl border border-[#e4dfd4] bg-[#fbfaf6] p-5 shadow-2xl [font-family:var(--font-sans)]"
             onClick={(e) => e.stopPropagation()}
           >
             <button

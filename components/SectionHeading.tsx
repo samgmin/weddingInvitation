@@ -6,11 +6,15 @@ export function SectionHeading({
   title,
   description,
   className,
+  titleClassName,
 }: {
   title: string;
   description?: ReactNode;
   className?: string;
+  titleClassName?: string;
 }) {
+  const hasKorean = /[가-힣]/.test(title);
+
   return (
     <header
       className={cn(
@@ -18,7 +22,16 @@ export function SectionHeading({
         className,
       )}
     >
-      <h2 className="text-[19px] font-semibold text-[#3a3024]">{title}</h2>
+      <h2
+        className={cn(
+          "text-[19px] font-semibold text-[#3a3024]",
+          hasKorean && "[font-family:var(--font-sans)]",
+          !hasKorean && "[font-family:var(--font-uhbee-keongkeong)]",
+          titleClassName,
+        )}
+      >
+        {title}
+      </h2>
       {description ? (
         <div className="mt-2 text-[13px] leading-6 text-[#6f6455]">{description}</div>
       ) : null}

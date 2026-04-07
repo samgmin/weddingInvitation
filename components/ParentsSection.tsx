@@ -25,44 +25,40 @@ export function ParentsSection({
 <폭싹 속았수다> 中`}
       </p>
       <div className="mt-5 grid grid-cols-2 gap-4">
-        <div className="flex flex-col items-center border-b border-[#b7a68d]/25 pb-3 text-center">
-          <div className="aspect-[3/4] w-full max-w-[200px] rounded-xl border border-[#c9b79f] bg-[#e8ddd0] p-2">
-            <div className="relative h-full w-full overflow-hidden rounded-lg border border-dashed border-[#b7a68d]">
-              {groom[0]?.image ? (
-                <Image
-                  src={groom[0].image}
-                  alt={groom[0].imageAlt || "신랑측 부모님 사진"}
-                  fill
-                  className="object-cover"
-                />
-              ) : (
-                <div className="flex h-full items-center justify-center text-xs text-[#877865]">
-                  신랑측 부모님 사진
-                </div>
-              )}
-            </div>
+        <div className="flex flex-col items-center pb-3 text-center">
+          <div className="relative aspect-[3/4] w-full max-w-[200px] overflow-hidden rounded-xl">
+            {groom[0]?.image ? (
+              <Image
+                src={groom[0].image}
+                alt={groom[0].imageAlt || "신랑측 부모님 사진"}
+                fill
+                className="object-cover"
+              />
+            ) : (
+              <div className="flex h-full min-h-[120px] items-center justify-center text-xs text-[#877865]">
+                신랑측 부모님 사진
+              </div>
+            )}
           </div>
           <p className="mt-2 text-xs tracking-[0.12em] text-[#8f7b61]">신랑|상민의 부모님</p>
           <p className="mt-1 text-sm text-[#4c4134]">
             {groom.map((p) => p.name).join("❤️")}
           </p>
         </div>
-        <div className="flex flex-col items-center border-b border-[#b7a68d]/25 pb-3 text-center">
-          <div className="aspect-[3/4] w-full max-w-[200px] rounded-xl border border-[#c9b79f] bg-[#e8ddd0] p-2">
-            <div className="relative h-full w-full overflow-hidden rounded-lg border border-dashed border-[#b7a68d]">
-              {bride[0]?.image ? (
-                <Image
-                  src={bride[0].image}
-                  alt={bride[0].imageAlt || "신부측 부모님 사진"}
-                  fill
-                  className="object-cover"
-                />
-              ) : (
-                <div className="flex h-full items-center justify-center text-xs text-[#877865]">
-                  신부측 부모님 사진
-                </div>
-              )}
-            </div>
+        <div className="flex flex-col items-center pb-3 text-center">
+          <div className="relative aspect-[3/4] w-full max-w-[200px] overflow-hidden rounded-xl">
+            {bride[0]?.image ? (
+              <Image
+                src={bride[0].image}
+                alt={bride[0].imageAlt || "신부측 부모님 사진"}
+                fill
+                className="object-cover"
+              />
+            ) : (
+              <div className="flex h-full min-h-[120px] items-center justify-center text-xs text-[#877865]">
+                신부측 부모님 사진
+              </div>
+            )}
           </div>
           <p className="mt-2 text-xs tracking-[0.12em] text-[#8f7b61]">신부|혜림의 부모님</p>
           <p className="mt-1 text-sm text-[#4c4134]">
@@ -75,7 +71,7 @@ export function ParentsSection({
 
   if (embedded) {
     return (
-      <div id="parents" className="mt-10">
+      <div className="mt-10">
         {inner}
       </div>
     );

@@ -57,18 +57,20 @@ export function Gift({ accounts }: { accounts: Account[] }) {
                 const key = `${account.role}-${account.number}`;
                 const copied = copiedKey === key;
                 return (
-                  <div key={key} className="grid grid-cols-[1fr_auto] gap-2 px-3 py-3 text-left">
+                  <div key={key} className="grid grid-cols-[1fr_auto] gap-2 px-3 py-2.5 text-left">
                     <div className="text-left">
                       <p className="text-xs font-semibold tracking-[0.02em] text-[#7f715f]">{account.role}</p>
-                      <p className="mt-1 text-base font-medium text-[#3f3529]">{account.name}</p>
-                      <p className="mt-1 text-[15px] tracking-wide text-[#5e5243]">
-                        {account.bank} {account.number}
+                      <p className="mt-0.5 whitespace-nowrap leading-snug">
+                        <span className="text-[14px] font-medium text-[#3f3529]">{account.name}</span>
+                        <span className="ml-1.5 text-[12px] font-normal tracking-[0.01em] text-[#6b5f50]">
+                          {account.bank} {account.number}
+                        </span>
                       </p>
                     </div>
                     <button
                       type="button"
                       onClick={() => copyAccount(account)}
-                      className="h-9 w-9 self-center rounded-full border border-[#ccb79c] bg-[#f3e9db] text-base text-[#6d5f4d]"
+                      className="h-8 w-8 self-center rounded-full border border-[#ccb79c] bg-[#f3e9db] text-sm text-[#6d5f4d]"
                       aria-label={copied ? "복사 완료" : "계좌 복사"}
                     >
                       {copied ? "✓" : "⧉"}
@@ -93,8 +95,11 @@ export function Gift({ accounts }: { accounts: Account[] }) {
   );
 
   return (
-    <SectionShell>
-      <SectionHeading title="마음 전하실 곳" />
+    <SectionShell className="px-11 py-10">
+      <SectionHeading
+        title="마음 전하실 곳"
+        titleClassName="![font-family:var(--font-sans)] !text-[16px] !font-normal"
+      />
       <div className="mt-3 space-y-2.5">
         <div className="overflow-hidden rounded-xl border border-[#d8ccb9] bg-[#f8f1e7]">
           <button

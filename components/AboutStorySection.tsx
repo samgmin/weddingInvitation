@@ -1,88 +1,161 @@
 import Image from "next/image";
-import { ParentsSection } from "@/components/ParentsSection";
 import { SectionHeading } from "@/components/SectionHeading";
 import { SectionShell } from "@/components/SectionShell";
-import type { ParentIntroItem, StoryItem } from "@/data/weddingData";
+import type { StoryItem } from "@/data/weddingData";
+
+function storyPhotoList(item: StoryItem): { src: string; alt: string }[] {
+  if (item.images?.length) return item.images.map((p) => ({ src: p.src, alt: p.alt }));
+  if (item.image) return [{ src: item.image, alt: item.imageAlt ?? item.year }];
+  return [];
+}
+
+function splitStoryYearAndHeading(raw: string): { year: string; heading: string } {
+  const [year, ...rest] = raw.split("|");
+  return {
+    year: year?.trim() ?? raw,
+    heading: rest.join("|").trim(),
+  };
+}
+
+function StoryPhotos({
+  photos,
+  firstStory,
+}: {
+  photos: { src: string; alt: string }[];
+  firstStory?: boolean;
+}) {
+  if (!photos.length) {
+    return (
+      <div className="flex h-32 w-full max-w-[200px] items-center justify-center rounded-2xl bg-[#ece3d7] text-xs text-[#867863]">
+        사진
+      </div>
+    );
+  }
+  if (photos.length >= 2) {
+    const [first, second] = photos;
+    const lead = firstStory ? second : first;
+    const follow = firstStory ? first : second;
+    return (
+      <div className="flex w-full min-w-0 flex-col items-center">
+        <div className="relative h-[378px] w-full max-w-[388px]">
+          <img
+            src={lead.src}
+            alt={lead.alt}
+            className={`absolute left-[1%] top-[1%] h-auto max-h-[305px] w-[82%] rounded-xl object-contain shadow-[0_8px_16px_rgba(40,28,16,0.16)] rotate-[-5deg] ${
+              firstStory ? "z-[3]" : "z-[1]"
+            }`}
+            loading="lazy"
+          />
+          <img
+            src={follow.src}
+            alt={follow.alt}
+            className={`absolute right-[1%] z-[2] h-auto max-h-[305px] w-[82%] rounded-xl object-contain shadow-[0_8px_16px_rgba(40,28,16,0.18)] rotate-[5deg] ${
+              firstStory ? "top-[36%]" : "top-[40%]"
+            }`}
+            loading="lazy"
+          />
+        </div>
+        {photos.slice(2).map((ph, i) => (
+          <img
+            key={`${ph.src}-${i + 2}`}
+            src={ph.src}
+            alt={ph.alt}
+            className="mt-2 h-auto max-h-[320px] w-auto max-w-full rounded-xl object-contain"
+            loading="lazy"
+          />
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex w-full min-w-0 flex-col items-center gap-2">
+      {photos.map((ph, i) => (
+        <img
+          key={`${ph.src}-${i}`}
+          src={ph.src}
+          alt={ph.alt}
+          className="h-auto max-h-[430px] w-auto max-w-full rounded-xl object-contain"
+          loading="lazy"
+        />
+      ))}
+    </div>
+  );
+}
 
 export function AboutStorySection({
   items,
-  groomBrideImage,
-  groomBrideImageWidth,
-  groomBrideImageHeight,
-  parents,
 }: {
   items: StoryItem[];
-  groomBrideImage: string;
-  groomBrideImageWidth: number;
-  groomBrideImageHeight: number;
-  parents: { groom: ParentIntroItem[]; bride: ParentIntroItem[] };
 }) {
   return (
     <SectionShell>
-      <div className="-mx-5 w-[calc(100%+2.5rem)] max-w-none bg-[#e8ddd0]">
-        {groomBrideImage ? (
-          <Image
-            src={groomBrideImage}
-            alt="신랑·신부"
-            width={groomBrideImageWidth}
-            height={groomBrideImageHeight}
-            className="block h-auto w-full object-contain"
-            sizes="(max-width: 480px) 100vw, 432px"
-            priority
-          />
-        ) : (
-          <div className="flex min-h-[200px] items-center justify-center text-xs text-[#877865]">
-            Groom & Bride 사진
-          </div>
-        )}
-      </div>
+      <SectionHeading title="Our Story" />
 
-      <ParentsSection groom={parents.groom} bride={parents.bride} embedded />
+      <div className="relative mt-8 min-h-[120px]">
+        <div className="relative z-[2] flex flex-col">
+          {items.map((item, idx) => {
+            const photos = storyPhotoList(item);
+            const photoLeft = idx % 2 !== 0;
+            const hasMultiPhotos = photos.length >= 2;
+            const { year, heading } = splitStoryYearAndHeading(item.year);
 
-      <SectionHeading title="Our Story" className="mt-8" />
-      <div className="mt-5 space-y-4 text-left">
-        {items.map((item) => (
-          <article key={`${item.year}-${item.text}`} className="border-b border-[#b7a68d]/25 pb-4">
-            <p className="text-xs tracking-[0.14em] text-[#8f7b61]">{item.year}</p>
-            <div className="mt-2 rounded-lg border border-[#ccbba3] bg-[#e9dfd2] p-2">
-              {item.images && item.images.length > 0 ? (
-                <div
-                  className={`grid gap-2 ${item.images.length > 1 ? "grid-cols-2" : "grid-cols-1"}`}
-                >
-                  {item.images.map((img, idx) => (
-                    <div
-                      key={`${img.src}-${idx}`}
-                      className="relative aspect-[4/5] overflow-hidden rounded-md border border-dashed border-[#b7a68d]"
-                    >
-                      <Image
-                        src={img.src}
-                        alt={img.alt || item.year}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="relative aspect-[16/9] w-full overflow-hidden rounded-md border border-dashed border-[#b7a68d]">
-                  {item.image ? (
-                    <Image
-                      src={item.image}
-                      alt={item.imageAlt || item.year}
-                      fill
-                      className="object-cover"
-                    />
-                  ) : (
-                    <div className="flex h-full items-center justify-center text-xs text-[#867863]">
-                      스토리 사진 placeholder
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-            <p className="mt-2 text-sm text-[#4c4134]">{item.text}</p>
-          </article>
-        ))}
+            const textBlock = (
+              <div
+                className={`flex min-w-0 max-w-[190px] flex-col justify-center gap-1.5 px-2 py-2 ${
+                  photoLeft ? "ml-auto items-end text-right" : "mr-auto items-start text-left"
+                } ${
+                  hasMultiPhotos ? (photoLeft ? "pl-2 pr-8" : "pl-8 pr-2") : ""
+                }`}
+              >
+                <p className="text-[13px] font-semibold leading-snug text-[#2c261c] whitespace-nowrap">
+                  <span className="mr-1.5 text-[#7b6a57]">•</span>
+                  {year}
+                </p>
+                {heading ? (
+                  <p className="text-[12px] font-medium leading-snug text-[#3f3529] whitespace-nowrap">
+                    {heading}
+                  </p>
+                ) : null}
+                <p className="text-xs leading-relaxed text-[#5e5243] break-keep whitespace-pre-line">
+                  {item.text}
+                </p>
+              </div>
+            );
+
+            const photoBlock = (
+              <div
+                className={`flex min-w-0 flex-col items-center justify-center py-2 ${
+                  photoLeft ? "pr-6" : "pl-6"
+                }`}
+              >
+                <StoryPhotos photos={photos} firstStory={idx === 0} />
+              </div>
+            );
+
+            return (
+              <article
+                key={`${item.year}-${item.text}`}
+                className="grid grid-cols-[minmax(0,1fr)_2rem_minmax(0,1fr)] items-center gap-x-0 gap-y-0 pb-0.5 last:pb-0"
+                style={{ minHeight: idx === 0 ? 286 : hasMultiPhotos ? 306 : 232 }}
+              >
+                {photoLeft ? (
+                  <>
+                    {photoBlock}
+                    <div className="w-7" />
+                    {textBlock}
+                  </>
+                ) : (
+                  <>
+                    {textBlock}
+                    <div className="w-7" />
+                    {photoBlock}
+                  </>
+                )}
+              </article>
+            );
+          })}
+        </div>
       </div>
     </SectionShell>
   );

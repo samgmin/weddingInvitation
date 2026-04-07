@@ -9,6 +9,7 @@ import { submitRsvp } from "@/app/actions/rsvp";
 import { initialRsvpState, type RsvpState } from "@/lib/rsvp-state";
 
 const OPEN_RSVP_EVENT = "open-rsvp-modal";
+const OPEN_RSVP_DIRECT = "__openRsvpModal";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -124,19 +125,26 @@ export function RSVP() {
   useEffect(() => {
     const handler = () => openModal();
     window.addEventListener(OPEN_RSVP_EVENT, handler);
-    return () => window.removeEventListener(OPEN_RSVP_EVENT, handler);
+    document.addEventListener(OPEN_RSVP_EVENT, handler as EventListener);
+    (window as Window & { [OPEN_RSVP_DIRECT]?: () => void })[OPEN_RSVP_DIRECT] = openModal;
+    return () => {
+      window.removeEventListener(OPEN_RSVP_EVENT, handler);
+      document.removeEventListener(OPEN_RSVP_EVENT, handler as EventListener);
+      delete (window as Window & { [OPEN_RSVP_DIRECT]?: () => void })[OPEN_RSVP_DIRECT];
+    };
   }, []);
 
   return (
-    <SectionShell>
+    <SectionShell className="px-11 py-10">
       <SectionHeading
-        title="참석의사 체크"
+        title="RSVP"
         description="참석 여부를 알려주시면 준비에 큰 도움이 됩니다."
+        titleClassName="![font-family:var(--font-sans)] !text-[16px] !font-normal"
       />
       <button
         type="button"
         onClick={openModal}
-        className="mt-4 w-full rounded-full bg-forest py-3 text-sm font-medium text-white"
+        className="mt-4 inline-flex rounded-full bg-forest px-6 py-2.5 text-sm font-medium text-white"
       >
         참석의사 체크하기
       </button>
@@ -144,7 +152,7 @@ export function RSVP() {
       <AnimatePresence>
         {open ? (
           <motion.div
-            className="fixed inset-0 z-50 bg-black/55 p-4"
+            className="fixed inset-0 z-[95] bg-black/55 p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

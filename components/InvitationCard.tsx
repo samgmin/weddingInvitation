@@ -8,7 +8,7 @@ export function InvitationCard({
   return (
     <SectionShell>
       <div className="space-y-5 text-center text-[#3f3529]">
-        <p className="font-[var(--font-uhbee-namsoyoung)] text-[22px] font-semibold text-[#9b886f]">
+        <p className="font-[var(--font-sans)] text-[22px] font-semibold text-[#9b886f]">
           초대합니다
         </p>
 

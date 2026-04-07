@@ -13,19 +13,46 @@ type CongratsItem = {
 
 type BoardItem = CongratsItem & { placeholder?: boolean };
 
-const noteStyles = [
-  "bg-[#fff36c] rotate-[-1.4deg]",
-  "bg-[#ff97d3] rotate-[1deg]",
-  "bg-[#aef0ff] rotate-[-0.9deg]",
-  "bg-[#c7b8ff] rotate-[1.2deg]",
-  "bg-[#c9ff8d] rotate-[-1deg]",
-  "bg-[#ffb08b] rotate-[0.8deg]",
-];
+const CARDS_PER_PAGE = 8;
+const NOTE_COLORS = [
+  "#FFEB3B", // classic yellow
+  "#FFD1DC", // baby pink
+  "#BEEB9F", // lime green
+  "#B9E7FF", // sky blue
+  "#D9C2FF", // lavender
+  "#FFC9A3", // peach
+  "#FFF2A8", // pale yellow
+  "#CFEEC8", // mint
+] as const;
+const NOTE_ROTATIONS = [-2.8, -2.1, -1.4, -0.8, 0.8, 1.4, 2.1, 2.8] as const;
+
+type NoteStyleMeta = { color: string; rotate: number };
+
+function randomInt(max: number) {
+  return Math.floor(Math.random() * max);
+}
+
+function randomColorExcluding(prevColor?: string) {
+  if (!prevColor) return NOTE_COLORS[randomInt(NOTE_COLORS.length)];
+  const candidates = NOTE_COLORS.filter((c) => c !== prevColor);
+  return candidates[randomInt(candidates.length)] ?? NOTE_COLORS[0];
+}
+
+function randomRotationOppositeOf(prevRotate?: number) {
+  if (!prevRotate || prevRotate === 0) {
+    return NOTE_ROTATIONS[randomInt(NOTE_ROTATIONS.length)] ?? 0;
+  }
+  const wantPositive = prevRotate < 0;
+  const candidates = NOTE_ROTATIONS.filter((r) => (wantPositive ? r > 0 : r < 0));
+  return candidates[randomInt(candidates.length)] ?? NOTE_ROTATIONS[0];
+}
 
 export function CongratsBoard() {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [items, setItems] = useState<CongratsItem[]>([]);
+  const [noteStylesById, setNoteStylesById] = useState<Record<number, NoteStyleMeta>>({});
+  const [page, setPage] = useState(1);
   const [status, setStatus] = useState("");
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -37,7 +64,23 @@ export function CongratsBoard() {
         const res = await fetch("/api/congrats", { cache: "no-store" });
         const json = (await res.json()) as { ok: boolean; items?: CongratsItem[] };
         if (json.ok) {
-          setItems(json.items ?? []);
+          const loadedItems = json.items ?? [];
+          setItems(loadedItems);
+          setNoteStylesById((prev) => {
+            const next = { ...prev };
+            let prevColor: string | undefined;
+            let prevRotate: number | undefined;
+            loadedItems.forEach((it) => {
+              if (!next[it.id]) {
+                const color = randomColorExcluding(prevColor);
+                const rotate = randomRotationOppositeOf(prevRotate);
+                next[it.id] = { color, rotate };
+              }
+              prevColor = next[it.id].color;
+              prevRotate = next[it.id].rotate;
+            });
+            return next;
+          });
         } else {
           setStatus("메시지를 불러오지 못했습니다.");
         }
@@ -50,21 +93,29 @@ export function CongratsBoard() {
     void load();
   }, []);
 
-  const boardItems = useMemo<BoardItem[]>(
-    () => {
-      if (items.length >= 4) return items;
-      const needed = 4 - items.length;
-      const placeholders = Array.from({ length: needed }, (_, idx) => ({
+  const totalPages = Math.max(1, Math.ceil(items.length / CARDS_PER_PAGE));
+
+  const boardItems = useMemo<BoardItem[]>(() => {
+    const safePage = Math.min(page, totalPages);
+    const start = (safePage - 1) * CARDS_PER_PAGE;
+    const pageItems = items.slice(start, start + CARDS_PER_PAGE);
+    if (pageItems.length >= CARDS_PER_PAGE) return pageItems;
+    const minimumCards = 4;
+    const visibleCount = Math.max(minimumCards, pageItems.length);
+    const needed = Math.min(CARDS_PER_PAGE, visibleCount) - pageItems.length;
+    const placeholders = Array.from({ length: needed }, (_, idx) => ({
         id: -(idx + 1),
         name: "",
         message: "",
         created_at: "",
         placeholder: true,
       }));
-      return [...items, ...placeholders];
-    },
-    [items],
-  );
+    return [...pageItems, ...placeholders];
+  }, [items, page, totalPages]);
+
+  useEffect(() => {
+    if (page > totalPages) setPage(totalPages);
+  }, [page, totalPages]);
 
   const columns = useMemo(() => {
     const left: BoardItem[] = [];
@@ -91,7 +142,20 @@ export function CongratsBoard() {
         return;
       }
 
-      setItems((prev) => [json.item as CongratsItem, ...prev]);
+      const newItem = json.item as CongratsItem;
+      setItems((prev) => [newItem, ...prev]);
+      setNoteStylesById((prev) => {
+        const firstColor = items[0] ? prev[items[0].id]?.color : undefined;
+        const firstRotate = items[0] ? prev[items[0].id]?.rotate : undefined;
+        return {
+          ...prev,
+          [newItem.id]: {
+            color: randomColorExcluding(firstColor),
+            rotate: randomRotationOppositeOf(firstRotate),
+          },
+        };
+      });
+      setPage(1);
       setName("");
       setMessage("");
       setStatus("축하 메시지가 등록되었습니다!");
@@ -104,7 +168,7 @@ export function CongratsBoard() {
 
   return (
     <SectionShell>
-      <SectionHeading title="축하 메시지" />
+      <SectionHeading title="Message Board" />
 
       <form onSubmit={onSubmit} className="mt-4 grid grid-cols-[96px_1fr_auto] gap-2">
         <input
@@ -136,29 +200,72 @@ export function CongratsBoard() {
       <div className="mt-5 grid grid-cols-2 gap-3">
         {columns.map((col, colIdx) => (
           <div key={colIdx} className="space-y-3">
-            {col.map((item, idx) => {
-              const s = noteStyles[(idx + colIdx) % noteStyles.length];
+            {col.map((item) => {
+              const meta = item.placeholder
+                ? { color: "#F1E7D9", rotate: 0 }
+                : noteStylesById[item.id] ?? { color: NOTE_COLORS[0], rotate: 0 };
               const d = item.created_at ? new Date(item.created_at) : null;
               const md = d ? `${d.getMonth() + 1}.${String(d.getDate()).padStart(2, "0")}` : "";
               return (
                 <article
                   key={item.id}
-                  className={`border border-[#bfa98c] p-4 text-left shadow-[0_6px_14px_rgba(50,37,23,0.18)] ${s} ${
+                  className={`relative overflow-hidden border border-[#bfa98c] p-4 text-left shadow-[0_6px_14px_rgba(50,37,23,0.18)] ${
                     item.placeholder ? "min-h-[190px] opacity-70" : ""
                   }`}
+                  style={{
+                    backgroundColor: meta.color,
+                    transform: `rotate(${meta.rotate}deg)`,
+                  }}
                 >
-                  <p className="whitespace-pre-line break-words text-[18px] leading-8 text-[#3f3529]">
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 opacity-[0.52] mix-blend-multiply"
+                    style={{
+                      backgroundImage:
+                        "radial-gradient(circle at 12% 18%, rgba(255,255,255,0.5) 0 0.35px, transparent 0.42px), radial-gradient(circle at 78% 82%, rgba(45,32,18,0.16) 0 0.32px, transparent 0.4px), radial-gradient(circle at 40% 55%, rgba(255,255,255,0.35) 0 0.3px, transparent 0.38px), radial-gradient(circle at 55% 30%, rgba(80,60,40,0.06) 0 0.28px, transparent 0.36px)",
+                      backgroundSize: "1.2px 1.2px, 1.4px 1.4px, 1.1px 1.1px, 1.3px 1.3px",
+                    }}
+                  />
+                  <p className="relative whitespace-pre-line break-words text-[18px] leading-8 text-[#3f3529] [font-family:var(--font-sans)]">
                     {item.message || (item.placeholder ? " " : "")}
                   </p>
-                  <div className="my-3 h-px bg-[#8b7660]/35" />
-                  <p className="text-base font-semibold text-[#3f3529]">{item.name || (item.placeholder ? " " : "")}</p>
-                  <p className="text-base text-[#6e6150]">{md || (item.placeholder ? " " : "")}</p>
+                  <div className="relative my-3 h-px bg-[#8b7660]/35" />
+                  <p className="relative text-base font-semibold text-[#3f3529] [font-family:var(--font-sans)]">
+                    {item.name || (item.placeholder ? " " : "")}
+                  </p>
+                  <p className="relative text-base text-[#6e6150] [font-family:var(--font-sans)]">
+                    {md || (item.placeholder ? " " : "")}
+                  </p>
                 </article>
               );
             })}
           </div>
         ))}
       </div>
+
+      {totalPages > 1 ? (
+        <div className="mt-4 flex items-center justify-center gap-2">
+          <button
+            type="button"
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            disabled={page === 1}
+            className="rounded-md border border-[#cbb9a2] bg-[#f7f0e6] px-2.5 py-1 text-xs text-[#5b4d3e] disabled:opacity-45"
+          >
+            이전
+          </button>
+          <span className="text-xs text-[#6e6150]">
+            {page} / {totalPages}
+          </span>
+          <button
+            type="button"
+            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+            disabled={page === totalPages}
+            className="rounded-md border border-[#cbb9a2] bg-[#f7f0e6] px-2.5 py-1 text-xs text-[#5b4d3e] disabled:opacity-45"
+          >
+            다음
+          </button>
+        </div>
+      ) : null}
 
       {loading ? <p className="mt-3 text-center text-xs text-[#6e6150]">메시지 불러오는 중...</p> : null}
     </SectionShell>

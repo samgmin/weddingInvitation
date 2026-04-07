@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Gowun_Batang, Noto_Sans_KR } from "next/font/google";
 import localFont from "next/font/local";
+import Script from "next/script";
 import "./globals.css";
 
 const serif = Gowun_Batang({
@@ -32,6 +33,23 @@ const uhbeeNamsoyoung = localFont({
   display: "swap",
 });
 
+const uhbeeKeongKeong = localFont({
+  src: [
+    {
+      path: "../font/UhBeeKeongKeong/UhBee KeongKeong.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../font/UhBeeKeongKeong/UhBee KeongKeong Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-uhbee-keongkeong",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Garden Wedding Invitation",
   description: "Mobile-first wedding invitation web app",
@@ -42,7 +60,21 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ko">
-      <body className={`${serif.variable} ${sans.variable} ${uhbeeNamsoyoung.variable}`}>{children}</body>
+      <body
+        className={`${serif.variable} ${sans.variable} ${uhbeeNamsoyoung.variable} ${uhbeeKeongKeong.variable}`}
+      >
+        <Script id="scroll-to-top-on-refresh" strategy="afterInteractive">
+          {`
+            try {
+              if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+              const scrollTop = () => window.scrollTo(0, 0);
+              window.addEventListener('load', scrollTop, { once: true });
+              window.addEventListener('pageshow', scrollTop);
+            } catch (e) {}
+          `}
+        </Script>
+        {children}
+      </body>
     </html>
   );
 }
