@@ -32,6 +32,10 @@ export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
     setIsDragging(false);
   };
 
+  const scrollToGalleryTop = () => {
+    document.getElementById("gallery")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <SectionShell
       className="rounded-xl bg-[#d2c3ad]/65"
@@ -149,6 +153,17 @@ export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
           ) : null}
         </motion.div>
       </AnimatePresence>
+
+      <div className="mt-8 flex justify-center">
+        <button
+          type="button"
+          onClick={scrollToGalleryTop}
+          aria-label="갤러리 상단으로 이동"
+          className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#8f7a60]/45 bg-[#f6ede2]/80 text-[22px] leading-none text-[#6c5a45] transition-colors hover:bg-[#f1e5d7]"
+        >
+          ˄
+        </button>
+      </div>
     </SectionShell>
   );
 }

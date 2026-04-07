@@ -69,7 +69,7 @@ export const weddingData = {
   mapLat: 37.392979, 
   mapLng: 127.158305,
   /** 카카오 공유 시 썸네일 (반드시 https 절대 URL 권장, 비우면 현재 도메인/hero.svg 사용) */
-  shareImageUrl: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775571052/IMG_6672_rqjqrl.jpg",
+  shareImageUrl: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775578483/IMG_6672_afqt8j.jpg",
   shareTitle: "정상민 ♥︎ 장혜림",
   shareDescription: "2026년 5월 24일 (일) 오후 12시 30분\n새마을운동중앙회 돌뜰정원",
   invitationMessage: [

@@ -59,7 +59,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="ko">
+    <html lang="ko" suppressHydrationWarning>
       <body
         className={`${serif.variable} ${sans.variable} ${uhbeeNamsoyoung.variable} ${uhbeeKeongKeong.variable}`}
       >
@@ -70,6 +70,13 @@ export default function RootLayout({
               const scrollTop = () => window.scrollTo(0, 0);
               window.addEventListener('load', scrollTop, { once: true });
               window.addEventListener('pageshow', scrollTop);
+
+              window.addEventListener('keydown', (event) => {
+                if (event.key === 'F12') {
+                  event.preventDefault();
+                  alert('개발자 도구 사용할 수 없습니다');
+                }
+              });
             } catch (e) {}
           `}
         </Script>
