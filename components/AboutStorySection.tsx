@@ -143,7 +143,15 @@ export function AboutStorySection({
                 className="grid grid-cols-[minmax(0,1fr)_0.5rem_minmax(0,1fr)] items-center gap-x-0 gap-y-0 pb-0.5 last:pb-0"
                 style={{
                   minHeight:
-                    idx === 0 ? 372 : hasMultiPhotos ? 398 : idx === 1 || idx === 2 ? 360 : 302,
+                    idx === 0
+                      ? 372
+                      : hasMultiPhotos
+                        ? 398
+                        : idx === 1
+                          ? 228
+                          : idx === 2
+                            ? 300
+                            : 302,
                 }}
               >
                 {photoLeft ? (

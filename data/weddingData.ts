@@ -51,7 +51,7 @@ export type RsvpReminderData = {
 
 export const weddingData = {
   /** 커버 이미지 URL (GIF/JPG 등) */
-  coverGif: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775405583/cover_n3hwsh.jpg",
+  coverGif: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775576845/cover_2_mxja9x.png",
   /** 실제 파일 픽셀 크기 — 비율·레이아웃용 (파일 바꾸면 같이 수정) */
   coverImageWidth: 908,
   coverImageHeight: 1920,
@@ -69,8 +69,8 @@ export const weddingData = {
   mapLat: 37.392979, 
   mapLng: 127.158305,
   /** 카카오 공유 시 썸네일 (반드시 https 절대 URL 권장, 비우면 현재 도메인/hero.svg 사용) */
-  shareImageUrl: "",
-  shareTitle: "정상민 & 장혜림, 결혼합니다",
+  shareImageUrl: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775571052/IMG_6672_rqjqrl.jpg",
+  shareTitle: "정상민 장혜림, 결혼합니다",
   shareDescription: "2026년 5월 24일 (일) 오후 12시 30분 · 새마을운동중앙회 돌뜰정원",
   invitationMessage: [
     "꽃이 피는 5월, 저희 결혼합니다.",
@@ -195,7 +195,7 @@ export const weddingData = {
       photos: [
         { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775574865/IMG_5530_odr5rg.jpg", alt: "snap3 photo2" },
         { src: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775574870/IMG_5569_zzvdqu.jpg", alt: "snap3 photo1" },
-        { src: "/hero.svg", alt: "snap3 photo3" },
+        { src: "/hero.svg", alt: "Comming Soon" },
       ],
     },
     {
