@@ -51,7 +51,7 @@ const uhbeeKeongKeong = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Garden Wedding Invitation",
+  title: "정상민 ♥︎ 장혜림",
   description: "Mobile-first wedding invitation web app",
 };
 
