@@ -114,6 +114,19 @@ export default function RootLayout({
                 }
                 lastTouchEnd = now;
               }, { passive: false });
+
+              const isImageTarget = (target) => {
+                if (!(target instanceof Element)) return false;
+                return target.closest('img') !== null;
+              };
+
+              document.addEventListener('contextmenu', (event) => {
+                if (isImageTarget(event.target)) event.preventDefault();
+              });
+
+              document.addEventListener('dragstart', (event) => {
+                if (isImageTarget(event.target)) event.preventDefault();
+              });
             } catch (e) {}
           `}
         </Script>

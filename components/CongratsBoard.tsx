@@ -134,25 +134,29 @@ export function CongratsBoard() {
     <SectionShell>
       <SectionHeading title="MESSAGE BOARD" titleClassName="!text-[20px]" />
 
-      <form onSubmit={onSubmit} className="mt-4 grid grid-cols-[96px_1fr_auto] gap-2">
+      <form
+        onSubmit={onSubmit}
+        className="mt-4 grid items-center gap-2"
+        style={{ gridTemplateColumns: "92px minmax(0, 0.95fr) 50px" }}
+      >
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="이름"
           maxLength={20}
-          className="rounded-md bg-[#f1e9df] px-3 py-2 text-sm text-[#5a4e40] placeholder:text-[#a79b8d] outline-none ring-0 focus:outline-none focus:ring-2 focus:ring-[#c9bf83]/45"
+          className="h-[42px] rounded-md bg-[#f1e9df] px-3 text-sm text-[#5a4e40] placeholder:text-[#a79b8d] outline-none ring-0 focus:outline-none focus:ring-2 focus:ring-[#c9bf83]/45"
         />
         <input
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="축하 메시지를 남겨주세요"
           maxLength={300}
-          className="rounded-md bg-[#f1e9df] px-3 py-2 text-sm text-[#5a4e40] placeholder:text-[#a79b8d] outline-none ring-0 focus:outline-none focus:ring-2 focus:ring-[#c9bf83]/45"
+          className="h-[42px] rounded-md bg-[#f1e9df] px-3 text-sm text-[#5a4e40] placeholder:text-[#a79b8d] outline-none ring-0 focus:outline-none focus:ring-2 focus:ring-[#c9bf83]/45"
         />
         <button
           type="submit"
           disabled={saving}
-          className="h-[42px] min-w-[54px] rounded-md bg-[#d9cfb5] px-3 text-xl font-semibold text-[#4f4336] disabled:opacity-60"
+          className="h-[42px] min-w-[50px] rounded-md bg-[#d9cfb5] px-2.5 text-xl font-semibold text-[#4f4336] disabled:opacity-60"
           aria-label="축하 메시지 저장"
         >
           ➤
