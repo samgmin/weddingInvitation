@@ -18,7 +18,7 @@ import { BgmPlayer } from "@/components/BgmPlayer";
 
 export default function Page() {
   return (
-    <main className="mx-auto min-h-screen w-full max-w-[480px] space-y-0 bg-[#f6f0e6] px-3 pb-4 pt-0 shadow-[0_14px_38px_rgba(66,51,35,0.16)]">
+    <main className="paper-texture mx-auto min-h-screen w-full max-w-[480px] space-y-0 bg-[#f6f0e6] px-3 pb-6 pt-0 shadow-[0_14px_38px_rgba(66,51,35,0.16)]">
       <Cover
         src={weddingData.coverGif}
         alt={weddingData.shareTitle}
@@ -30,7 +30,7 @@ export default function Page() {
         simpleWeddingInfo={weddingData.simpleWeddingInfo}
       />
       <section id="groom-bride" className="-mx-3 w-[calc(100%+1.5rem)] bg-[#d2a7a7]">
-        <div className="px-8 py-5">
+        <div className="px-8 pb-14 pt-0">
           <GroomBrideSection
             image={weddingData.groomBrideImage}
             imageWidth={weddingData.groomBrideImageWidth}
@@ -38,21 +38,22 @@ export default function Page() {
           />
         </div>
       </section>
-      <section id="parents" className="-mx-3 w-[calc(100%+1.5rem)] bg-[#f6eee6]">
+      <section id="parents" className="paper-texture -mx-3 w-[calc(100%+1.5rem)] bg-[#f6eee6]">
         <ParentsSection
           groom={weddingData.parentsIntro.groom}
           bride={weddingData.parentsIntro.bride}
         />
       </section>
-      <section id="about-story" className="-mx-3 w-[calc(100%+1.5rem)] bg-[#f3e7de]">
+      <section id="about-story" className="paper-texture -mx-3 w-[calc(100%+1.5rem)] bg-[#f3e7de]">
         <AboutStorySection
           items={weddingData.storyItems}
         />
       </section>
-      <section id="date-countdown" className="-mx-3 w-[calc(100%+1.5rem)] bg-[#efe3d9]">
+      <section id="date-countdown" className="paper-texture -mx-3 w-[calc(100%+1.5rem)] bg-[#c4a3a8]">
         <DateCountdownSection
           dateIso={weddingData.date}
-          namesLabel={`${weddingData.groom.name} ❤️ ${weddingData.bride.name}`}
+          groomName={weddingData.groom.name}
+          brideName={weddingData.bride.name}
         />
       </section>
       <section id="location" className="-mx-3 w-[calc(100%+1.5rem)] bg-[#f3eadf]">
@@ -76,13 +77,13 @@ export default function Page() {
       <section id="gift" className="-mx-3 w-[calc(100%+1.5rem)] bg-[#f3eadf]">
         <Gift accounts={weddingData.accounts} />
       </section>
-      <section id="gallery" className="-mx-3 w-[calc(100%+1.5rem)] bg-[#efe4d8]">
+      <section id="gallery" className="paper-texture -mx-3 w-[calc(100%+1.5rem)] bg-[#efe4d8]">
         <Gallery snaps={weddingData.gallerySnaps} />
       </section>
-      <section id="guestbook" className="-mx-3 w-[calc(100%+1.5rem)] bg-[#f4ebdf]">
+      <section id="guestbook" className="paper-texture -mx-3 w-[calc(100%+1.5rem)] bg-[#f4ebdf]">
         <CongratsBoard />
       </section>
-      <footer id="share" className="-mx-3 w-[calc(100%+1.5rem)] bg-[#f5ecdf] pb-4">
+      <footer id="share" className="paper-texture -mx-3 w-[calc(100%+1.5rem)] bg-[#f5ecdf] pb-6">
         <ShareActions
           shareTitle={weddingData.shareTitle}
           shareDescription={weddingData.shareDescription}

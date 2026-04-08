@@ -141,11 +141,13 @@ export function RSVP() {
   }, []);
 
   return (
-    <SectionShell className="px-11 py-10">
+    <SectionShell className="px-11">
       <SectionHeading
         title="RSVP"
         description="참석 여부를 알려주시면 준비에 큰 도움이 됩니다."
         titleClassName="![font-family:var(--font-sans)] !text-[16px] !font-normal"
+        descriptionClassName="!text-[12px] !leading-[1.65]"
+        underlineBelowTitle
       />
       <button
         type="button"

@@ -5,7 +5,7 @@ type Guide = { title: string; description: string };
 
 export function VenueGuide({ guides }: { guides: Guide[] }) {
   return (
-    <SectionShell className="px-11 py-10">
+    <SectionShell className="px-11">
       <SectionHeading
         title="Information"
         titleClassName="![font-family:var(--font-sans)] !text-[16px] !font-normal"
@@ -16,10 +16,10 @@ export function VenueGuide({ guides }: { guides: Guide[] }) {
           return (
             <article
               key={g.title}
-              className={`border-b border-[#b7a68d]/25 pb-3 text-left ${
+              className={`pb-3 text-left ${
                 isFlowerGuide
-                  ? "rounded-lg border-l-4 border-[#b08652] bg-[#efe0cf] px-3 py-2 shadow-[0_5px_14px_rgba(80,62,44,0.10)]"
-                  : ""
+                  ? "mb-5 rounded-lg border-l-4 border-[#b08652] bg-[#efe0cf] px-3 py-2 shadow-[0_5px_14px_rgba(80,62,44,0.10)]"
+                  : "border-b border-[#b7a68d]/25"
               }`}
             >
               {isFlowerGuide ? (

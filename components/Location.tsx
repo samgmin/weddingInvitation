@@ -116,7 +116,7 @@ export function Location({
   };
 
   return (
-    <SectionShell id="location" className="px-11 py-10">
+    <SectionShell id="location" className="px-11">
       <SectionHeading
         title="Location"
         titleClassName="![font-family:var(--font-sans)] !text-[16px] !font-normal"
@@ -198,14 +198,14 @@ export function Location({
         </div>
         <div className="h-px bg-[#b7a68d]/25" />
         <div className="grid grid-cols-[72px_1fr] items-start gap-x-4 gap-y-0.5">
-          <p className="text-left text-sm font-semibold text-[#8f7b61]">🚌 대중교통</p>
+          <p className="text-left text-sm font-semibold text-[#8f7b61]">🚎 대중교통</p>
           <p className="whitespace-pre-line break-keep text-right text-sm leading-7 text-[#5a4e40]">
             {"[수인분당선 서현역] AK플라자 2층 출구\n육교 맞은편 [누리 2번] 탑승\n'새마을연수원사거리' 하차 후 도보 10분"}
           </p>
         </div>
         <div className="h-px bg-[#b7a68d]/25" />
         <div className="grid grid-cols-[72px_1fr] items-start gap-x-4 gap-y-0.5">
-          <p className="text-left text-sm font-semibold text-[#8f7b61]">🚐 셔틀버스</p>
+          <p className="text-left text-sm font-semibold text-[#8f7b61]">🚌 셔틀버스</p>
           <p className="whitespace-pre-line break-keep text-right text-sm leading-7 text-[#5a4e40]">
             {"[수인분당선 서현역] 2번 출구 앞 탑승\n11:30부터 20분 간격 운행"}
           </p>

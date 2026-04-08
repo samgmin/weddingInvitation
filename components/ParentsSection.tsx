@@ -40,9 +40,9 @@ export function ParentsSection({
               </div>
             )}
           </div>
-          <p className="mt-2 text-xs tracking-[0.12em] text-[#8f7b61]">신랑|상민의 부모님</p>
+          <p className="mt-2 text-xs tracking-[0.12em] text-[#8f7b61]">신랑 | 상민의 부모님</p>
           <p className="mt-1 text-sm text-[#4c4134]">
-            {groom.map((p) => p.name).join("❤️")}
+            {groom.map((p) => p.name).join(" ❤️ ")}
           </p>
         </div>
         <div className="flex flex-col items-center pb-3 text-center">
@@ -60,9 +60,9 @@ export function ParentsSection({
               </div>
             )}
           </div>
-          <p className="mt-2 text-xs tracking-[0.12em] text-[#8f7b61]">신부|혜림의 부모님</p>
+          <p className="mt-2 text-xs tracking-[0.12em] text-[#8f7b61]">신부 | 혜림의 부모님</p>
           <p className="mt-1 text-sm text-[#4c4134]">
-            {bride.map((p) => p.name).join("❤️")}
+            {bride.map((p) => p.name).join(" ❤️ ")}
           </p>
         </div>
       </div>

@@ -20,7 +20,7 @@ export function Cover({
   return (
     <section
       id="cover"
-      className="relative -mx-3 w-[calc(100%+1.5rem)] max-w-none overflow-x-hidden bg-[#e9e1d2]"
+      className="paper-texture relative -mx-3 w-[calc(100%+1.5rem)] max-w-none overflow-x-hidden bg-[#e9e1d2]"
     >
       <Image
         src={src}

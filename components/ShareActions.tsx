@@ -258,7 +258,7 @@ export function ShareActions({
   }, [shareTitle, shareDescription, imageUrl]);
 
   return (
-    <SectionShell className="py-4">
+    <SectionShell>
       <div className="mt-1 flex items-center justify-center gap-2">
         <button
           type="button"

@@ -95,7 +95,7 @@ export function Gift({ accounts }: { accounts: Account[] }) {
   );
 
   return (
-    <SectionShell className="px-11 py-10">
+    <SectionShell className="px-11">
       <SectionHeading
         title="마음 전하실 곳"
         titleClassName="![font-family:var(--font-sans)] !text-[16px] !font-normal"

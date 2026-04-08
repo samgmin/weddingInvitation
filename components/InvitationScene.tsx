@@ -10,7 +10,7 @@ export function InvitationScene({
   invitationMessage: string[];
   simpleWeddingInfo: string[];
 }) {
-  const overlayWidth = "89.8%";
+  const overlayWidth = "91.2%";
   const invi02WidthByOriginalRatio = "79.9%";
 
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -46,8 +46,8 @@ export function InvitationScene({
     const node = sectionRef.current;
     const triggerReveal = () => {
       const rect = node.getBoundingClientRect();
-      // invitation 섹션의 상단이 화면 상단에 닿는 순간부터 시퀀스 시작
-      if (rect.top <= 4) setRevealed(true);
+      // invitation 섹션이 화면의 약 2/3 지점까지 올라오면 시퀀스 시작
+      if (rect.top <= window.innerHeight * 0.33) setRevealed(true);
     };
     triggerReveal();
     window.addEventListener("scroll", triggerReveal, { passive: true });
@@ -68,7 +68,7 @@ export function InvitationScene({
 
   useEffect(() => {
     if (!revealed) return;
-    const t2 = window.setTimeout(() => setShowInvi03(true), 480);
+    const t2 = window.setTimeout(() => setShowInvi03(true), 120);
     const t3 = window.setTimeout(() => setShowInvi04(true), 1880);
     return () => {
       window.clearTimeout(t2);
@@ -104,7 +104,7 @@ export function InvitationScene({
     <section
       ref={sectionRef}
       id="invitation"
-      className="-mx-3 w-[calc(100%+1.5rem)] bg-[#C9BF83] pb-4 pt-5"
+      className="-mx-3 w-[calc(100%+1.5rem)] bg-[#C9BF83] pb-0 pt-10"
     >
       <div ref={wrapRef} className="px-10 pt-16">
         <div className="relative mx-auto w-[70%]">
@@ -123,7 +123,7 @@ export function InvitationScene({
             alt="Invitation letter overlay"
             width={1200}
             height={1600}
-            className={`pointer-events-none absolute left-1/2 top-[19.8%] h-auto -translate-x-1/2 object-contain transition-all ease-out ${
+            className={`pointer-events-none absolute left-1/2 top-[19.8%] h-auto -translate-x-1/2 object-contain [will-change:transform,opacity] transition-[transform,opacity] ease-out ${
               !showInvi02
                 ? "-translate-y-10 opacity-0"
                 : showInvi03
@@ -139,7 +139,7 @@ export function InvitationScene({
             alt="Envelope opening"
             width={1200}
             height={900}
-            className={`pointer-events-none absolute -bottom-[3.1%] left-1/2 h-auto -translate-x-1/2 object-contain transition-all duration-[2200ms] ease-out ${
+            className={`pointer-events-none absolute -bottom-[3.1%] left-1/2 h-auto -translate-x-1/2 object-contain [will-change:transform,opacity] transition-[transform,opacity] duration-[2200ms] ease-out ${
               showInvi03 ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
             }`}
             style={{ width: overlayWidth }}
@@ -148,31 +148,31 @@ export function InvitationScene({
         </div>
       </div>
 
-      <div className="relative mt-20">
+      <div className="relative mt-20 pb-14">
         <Image
-          src="https://res.cloudinary.com/dp4u12ke2/image/upload/q_auto/f_auto/v1775483482/invi04_tlidrh.png"
+          src="https://res.cloudinary.com/dp4u12ke2/image/upload/v1775615911/invi04_iik06r.png"
           alt="Invitation paper"
           width={1400}
           height={1800}
-          className={`-mb-[25%] mx-auto h-auto w-[calc(100%-5rem)] object-cover [clip-path:inset(0_0_25%_0)] transition-all duration-[2500ms] ease-out ${
+          className={`mx-auto h-auto w-[calc(100%-4.75rem)] object-contain [will-change:transform,opacity] transition-[transform,opacity] duration-[2500ms] ease-out ${
             showInvi04 ? "translate-y-0 opacity-100" : "-translate-y-14 opacity-0"
           }`}
           sizes="(max-width: 480px) 100vw, 480px"
         />
 
         <div
-          className={`absolute inset-x-0 top-0 flex h-[75%] flex-col items-center justify-center px-11 text-center transition-opacity duration-[2200ms] ${
+          className={`absolute inset-x-0 top-0 flex h-[75%] translate-y-[12%] flex-col items-center justify-center px-11 text-center transition-opacity duration-[2200ms] ${
             showInvi04 ? "opacity-100" : "opacity-0"
           }`}
         >
-          <p className="[font-family:var(--font-sans)] text-[20px] font-semibold text-[#8d785b]">
+          <p className="[font-family:var(--font-sans)] text-[20px] font-semibold tracking-[0.04em] text-[#8d785b]">
             초대합니다
           </p>
-          <div className="mt-8 text-[13px] leading-[1.85] text-[#4a3f32] whitespace-pre-line">
+          <div className="mt-9 text-[13px] leading-[2.02] tracking-[0.02em] text-[#4a3f32] whitespace-pre-line">
             {invitationText.slice(0, typedChars)}
           </div>
           <div
-            className={`mt-10 space-y-1 text-[12px] text-[#6e6150] transition-opacity duration-500 ${
+            className={`mt-12 space-y-1.5 text-[12px] tracking-[0.015em] text-[#6e6150] transition-opacity duration-500 ${
               showWeddingInfo ? "opacity-100" : "opacity-0"
             }`}
           >
@@ -186,7 +186,7 @@ export function InvitationScene({
       {/* Invitation ↔ Groom&Bride 경계: 섹션 문서 끝에 고정 (invi04 음수 마진으로 겹침 보정) */}
       <div
         aria-hidden
-        className="relative z-[2] -mt-1 h-8 w-full bg-gradient-to-b from-[#C9BF83] via-[#D3A6A7]/55 to-[#d2a7a7]"
+        className="relative z-[2] h-14 w-full bg-gradient-to-b from-[#C9BF83] via-[#D3A6A7]/62 to-[#d2a7a7]"
       />
     </section>
   );

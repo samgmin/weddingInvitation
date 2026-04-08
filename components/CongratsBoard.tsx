@@ -28,30 +28,21 @@ const NOTE_ROTATIONS = [-2.8, -2.1, -1.4, -0.8, 0.8, 1.4, 2.1, 2.8] as const;
 
 type NoteStyleMeta = { color: string; rotate: number };
 
-function randomInt(max: number) {
-  return Math.floor(Math.random() * max);
-}
-
-function randomColorExcluding(prevColor?: string) {
-  if (!prevColor) return NOTE_COLORS[randomInt(NOTE_COLORS.length)];
-  const candidates = NOTE_COLORS.filter((c) => c !== prevColor);
-  return candidates[randomInt(candidates.length)] ?? NOTE_COLORS[0];
-}
-
-function randomRotationOppositeOf(prevRotate?: number) {
-  if (!prevRotate || prevRotate === 0) {
-    return NOTE_ROTATIONS[randomInt(NOTE_ROTATIONS.length)] ?? 0;
-  }
-  const wantPositive = prevRotate < 0;
-  const candidates = NOTE_ROTATIONS.filter((r) => (wantPositive ? r > 0 : r < 0));
-  return candidates[randomInt(candidates.length)] ?? NOTE_ROTATIONS[0];
+/** DB id 기준으로 항상 같은 색·기울기 (새로고침해도 동일) */
+function stableNoteStyleForId(id: number): NoteStyleMeta {
+  const h = Math.imul(id ^ 0x9e3779b1, 0x85ebca6b) >>> 0;
+  const colorIdx = h % NOTE_COLORS.length;
+  const rotIdx = (h >>> 11) % NOTE_ROTATIONS.length;
+  return {
+    color: NOTE_COLORS[colorIdx],
+    rotate: NOTE_ROTATIONS[rotIdx],
+  };
 }
 
 export function CongratsBoard() {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [items, setItems] = useState<CongratsItem[]>([]);
-  const [noteStylesById, setNoteStylesById] = useState<Record<number, NoteStyleMeta>>({});
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState("");
   const [saving, setSaving] = useState(false);
@@ -64,23 +55,7 @@ export function CongratsBoard() {
         const res = await fetch("/api/congrats", { cache: "no-store" });
         const json = (await res.json()) as { ok: boolean; items?: CongratsItem[] };
         if (json.ok) {
-          const loadedItems = json.items ?? [];
-          setItems(loadedItems);
-          setNoteStylesById((prev) => {
-            const next = { ...prev };
-            let prevColor: string | undefined;
-            let prevRotate: number | undefined;
-            loadedItems.forEach((it) => {
-              if (!next[it.id]) {
-                const color = randomColorExcluding(prevColor);
-                const rotate = randomRotationOppositeOf(prevRotate);
-                next[it.id] = { color, rotate };
-              }
-              prevColor = next[it.id].color;
-              prevRotate = next[it.id].rotate;
-            });
-            return next;
-          });
+          setItems(json.items ?? []);
         } else {
           setStatus("메시지를 불러오지 못했습니다.");
         }
@@ -144,17 +119,6 @@ export function CongratsBoard() {
 
       const newItem = json.item as CongratsItem;
       setItems((prev) => [newItem, ...prev]);
-      setNoteStylesById((prev) => {
-        const firstColor = items[0] ? prev[items[0].id]?.color : undefined;
-        const firstRotate = items[0] ? prev[items[0].id]?.rotate : undefined;
-        return {
-          ...prev,
-          [newItem.id]: {
-            color: randomColorExcluding(firstColor),
-            rotate: randomRotationOppositeOf(firstRotate),
-          },
-        };
-      });
       setPage(1);
       setName("");
       setMessage("");
@@ -203,7 +167,7 @@ export function CongratsBoard() {
             {col.map((item) => {
               const meta = item.placeholder
                 ? { color: "#F1E7D9", rotate: 0 }
-                : noteStylesById[item.id] ?? { color: NOTE_COLORS[0], rotate: 0 };
+                : stableNoteStyleForId(item.id);
               const d = item.created_at ? new Date(item.created_at) : null;
               const md = d ? `${d.getMonth() + 1}.${String(d.getDate()).padStart(2, "0")}` : "";
               return (
