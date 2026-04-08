@@ -20,9 +20,17 @@ export function InvitationScene({
   const [showInvi02, setShowInvi02] = useState(false);
   const [showInvi03, setShowInvi03] = useState(false);
   const [showInvi04, setShowInvi04] = useState(false);
-  const [typedChars, setTypedChars] = useState(0);
+  const [typedTitleChars, setTypedTitleChars] = useState(0);
+  const [visibleMessageCount, setVisibleMessageCount] = useState(0);
   const [showWeddingInfo, setShowWeddingInfo] = useState(false);
-  const invitationText = invitationMessage.join("\n");
+  const titleText = "초대합니다";
+  const messageChunkGroups = [
+    ["꽃이 피는 5월,", "저희 결혼합니다."],
+    ["소중한 분들 앞에서", "두사람이", "서로를 약속하려 합니다."],
+    ["저희의 가장 좋은 날에", "함께해주세요."],
+    ["오래도록", "따뜻한 마음으로", "간직하겠습니다."],
+  ] as const;
+  const totalMessageChunks = messageChunkGroups.reduce((sum, group) => sum + group.length, 0);
 
   useEffect(() => {
     if (!wrapRef.current || entered) return;
@@ -60,7 +68,7 @@ export function InvitationScene({
 
   useEffect(() => {
     if (!entered) return;
-    const t1 = window.setTimeout(() => setShowInvi02(true), 40);
+    const t1 = window.setTimeout(() => setShowInvi02(true), 0);
     return () => {
       window.clearTimeout(t1);
     };
@@ -69,7 +77,7 @@ export function InvitationScene({
   useEffect(() => {
     if (!revealed) return;
     const t2 = window.setTimeout(() => setShowInvi03(true), 120);
-    const t3 = window.setTimeout(() => setShowInvi04(true), 1880);
+    const t3 = window.setTimeout(() => setShowInvi04(true), 1000);
     return () => {
       window.clearTimeout(t2);
       window.clearTimeout(t3);
@@ -78,27 +86,39 @@ export function InvitationScene({
 
   useEffect(() => {
     if (!showInvi04) return;
-    setTypedChars(0);
+    setTypedTitleChars(0);
+    setVisibleMessageCount(0);
     setShowWeddingInfo(false);
 
-    const totalChars = invitationText.length;
-    let doneTimer: number | null = null;
-    const typer = window.setInterval(() => {
-      setTypedChars((prev) => {
-        const next = Math.min(prev + 1, totalChars);
-        if (next >= totalChars) {
-          window.clearInterval(typer);
-          doneTimer = window.setTimeout(() => setShowWeddingInfo(true), 260);
+    const totalTitleChars = titleText.length;
+    let messageTimer: number | null = null;
+    let infoTimer: number | null = null;
+
+    const titleTyper = window.setInterval(() => {
+      setTypedTitleChars((prev) => {
+        const next = Math.min(prev + 1, totalTitleChars);
+        if (next >= totalTitleChars) {
+          window.clearInterval(titleTyper);
+          let shown = 0;
+          messageTimer = window.setInterval(() => {
+            shown += 1;
+            setVisibleMessageCount(Math.min(shown, totalMessageChunks));
+            if (shown >= totalMessageChunks) {
+              if (messageTimer) window.clearInterval(messageTimer);
+              infoTimer = window.setTimeout(() => setShowWeddingInfo(true), 280);
+            }
+          }, 240);
         }
         return next;
       });
-    }, 46);
+    }, 120);
 
     return () => {
-      window.clearInterval(typer);
-      if (doneTimer) window.clearTimeout(doneTimer);
+      window.clearInterval(titleTyper);
+      if (messageTimer) window.clearInterval(messageTimer);
+      if (infoTimer) window.clearTimeout(infoTimer);
     };
-  }, [showInvi04, invitationText]);
+  }, [showInvi04, totalMessageChunks, titleText]);
 
   return (
     <section
@@ -125,10 +145,10 @@ export function InvitationScene({
             height={1600}
             className={`pointer-events-none absolute left-1/2 top-[19.8%] h-auto -translate-x-1/2 object-contain [will-change:transform,opacity] transition-[transform,opacity] ease-out ${
               !showInvi02
-                ? "-translate-y-10 opacity-0"
+                ? "-translate-y-[58%] opacity-0"
                 : showInvi03
                   ? "duration-[2200ms] translate-y-2 opacity-0"
-                  : "duration-[450ms] translate-y-0 opacity-100"
+                  : "duration-[900ms] translate-y-0 opacity-100"
             }`}
             style={{ width: invi02WidthByOriginalRatio }}
             sizes="(max-width: 480px) 75vw, 360px"
@@ -154,22 +174,45 @@ export function InvitationScene({
           alt="Invitation paper"
           width={1400}
           height={1800}
-          className={`mx-auto h-auto w-[calc(100%-4.75rem)] object-contain [will-change:transform,opacity] transition-[transform,opacity] duration-[2500ms] ease-out ${
-            showInvi04 ? "translate-y-0 opacity-100" : "-translate-y-14 opacity-0"
+          className={`mx-auto h-auto w-[calc(100%-4.75rem)] object-contain [will-change:transform,opacity] transition-[transform,opacity] duration-[1600ms] ease-out ${
+            showInvi04 ? "translate-y-0 opacity-100" : "-translate-y-20 opacity-0"
           }`}
           sizes="(max-width: 480px) 100vw, 480px"
         />
 
         <div
-          className={`absolute inset-x-0 top-0 flex h-[75%] translate-y-[12%] flex-col items-center justify-center px-11 text-center transition-opacity duration-[2200ms] ${
+          className={`absolute inset-x-0 top-0 flex h-[75%] translate-y-[12%] flex-col items-center justify-center px-11 text-center transition-opacity duration-500 ${
             showInvi04 ? "opacity-100" : "opacity-0"
           }`}
         >
           <p className="[font-family:var(--font-sans)] text-[20px] font-semibold tracking-[0.04em] text-[#8d785b]">
-            초대합니다
+            {titleText.slice(0, typedTitleChars)}
+            {typedTitleChars < titleText.length ? <span className="ml-0.5 animate-pulse">|</span> : null}
           </p>
-          <div className="mt-9 text-[13px] leading-[2.02] tracking-[0.02em] text-[#4a3f32] whitespace-pre-line">
-            {invitationText.slice(0, typedChars)}
+          <div className="mt-9 space-y-1.5 text-[13px] leading-[2.02] tracking-[0.02em] text-[#4a3f32]">
+            {messageChunkGroups.map((group, groupIdx) => {
+              const groupStartIndex = messageChunkGroups
+                .slice(0, groupIdx)
+                .reduce((sum, chunks) => sum + chunks.length, 0);
+              return (
+                <p key={`line-${groupIdx}`} className="whitespace-pre-line">
+                  {group.map((chunk, chunkIdx) => {
+                    const chunkGlobalIndex = groupStartIndex + chunkIdx;
+                    const visible = chunkGlobalIndex < visibleMessageCount;
+                    return (
+                      <span
+                        key={`${chunk}-${chunkIdx}`}
+                        className={`inline-block transition-all duration-[520ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                          visible ? "translate-y-0 opacity-100 text-[#4a3f32]" : "translate-y-2 opacity-0 text-[#4a3f32]/25"
+                        } ${chunkIdx < group.length - 1 ? "mr-[0.32em]" : ""}`}
+                      >
+                        {chunk}
+                      </span>
+                    );
+                  })}
+                </p>
+              );
+            })}
           </div>
           <div
             className={`mt-12 space-y-1.5 text-[12px] tracking-[0.015em] text-[#6e6150] transition-opacity duration-500 ${

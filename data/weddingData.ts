@@ -247,14 +247,14 @@ export const weddingData = {
       description:
         "화환은 정중히 사양합니다\n예식 장소 특성상 화환 관리가 어려워 부득이하게 반송될 예정입니다 \n마음만 감사히 받겠습니다",
     },
-    { title: "주차 안내", description: "예식 당일 새마을운동중앙회 내 주차장을 이용하실 수 있습니다." },
+    { title: "🚗 주차 안내", description: "예식 당일 새마을운동중앙회 내 주차장을 이용하실 수 있습니다." },
     {
-      title: "식사 안내",
+      title: "🍽️ 식사 안내",
       description: "식사는 본식 1부 종료 후 시작됩니다.",
     },
     {
-      title: "ATM 안내",
-      description: "예식장 내 ATM이 마련되어 있지 않습니다.",
+      title: "🏧 ATM 안내",
+      description: "예식장 내 ATM이 마련되어 있지 않으니, 양해 부탁드립니다.",
     },
   ] as VenueGuideItem[],
   notice:
@@ -268,7 +268,7 @@ export const weddingData = {
     { role: "신부측 어머니", name: "김다임", bank: "국민은행", number: "276701-04-242385" },
   ],
   rsvpReminder: {
-    delaySeconds: 10,
+    delaySeconds: 2,
     title: "참석 여부 전달",
     messageLines: [
       "소중한 시간을 내어 결혼식에",
@@ -277,7 +277,7 @@ export const weddingData = {
       "참석 여부를 회신해 주시면",
       "더욱 감사하겠습니다.",
     ],
-    namesLine: "신랑 정상민 ❤️ 신부 장혜림",
+    namesLine: "신랑 정상민 🤎 신부 장혜림",
     dateLine: "2026년 5월 24일 일요일 오후 12시 30분",
     venueLine: "새마을운동중앙회 돌뜰정원",
     ctaLabel: "참석 여부 전달",

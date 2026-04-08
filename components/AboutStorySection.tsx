@@ -95,8 +95,8 @@ export function AboutStorySection({
   items: StoryItem[];
 }) {
   return (
-    <SectionShell>
-      <SectionHeading title="Our Story" />
+    <SectionShell className="!pb-[5.4rem]">
+      <SectionHeading title="Our Story" titleClassName="!text-[20px]" />
 
       <div className="relative mt-8 min-h-[120px]">
         <div className="relative z-[2] flex flex-col">
@@ -112,16 +112,16 @@ export function AboutStorySection({
                   hasMultiPhotos ? (photoLeft ? "pl-2 pr-4" : "pl-4 pr-2") : ""
                 }`}
               >
-                <p className="text-[13px] font-semibold leading-snug text-[#2c261c] whitespace-nowrap text-center">
+                <p className="text-[14px] font-semibold leading-snug text-[#2c261c] whitespace-nowrap text-center">
                   <span className="mr-1.5 text-[#7b6a57]">•</span>
                   {year}
                 </p>
                 {heading ? (
-                  <p className="text-[12px] font-medium leading-snug text-[#3f3529] whitespace-nowrap text-center">
+                  <p className="text-[13px] font-medium leading-snug text-[#3f3529] whitespace-nowrap text-center">
                     {heading}
                   </p>
                 ) : null}
-                <p className="text-center text-xs leading-relaxed text-[#5e5243] break-keep whitespace-pre-line">
+                <p className="text-center text-[13px] leading-relaxed text-[#5e5243] break-keep whitespace-pre-line">
                   {item.text}
                 </p>
               </div>

@@ -19,30 +19,47 @@ export function RsvpReminderPopup({ reminder }: { reminder: RsvpReminderData }) 
   const [open, setOpen] = useState(false);
   const [dismissForToday, setDismissForToday] = useState(false);
 
-  const storageKey = useMemo(() => "rsvp-reminder-dismissed-date", []);
+  const storageKey = useMemo(() => "rsvp-reminder-dismissed-date-v2", []);
 
   useEffect(() => {
     const dismissed = localStorage.getItem(storageKey);
     if (dismissed === todayKey()) return;
-    const invitationEl = document.getElementById("invitation");
-    if (!invitationEl) return;
 
     let opened = false;
+    let timerId: number | null = null;
+    let pollId: number | null = null;
+    const delayMs = Math.max(0, reminder.delaySeconds) * 1000;
+
     const onScroll = () => {
       if (opened) return;
+      const invitationEl = document.getElementById("invitation");
+      if (!invitationEl) return;
       const rect = invitationEl.getBoundingClientRect();
-      // invitation 섹션이 화면 위로 지나가면(=다음 섹션을 보기 시작하면) 팝업 노출
-      if (rect.bottom < 0) {
+      // invitation 섹션이 절반 이상 지나가면(다음 섹션 진입 시점) 팝업 노출
+      if (rect.bottom < window.innerHeight * 0.5) {
         opened = true;
-        setOpen(true);
+        if (delayMs > 0) {
+          timerId = window.setTimeout(() => setOpen(true), delayMs);
+        } else {
+          setOpen(true);
+        }
         window.removeEventListener("scroll", onScroll);
+        window.removeEventListener("resize", onScroll);
+        if (pollId) window.clearInterval(pollId);
       }
     };
 
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [storageKey]);
+    window.addEventListener("resize", onScroll);
+    pollId = window.setInterval(onScroll, 500);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (timerId) window.clearTimeout(timerId);
+      if (pollId) window.clearInterval(pollId);
+    };
+  }, [storageKey, reminder.delaySeconds]);
 
   const close = () => {
     if (dismissForToday) {
@@ -75,7 +92,7 @@ export function RsvpReminderPopup({ reminder }: { reminder: RsvpReminderData }) 
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 20, opacity: 0 }}
             transition={{ duration: 0.22, ease: "easeOut" }}
-            className="w-full max-w-md rounded-2xl border border-[#e4dfd4] bg-[#fbfaf6] p-5 shadow-2xl [font-family:var(--font-sans)]"
+            className="w-full max-w-md rounded-2xl border border-[#dfd3c1] bg-[#fbf7f1] p-5 shadow-2xl [font-family:var(--font-sans)]"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -87,17 +104,17 @@ export function RsvpReminderPopup({ reminder }: { reminder: RsvpReminderData }) 
               ×
             </button>
 
-            <h3 className="mt-1 text-center text-2xl text-[#3c4339]">
+            <h3 className="mt-1 text-center text-2xl text-[#3F3529]">
               {reminder.title}
             </h3>
 
-            <p className="mt-4 whitespace-pre-line text-center text-base leading-8 text-zinc-700">
+            <p className="mt-4 whitespace-pre-line text-center text-base leading-8 text-[#6B5F50]">
               {reminder.messageLines.join("\n")}
             </p>
 
             <div className="my-5 border-t border-dashed border-[#d9d2c4]" />
 
-            <div className="space-y-1.5 text-center text-base text-zinc-700">
+            <div className="space-y-1.5 text-center text-base text-[#5A4E40]">
               <p>{reminder.namesLine}</p>
               <p>{reminder.dateLine}</p>
               <p>{reminder.venueLine}</p>
@@ -106,12 +123,12 @@ export function RsvpReminderPopup({ reminder }: { reminder: RsvpReminderData }) 
             <button
               type="button"
               onClick={openRsvp}
-              className="mt-7 w-full rounded-lg bg-forest py-2.5 text-sm font-medium text-white"
+              className="mt-7 w-full rounded-lg bg-[#C9BF83] py-2.5 text-sm font-medium text-[#3F3529]"
             >
               {reminder.ctaLabel}
             </button>
 
-            <label className="mt-5 flex items-center justify-center gap-2 text-sm text-zinc-400">
+            <label className="mt-5 flex items-center justify-center gap-2 text-sm text-[#8a7d6d]">
               <input
                 type="checkbox"
                 checked={dismissForToday}

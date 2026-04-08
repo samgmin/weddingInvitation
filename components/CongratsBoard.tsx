@@ -15,14 +15,14 @@ type BoardItem = CongratsItem & { placeholder?: boolean };
 
 const CARDS_PER_PAGE = 8;
 const NOTE_COLORS = [
-  "#FFEB3B", // classic yellow
-  "#FFD1DC", // baby pink
-  "#BEEB9F", // lime green
-  "#B9E7FF", // sky blue
-  "#D9C2FF", // lavender
-  "#FFC9A3", // peach
-  "#FFF2A8", // pale yellow
-  "#CFEEC8", // mint
+  "#F2DFAC", // warm wheat
+  "#F0CFCF", // rose beige
+  "#CEE2B4", // sage
+  "#C9E0EA", // blue gray
+  "#DEC9EE", // lavender
+  "#F1D2B5", // peach beige
+  "#F0E0B6", // oatmeal
+  "#CCE2C1", // mint
 ] as const;
 const NOTE_ROTATIONS = [-2.8, -2.1, -1.4, -0.8, 0.8, 1.4, 2.1, 2.8] as const;
 
@@ -132,7 +132,7 @@ export function CongratsBoard() {
 
   return (
     <SectionShell>
-      <SectionHeading title="Message Board" />
+      <SectionHeading title="MESSAGE BOARD" titleClassName="!text-[20px]" />
 
       <form onSubmit={onSubmit} className="mt-4 grid grid-cols-[96px_1fr_auto] gap-2">
         <input
@@ -140,19 +140,19 @@ export function CongratsBoard() {
           onChange={(e) => setName(e.target.value)}
           placeholder="이름"
           maxLength={20}
-          className="rounded-md border border-[#cbb9a2] bg-[#f7f0e6] px-3 py-2 text-sm text-[#3f3529] placeholder:text-[#9a8c7a]"
+          className="rounded-md bg-[#f1e9df] px-3 py-2 text-sm text-[#5a4e40] placeholder:text-[#a79b8d] outline-none ring-0 focus:outline-none focus:ring-2 focus:ring-[#c9bf83]/45"
         />
         <input
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="축하 메시지를 남겨주세요"
           maxLength={300}
-          className="rounded-md border border-[#cbb9a2] bg-[#f7f0e6] px-3 py-2 text-sm text-[#3f3529] placeholder:text-[#9a8c7a]"
+          className="rounded-md bg-[#f1e9df] px-3 py-2 text-sm text-[#5a4e40] placeholder:text-[#a79b8d] outline-none ring-0 focus:outline-none focus:ring-2 focus:ring-[#c9bf83]/45"
         />
         <button
           type="submit"
           disabled={saving}
-          className="h-[42px] w-[42px] rounded-full border border-[#b99f80] bg-[#eadcc9] text-xl text-[#4a3c2d] disabled:opacity-60"
+          className="h-[42px] min-w-[54px] rounded-md bg-[#d9cfb5] px-3 text-xl font-semibold text-[#4f4336] disabled:opacity-60"
           aria-label="축하 메시지 저장"
         >
           ➤
@@ -166,14 +166,14 @@ export function CongratsBoard() {
           <div key={colIdx} className="space-y-3">
             {col.map((item) => {
               const meta = item.placeholder
-                ? { color: "#F1E7D9", rotate: 0 }
+                ? { color: "#F2E4D0", rotate: 0 }
                 : stableNoteStyleForId(item.id);
               const d = item.created_at ? new Date(item.created_at) : null;
               const md = d ? `${d.getMonth() + 1}.${String(d.getDate()).padStart(2, "0")}` : "";
               return (
                 <article
                   key={item.id}
-                  className={`relative overflow-hidden border border-[#bfa98c] p-4 text-left shadow-[0_6px_14px_rgba(50,37,23,0.18)] ${
+                  className={`relative overflow-hidden p-4 text-left shadow-[0_6px_14px_rgba(50,37,23,0.18)] ${
                     item.placeholder ? "min-h-[190px] opacity-70" : ""
                   }`}
                   style={{
@@ -213,7 +213,7 @@ export function CongratsBoard() {
             type="button"
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1}
-            className="rounded-md border border-[#cbb9a2] bg-[#f7f0e6] px-2.5 py-1 text-xs text-[#5b4d3e] disabled:opacity-45"
+            className="rounded-md bg-[#f7f0e6] px-2.5 py-1 text-xs text-[#5b4d3e] disabled:opacity-45"
           >
             이전
           </button>
@@ -224,7 +224,7 @@ export function CongratsBoard() {
             type="button"
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={page === totalPages}
-            className="rounded-md border border-[#cbb9a2] bg-[#f7f0e6] px-2.5 py-1 text-xs text-[#5b4d3e] disabled:opacity-45"
+            className="rounded-md bg-[#f7f0e6] px-2.5 py-1 text-xs text-[#5b4d3e] disabled:opacity-45"
           >
             다음
           </button>

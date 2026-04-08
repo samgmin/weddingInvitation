@@ -103,7 +103,7 @@ function OsmFallbackMap({
 
   return (
     <div className="space-y-3">
-      <div className="overflow-hidden rounded-2xl border border-[#e9e4d9]">
+      <div className="overflow-hidden rounded-2xl">
         <iframe
           title="지도 (OpenStreetMap)"
           src={osmSrc}
@@ -125,7 +125,7 @@ function OsmFallbackMap({
           href={`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 rounded-full border border-[#e3dece] py-2.5 text-center text-sm font-medium text-forest"
+          className="flex-1 rounded-full py-2.5 text-center text-sm font-medium text-forest"
         >
           구글 지도에서 보기
         </a>
@@ -223,7 +223,7 @@ export function NaverMap({
   if (!clientId) {
     return (
       <div className="space-y-3">
-        <div className="flex min-h-[100px] flex-col items-center justify-center gap-2 rounded-2xl border border-[#e9e4d9] bg-[#f8f5ef] px-4 py-4 text-center text-sm text-zinc-600">
+        <div className="flex min-h-[100px] flex-col items-center justify-center gap-2 rounded-2xl bg-[#f8f5ef] px-4 py-4 text-center text-sm text-zinc-600">
           <p>
             <code className="rounded bg-white px-1">NEXT_PUBLIC_NAVER_MAP_CLIENT_ID</code>가 없어 네이버 지도 대신
             아래 지도를 표시합니다.
@@ -242,7 +242,7 @@ export function NaverMap({
     <div className="relative min-h-[240px] w-full">
       <div
         ref={containerRef}
-        className="min-h-[240px] w-full overflow-hidden rounded-2xl border border-[#e9e4d9]"
+        className="min-h-[240px] w-full overflow-hidden rounded-2xl"
         role="presentation"
       />
       {loading ? (

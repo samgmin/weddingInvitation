@@ -52,17 +52,16 @@ export function Gift({ accounts }: { accounts: Account[] }) {
             transition={{ duration: 0.24, ease: "easeOut" }}
             className="overflow-hidden"
           >
-            <div className="divide-y divide-[#efe9dc] border-t border-[#ece6d8]">
+            <div className="space-y-1.5 pt-1">
               {list.map((account) => {
                 const key = `${account.role}-${account.number}`;
                 const copied = copiedKey === key;
                 return (
                   <div key={key} className="grid grid-cols-[1fr_auto] gap-2 px-3 py-2.5 text-left">
                     <div className="text-left">
-                      <p className="text-xs font-semibold tracking-[0.02em] text-[#7f715f]">{account.role}</p>
-                      <p className="mt-0.5 whitespace-nowrap leading-snug">
-                        <span className="text-[14px] font-medium text-[#3f3529]">{account.name}</span>
-                        <span className="ml-1.5 text-[12px] font-normal tracking-[0.01em] text-[#6b5f50]">
+                      <p className="whitespace-nowrap leading-snug">
+                        <span className="text-[14px] font-medium text-[#3F3529]">{account.name}</span>
+                        <span className="ml-2.5 text-[12px] font-normal tracking-[0.01em] text-[#6B5F50]">
                           {account.bank} {account.number}
                         </span>
                       </p>
@@ -70,7 +69,7 @@ export function Gift({ accounts }: { accounts: Account[] }) {
                     <button
                       type="button"
                       onClick={() => copyAccount(account)}
-                      className="h-8 w-8 self-center rounded-full border border-[#ccb79c] bg-[#f3e9db] text-sm text-[#6d5f4d]"
+                      className="h-8 w-8 self-center rounded-full bg-[#f8f2eb] text-sm text-[#5A4E40]"
                       aria-label={copied ? "복사 완료" : "계좌 복사"}
                     >
                       {copied ? "✓" : "⧉"}
@@ -87,7 +86,7 @@ export function Gift({ accounts }: { accounts: Account[] }) {
 
   const caret = (isOpen: boolean) => (
     <span
-      className={`text-zinc-500 transition-transform duration-300 ${isOpen ? "rotate-180" : "rotate-0"}`}
+      className={`text-[#3F3529] transition-transform duration-300 ${isOpen ? "rotate-180" : "rotate-0"}`}
       aria-hidden
     >
       ⌄
@@ -95,34 +94,38 @@ export function Gift({ accounts }: { accounts: Account[] }) {
   );
 
   return (
-    <SectionShell className="px-11">
+    <SectionShell className="px-11 !pb-[5.4rem]">
       <SectionHeading
         title="마음 전하실 곳"
         titleClassName="![font-family:var(--font-sans)] !text-[16px] !font-normal"
       />
       <div className="mt-3 space-y-2.5">
-        <div className="overflow-hidden rounded-xl border border-[#d8ccb9] bg-[#f8f1e7]">
+        <div className="overflow-hidden rounded-xl bg-[#efe6d8] shadow-[0_2px_8px_rgba(84,66,44,0.06)]">
           <button
             type="button"
             onClick={() => toggle("groom")}
-            className="flex w-full items-center justify-between px-3 py-2.5 text-left"
+            className="flex w-full items-center justify-between px-3.5 py-2.5 text-left transition-colors hover:bg-[#e8decd]"
             aria-expanded={openSections.groom}
           >
-            <span className="text-base font-semibold text-[#4f4336]">신랑측 계좌번호</span>
-            {caret(openSections.groom)}
+            <span className="text-[15px] font-semibold text-[#3F3529]">신랑측</span>
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#f8f2eb]">
+              {caret(openSections.groom)}
+            </span>
           </button>
           {renderRows("groom", grouped.groom)}
         </div>
 
-        <div className="overflow-hidden rounded-xl border border-[#d8ccb9] bg-[#f8f1e7]">
+        <div className="overflow-hidden rounded-xl bg-[#efe6d8] shadow-[0_2px_8px_rgba(84,66,44,0.06)]">
           <button
             type="button"
             onClick={() => toggle("bride")}
-            className="flex w-full items-center justify-between px-3 py-2.5 text-left"
+            className="flex w-full items-center justify-between px-3.5 py-2.5 text-left transition-colors hover:bg-[#e8decd]"
             aria-expanded={openSections.bride}
           >
-            <span className="text-base font-semibold text-[#4f4336]">신부측 계좌번호</span>
-            {caret(openSections.bride)}
+            <span className="text-[15px] font-semibold text-[#3F3529]">신부측</span>
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#f8f2eb]">
+              {caret(openSections.bride)}
+            </span>
           </button>
           {renderRows("bride", grouped.bride)}
         </div>

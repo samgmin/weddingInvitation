@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
@@ -8,7 +8,19 @@ import { SectionHeading } from "@/components/SectionHeading";
 import { SectionShell } from "@/components/SectionShell";
 import type { GalleryImage, GallerySnap } from "@/data/weddingData";
 
+function optimizeCloudinaryUrl(src: string, width = 1200) {
+  if (!src.includes("res.cloudinary.com") || !src.includes("/upload/")) return src;
+  if (src.includes("/upload/q_auto,f_auto,dpr_auto,w_")) return src;
+  return src.replace("/upload/", `/upload/q_auto,f_auto,dpr_auto,w_${width}/`);
+}
+
 export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
+  const coverLabelBySnapId: Record<string, string> = {
+    "snap-1": "2월 스튜디오\n흰 배경과 빛 - 많은 카메라",
+    "snap-2": "8월 런던\nBig Ben, Westminster - 여름 오후의 노을빛",
+    "snap-3": "1월 동해\n속초 켄싱턴호텔, 고성 삼포해변 - 정신을 쏙 빼놓은 바닷바람",
+    "snap-4": "5월 경주\n국립경주박물관, 첨성대 가는길, 황리단길 - 부슬부슬 내리던 비",
+  };
   const [activeId, setActiveId] = useState(snaps[0]?.id ?? "");
   const activeSnap = snaps.find((snap) => snap.id === activeId) ?? snaps[0];
   const [isDragging, setIsDragging] = useState(false);
@@ -19,6 +31,8 @@ export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [mounted, setMounted] = useState(false);
   const touchStartX = useRef<number | null>(null);
+  const lockedScrollYRef = useRef<number | null>(null);
+  const preloadedModalSrcsRef = useRef<Set<string>>(new Set());
 
   const photos = activeSnap?.photos ?? [];
 
@@ -44,8 +58,12 @@ export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
     setLightboxIndex((i) => (i - 1 + photos.length) % photos.length);
   }, [photos.length]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!lightboxOpen) return;
+    if (lockedScrollYRef.current == null) {
+      lockedScrollYRef.current = window.scrollY;
+    }
+    const scrollY = lockedScrollYRef.current;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") closeLightbox();
       if (e.key === "ArrowRight") goNext();
@@ -53,10 +71,27 @@ export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
     };
     window.addEventListener("keydown", onKey);
     const prevOverflow = document.body.style.overflow;
+    const prevPosition = document.body.style.position;
+    const prevTop = document.body.style.top;
+    const prevWidth = document.body.style.width;
     document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = "100%";
     return () => {
       window.removeEventListener("keydown", onKey);
+      const restoreY =
+        lockedScrollYRef.current ??
+        Math.abs(Number.parseInt(document.body.style.top || "0", 10));
       document.body.style.overflow = prevOverflow;
+      document.body.style.position = prevPosition;
+      document.body.style.top = prevTop;
+      document.body.style.width = prevWidth;
+      const prevScrollBehavior = document.documentElement.style.scrollBehavior;
+      document.documentElement.style.scrollBehavior = "auto";
+      window.scrollTo(0, restoreY);
+      document.documentElement.style.scrollBehavior = prevScrollBehavior;
+      lockedScrollYRef.current = null;
     };
   }, [lightboxOpen, closeLightbox, goNext, goPrev]);
 
@@ -95,6 +130,79 @@ export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
   };
 
   const currentLightbox = photos[lightboxIndex] as GalleryImage | undefined;
+  const currentLightboxSrc = currentLightbox?.src ? optimizeCloudinaryUrl(currentLightbox.src, 1400) : undefined;
+
+  const preloadImage = useCallback((src: string) => {
+    return new Promise<void>((resolve) => {
+      if (typeof window === "undefined" || !src) {
+        resolve();
+        return;
+      }
+      const optimizedSrc = optimizeCloudinaryUrl(src, 1400);
+      if (preloadedModalSrcsRef.current.has(optimizedSrc)) {
+        resolve();
+        return;
+      }
+      preloadedModalSrcsRef.current.add(optimizedSrc);
+      const img = new window.Image();
+      img.decoding = "async";
+      img.onload = () => resolve();
+      img.onerror = () => resolve();
+      img.src = optimizedSrc;
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!lightboxOpen || photos.length < 2) return;
+    const next = photos[(lightboxIndex + 1) % photos.length];
+    const prev = photos[(lightboxIndex - 1 + photos.length) % photos.length];
+    [next?.src, prev?.src].forEach((src) => {
+      if (!src || typeof window === "undefined") return;
+      const img = new window.Image();
+      img.src = optimizeCloudinaryUrl(src, 1400);
+    });
+  }, [lightboxOpen, lightboxIndex, photos]);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !snaps.length) return;
+
+    let cancelled = false;
+    const active = snaps.find((snap) => snap.id === activeId) ?? snaps[0];
+    const activeSources = (active?.photos ?? []).map((photo) => photo.src).filter(Boolean);
+    const otherSources = snaps
+      .filter((snap) => snap.id !== active?.id)
+      .flatMap((snap) => snap.photos.map((photo) => photo.src).filter(Boolean));
+
+    const runSequentialPreload = async (sources: string[]) => {
+      for (const src of sources) {
+        if (cancelled) return;
+        await preloadImage(src);
+      }
+    };
+
+    // 1) Active snap first for immediate user interaction.
+    void runSequentialPreload(activeSources).then(() => {
+      if (cancelled) return;
+
+      // 2) Others in idle/background for smoother network usage.
+      const win = window as Window & {
+        requestIdleCallback?: (cb: () => void) => number;
+      };
+      if (typeof win.requestIdleCallback === "function") {
+        win.requestIdleCallback(() => {
+          if (!cancelled) void runSequentialPreload(otherSources);
+        });
+      } else {
+        window.setTimeout(() => {
+          if (!cancelled) void runSequentialPreload(otherSources);
+        }, 200);
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [snaps, activeId, preloadImage]);
 
   const lightboxPortal =
     mounted &&
@@ -121,12 +229,14 @@ export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
             >
               {currentLightbox?.src ? (
                 <Image
-                  src={currentLightbox.src}
+                  src={currentLightboxSrc ?? currentLightbox.src}
                   alt={currentLightbox.alt}
                   fill
                   className="object-contain drop-shadow-sm"
                   sizes="100vw"
                   priority
+                  fetchPriority="high"
+                  loading="eager"
                 />
               ) : (
                 <div className="flex h-full items-center justify-center text-sm text-[#5a4e40]/80 [font-family:var(--font-sans)]">
@@ -145,7 +255,7 @@ export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
                 <button
                   type="button"
                   onClick={goPrev}
-                  className="flex h-12 w-12 items-center justify-center rounded-full border border-[#6b5d4a]/45 bg-[#fbf9f5]/85 text-2xl leading-none text-[#3d352b] shadow-sm transition-colors active:scale-[0.98] [font-family:var(--font-sans)]"
+                  className="flex h-12 w-12 items-center justify-center text-[2.1rem] font-bold leading-none text-[#2e271f] transition-colors active:scale-[0.98] [font-family:var(--font-sans)]"
                   aria-label="이전 사진"
                 >
                   ‹
@@ -153,7 +263,7 @@ export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
                 <button
                   type="button"
                   onClick={goNext}
-                  className="flex h-12 w-12 items-center justify-center rounded-full border border-[#6b5d4a]/45 bg-[#fbf9f5]/85 text-2xl leading-none text-[#3d352b] shadow-sm transition-colors active:scale-[0.98] [font-family:var(--font-sans)]"
+                  className="flex h-12 w-12 items-center justify-center text-[2.1rem] font-bold leading-none text-[#2e271f] transition-colors active:scale-[0.98] [font-family:var(--font-sans)]"
                   aria-label="다음 사진"
                 >
                   ›
@@ -189,7 +299,7 @@ export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
               <button
                 type="button"
                 onClick={closeLightbox}
-                className="rounded-full border border-[#6b5d4a]/40 bg-[#f6f0e8]/90 px-8 py-2.5 text-sm text-[#3d352b] shadow-sm transition-colors active:scale-[0.99] [font-family:var(--font-sans)]"
+                className="rounded-full bg-[#f6f0e8]/90 px-6 py-2 text-xs text-[#3d352b] shadow-sm transition-colors active:scale-[0.99] [font-family:var(--font-sans)]"
                 aria-label="닫기"
               >
                 닫기
@@ -202,10 +312,10 @@ export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
     );
 
   return (
-    <SectionShell animateChildrenInView className="rounded-xl bg-[#d2c3ad]/65">
+    <SectionShell animateChildrenInView className="mx-0 w-full bg-[#d2c3ad]/65">
       {lightboxPortal}
 
-      <SectionHeading title="Gallery" />
+      <SectionHeading title="GALLERY" titleClassName="!text-[20px]" />
 
       <div
         className={`no-scrollbar mt-4 flex gap-3 overflow-x-auto pb-1 ${
@@ -228,7 +338,13 @@ export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
             >
               <div className="relative h-[248px] w-[188px] overflow-hidden">
                 {thumb?.src ? (
-                  <Image src={thumb.src} alt={thumb.alt} fill className="object-contain" sizes="188px" />
+                  <Image
+                    src={optimizeCloudinaryUrl(thumb.src, 520)}
+                    alt={thumb.alt}
+                    fill
+                    className="object-contain"
+                    sizes="188px"
+                  />
                 ) : (
                   <div className="flex h-full items-center justify-center bg-[#dfd2c1] text-[11px] text-[#7f715f]">
                     대표 이미지
@@ -257,42 +373,37 @@ export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
             return gridPhotos.map((image, idx) => {
               const className = isSnap4Extended
                 ? idx === 0
-                  ? "col-span-2 -mx-8 aspect-[3/4] min-h-[420px] w-[calc(100%+4rem)] max-w-[calc(100%+4rem)]"
+                  ? "col-span-2 aspect-[3/4] min-h-[420px] w-full"
                   : idx === 3
-                    ? "col-span-2 -mx-2 aspect-[16/10] min-h-[286px] w-[calc(100%+1rem)] max-w-[calc(100%+1rem)]"
+                    ? "col-span-2 aspect-[16/10] min-h-[286px] w-full"
                     : idx === 6
-                      ? "col-span-2 mx-auto aspect-[16/10] min-h-[272px] w-[96%] max-w-[calc(100%-0.125rem)]"
+                      ? "col-span-2 aspect-[16/10] min-h-[272px] w-full"
                       : idx === gridPhotos.length - 1
-                        ? "col-span-2 mx-auto aspect-[16/10] min-h-[272px] w-[96%] max-w-[calc(100%-0.125rem)]"
-                    : "aspect-[3/4] w-[calc(100%+0.6rem)] max-w-none"
+                        ? "col-span-2 aspect-[16/10] min-h-[272px] w-full"
+                    : "aspect-[3/4] w-full"
                 : isSnap2Extended
                   ? idx === 0
-                    ? "col-span-2 -mx-8 aspect-[3/4] min-h-[420px] w-[calc(100%+4rem)] max-w-[calc(100%+4rem)]"
+                    ? "col-span-2 aspect-[3/4] min-h-[420px] w-full"
                     : idx === 5 || idx === 10 || idx === 11
-                      ? "col-span-2 aspect-[16/10]"
-                      : "aspect-[3/4] w-[calc(100%+0.6rem)] max-w-none"
+                      ? "col-span-2 aspect-[16/10] w-full"
+                      : "aspect-[3/4] w-full"
                 : isSnap3
                   ? idx === 0
-                    ? "col-span-2 -mx-8 aspect-[3/4] min-h-[420px] w-[calc(100%+4rem)] max-w-[calc(100%+4rem)]"
+                    ? "col-span-2 aspect-[3/4] min-h-[420px] w-full"
                     : idx === 6
-                      ? "col-span-2 mx-auto aspect-[16/10] min-h-[272px] w-[96%] max-w-[calc(100%-0.125rem)]"
+                      ? "col-span-2 aspect-[16/10] min-h-[272px] w-full"
                       : idx === 1 || idx === 7
-                        ? "col-span-2 aspect-[16/10]"
-                        : "aspect-[3/4] w-[calc(100%+0.6rem)] max-w-none"
+                        ? "col-span-2 aspect-[16/10] w-full"
+                        : "aspect-[3/4] w-full"
                 : idx === 0
-                  ? "col-span-2 -mx-8 aspect-[3/4] min-h-[420px] w-[calc(100%+4rem)] max-w-[calc(100%+4rem)]"
-                  : "aspect-[3/4] w-[calc(100%+0.6rem)] max-w-none";
+                  ? "col-span-2 aspect-[3/4] min-h-[420px] w-full"
+                  : "aspect-[3/4] w-full";
 
-              const isHeroOpenable = idx === 0 && Boolean(image.src);
+              const isOpenable = Boolean(image.src);
 
-              const mergedClassName = `${className} relative overflow-hidden ${isHeroOpenable ? "cursor-pointer" : ""}`;
+              const mergedClassName = `${className} relative overflow-hidden ${isOpenable ? "cursor-pointer" : ""}`;
 
-              const style =
-                idx === 1
-                  ? { marginLeft: "-0.3rem" }
-                  : idx === 2
-                    ? { marginRight: "-0.3rem" }
-                    : undefined;
+              const style = undefined;
 
               const sizes =
                 idx === 0 ||
@@ -303,27 +414,65 @@ export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
                   : "(max-width:480px) 52vw, 250px";
 
               const onHeroKeyDown = (e: React.KeyboardEvent) => {
-                if (!isHeroOpenable) return;
+                if (!isOpenable) return;
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
-                  openLightbox(0);
+                  openLightbox(idx);
                 }
               };
+
+              const isMainCover = idx === 0;
+              const imageBoxClass = `${className.replace("col-span-2 ", "")} relative overflow-hidden ${
+                isOpenable ? "cursor-pointer" : ""
+              }`;
+
+              if (isMainCover) {
+                return (
+                  <div key={`${activeSnap?.id}-${image.src}-${idx}`} className="col-span-2">
+                    <div
+                      className={imageBoxClass}
+                      style={style}
+                      role={isOpenable ? "button" : undefined}
+                      tabIndex={isOpenable ? 0 : undefined}
+                      aria-label={isOpenable ? `${idx + 1}번째 사진 전체 보기` : undefined}
+                      onClick={() => isOpenable && openLightbox(idx)}
+                      onKeyDown={onHeroKeyDown}
+                    >
+                      {image.src ? (
+                        <Image
+                          src={optimizeCloudinaryUrl(image.src, 1200)}
+                          alt={image.alt}
+                          fill
+                          className="object-contain"
+                          sizes={sizes}
+                        />
+                      ) : (
+                        <div className="flex h-full min-h-[140px] items-center justify-center bg-[#ece3d7] text-[#8a7a66]">
+                          <p className="text-xs">gallery placeholder</p>
+                        </div>
+                      )}
+                    </div>
+                    <p className="mb-5 mt-2 mx-auto w-[86%] whitespace-pre-line text-left text-[12px] leading-5 tracking-[0.01em] text-[#6a5d4d] [font-family:var(--font-sans)]">
+                      {coverLabelBySnapId[activeSnap?.id ?? ""] ?? `${activeSnap?.label ?? "SNAP"}\n`}
+                    </p>
+                  </div>
+                );
+              }
 
               return (
                 <div
                   key={`${activeSnap?.id}-${image.src}-${idx}`}
                   className={mergedClassName}
                   style={style}
-                  role={isHeroOpenable ? "button" : undefined}
-                  tabIndex={isHeroOpenable ? 0 : undefined}
-                  aria-label={isHeroOpenable ? "전체 사진 보기" : undefined}
-                  onClick={() => isHeroOpenable && openLightbox(0)}
+                  role={isOpenable ? "button" : undefined}
+                  tabIndex={isOpenable ? 0 : undefined}
+                  aria-label={isOpenable ? `${idx + 1}번째 사진 전체 보기` : undefined}
+                  onClick={() => isOpenable && openLightbox(idx)}
                   onKeyDown={onHeroKeyDown}
                 >
                   {image.src ? (
                     <Image
-                      src={image.src}
+                      src={optimizeCloudinaryUrl(image.src, 1200)}
                       alt={image.alt}
                       fill
                       className="object-contain"
@@ -351,11 +500,11 @@ export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
           type="button"
           onClick={scrollToGalleryTop}
           aria-label="갤러리 상단으로 이동"
-          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#8f7a60]/45 bg-[#f6ede2]/80 text-[#6c5a45] transition-colors hover:bg-[#f1e5d7]"
+          className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#f6ede2]/80 text-[#6c5a45] transition-colors hover:bg-[#f1e5d7]"
         >
           <svg
             aria-hidden
-            className="h-7 w-7 shrink-0"
+            className="h-5 w-5 shrink-0"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"

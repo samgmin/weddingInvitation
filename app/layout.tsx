@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Gowun_Batang, Noto_Sans_KR } from "next/font/google";
 import localFont from "next/font/local";
 import Script from "next/script";
+import { weddingData } from "@/data/weddingData";
 import "./globals.css";
 
 const serif = Gowun_Batang({
@@ -51,8 +52,35 @@ const uhbeeKeongKeong = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://sangminhyerim-weddinginvitation.vercel.app"),
   title: "정상민 🖤 장혜림",
-  description: "Mobile-first wedding invitation web app",
+  description: "2026년 5월 24일 (일) 오후 12시 30분 새마을운동중앙회 돌뜰정원",
+  openGraph: {
+    title: weddingData.shareTitle,
+    description: weddingData.shareDescription,
+    type: "website",
+    locale: "ko_KR",
+    url: "https://sangminhyerim-weddinginvitation.vercel.app",
+    images: [
+      {
+        url: weddingData.shareImageUrl,
+        alt: weddingData.shareTitle,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: weddingData.shareTitle,
+    description: weddingData.shareDescription,
+    images: [weddingData.shareImageUrl],
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({
@@ -77,6 +105,15 @@ export default function RootLayout({
                   alert('개발자 도구 사용할 수 없습니다');
                 }
               });
+
+              let lastTouchEnd = 0;
+              document.addEventListener('touchend', (event) => {
+                const now = Date.now();
+                if (now - lastTouchEnd <= 300) {
+                  event.preventDefault();
+                }
+                lastTouchEnd = now;
+              }, { passive: false });
             } catch (e) {}
           `}
         </Script>

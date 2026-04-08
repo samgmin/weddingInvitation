@@ -263,7 +263,7 @@ export function ShareActions({
         <button
           type="button"
           onClick={shareKakao}
-          className="flex items-center gap-1.5 rounded-full border border-[#ccb79c] bg-[#f6eee2]/85 px-3 py-1.5 text-center"
+          className="flex items-center gap-1.5 rounded-full bg-[#e9dcc8] px-3 py-1.5 text-center shadow-[0_2px_6px_rgba(84,66,44,0.10)]"
         >
           <Image
             src="/brands/kakaotalk.jpg"
@@ -277,7 +277,7 @@ export function ShareActions({
         <button
           type="button"
           onClick={copyLink}
-          className="flex items-center gap-1.5 rounded-full border border-[#ccb79c] bg-[#f6eee2]/85 px-3 py-1.5 text-center"
+          className="flex items-center gap-1.5 rounded-full bg-[#e9dcc8] px-3 py-1.5 text-center shadow-[0_2px_6px_rgba(84,66,44,0.10)]"
         >
           <span className="flex h-4 w-4 items-center justify-center text-[12px] leading-none text-[#6a5d4d]">
             🔗

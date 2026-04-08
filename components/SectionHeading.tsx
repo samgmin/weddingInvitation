@@ -32,7 +32,7 @@ export function SectionHeading({
     >
       <h2
         className={cn(
-          "text-[19px] font-semibold text-[#3a3024]",
+          "text-[19px] font-semibold text-[#3F3529]",
           hasKorean && "[font-family:var(--font-sans)]",
           !hasKorean && "[font-family:var(--font-uhbee-keongkeong)]",
           titleClassName,
@@ -46,7 +46,7 @@ export function SectionHeading({
           {description ? (
             <div
               className={cn(
-                "mt-4 text-[13px] leading-6 text-[#6f6455]",
+                "mt-4 text-[13px] leading-6 text-[#6B5F50]",
                 descriptionClassName,
               )}
             >
@@ -59,7 +59,7 @@ export function SectionHeading({
           {description ? (
             <div
               className={cn(
-                "mt-2 text-[13px] leading-6 text-[#6f6455]",
+                "mt-2 text-[13px] leading-6 text-[#6B5F50]",
                 descriptionClassName,
               )}
             >

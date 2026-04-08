@@ -18,7 +18,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="flex-1 rounded-lg bg-forest py-2.5 text-sm text-white disabled:opacity-60"
+      className="flex-1 rounded-lg bg-[#C9BF83] py-2.5 text-sm text-[#3F3529] disabled:opacity-60"
     >
       {pending ? "저장 중…" : "제출하기"}
     </button>
@@ -46,7 +46,7 @@ function RsvpModal({
       className="mx-auto mt-8 max-h-[85vh] max-w-md overflow-y-auto rounded-2xl bg-white p-5"
       onClick={(e) => e.stopPropagation()}
     >
-      <h3 className="text-xl text-forest">참석 의사</h3>
+      <h3 className="text-xl text-[#3F3529]">참석 의사</h3>
       <form action={formAction} className="mt-4 space-y-4">
         <FieldSet label="누구 손님이신가요?">
           <Radio name="guestSide" value="groom" label="신랑" defaultChecked />
@@ -88,7 +88,7 @@ function RsvpModal({
         <div className="flex gap-2 pt-2">
           <button
             type="button"
-            className="flex-1 rounded-lg border py-2.5 text-sm"
+            className="flex-1 rounded-lg bg-[#e9decd] py-2.5 text-sm text-[#5A4E40]"
             onClick={onClose}
           >
             닫기
@@ -106,7 +106,7 @@ function RsvpMessage({ state }: { state: RsvpState }) {
     <p
       role="status"
       className={`text-center text-sm ${
-        state.ok ? "text-forest" : "text-coral"
+        state.ok ? "text-[#5A4E40]" : "text-coral"
       }`}
     >
       {state.message}
@@ -152,7 +152,7 @@ export function RSVP() {
       <button
         type="button"
         onClick={openModal}
-        className="mt-4 inline-flex rounded-full bg-forest px-6 py-2.5 text-sm font-medium text-white"
+        className="mt-4 inline-flex rounded-full bg-[#C9BF83] px-6 py-2.5 text-sm font-medium text-[#3F3529]"
       >
         참석의사 체크하기
       </button>
@@ -188,7 +188,7 @@ function FieldSet({
 }) {
   return (
     <fieldset className="space-y-2">
-      <legend className="mb-1 text-sm font-medium text-zinc-700">{label}</legend>
+      <legend className="mb-1 text-sm font-medium text-[#5A4E40]">{label}</legend>
       <div className="flex flex-wrap gap-4">{children}</div>
     </fieldset>
   );
@@ -206,8 +206,14 @@ function Radio({
   defaultChecked?: boolean;
 }) {
   return (
-    <label className="inline-flex items-center gap-2 text-sm text-zinc-700">
-      <input type="radio" name={name} value={value} defaultChecked={defaultChecked} />
+    <label className="inline-flex items-center gap-2 text-sm text-[#5A4E40]">
+      <input
+        type="radio"
+        name={name}
+        value={value}
+        defaultChecked={defaultChecked}
+        className="h-4 w-4 accent-[#7B8452]"
+      />
       {label}
     </label>
   );
@@ -218,11 +224,11 @@ function Input({
   ...props
 }: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) {
   return (
-    <label className="block text-sm text-zinc-600">
+    <label className="block text-sm text-[#6B5F50]">
       {label}
       <input
         {...props}
-        className="mt-1 block w-full rounded-lg border border-[#e3dece] px-3 py-2 text-sm text-zinc-800 outline-none focus:border-forest"
+        className="mt-1 block w-full rounded-lg border border-[#e3dece] bg-[#f7f1e7] px-3 py-2 text-sm text-[#3F3529] outline-none focus:border-[#7B8452]"
       />
     </label>
   );

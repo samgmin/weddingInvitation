@@ -30,6 +30,7 @@ html {
   scrollbar-width: none;
   -ms-overflow-style: none;
   -webkit-text-size-adjust: 100%;
+  touch-action: manipulation;
 }
 
 html::-webkit-scrollbar {
@@ -41,10 +42,11 @@ body {
   overflow-x: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  background-color: #f6f0e6;
+  background-color: #f6eee6;
   color: #3d352b;
   font-family: "Pretendard", var(--font-sans), system-ui, sans-serif;
   background-image: var(--paper-texture-layers);
+  touch-action: manipulation;
 }
 
 body::-webkit-scrollbar {
