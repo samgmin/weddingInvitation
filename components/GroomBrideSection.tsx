@@ -10,7 +10,7 @@ export function GroomBrideSection({
   imageHeight: number;
 }) {
   return (
-    <div className="w-full">
+    <div className="w-full" data-protect-media>
       {image ? (
         <Image
           src={image}

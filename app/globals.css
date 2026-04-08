@@ -69,6 +69,22 @@ img {
   -webkit-user-drag: none;
 }
 
+[data-protect-media] {
+  position: relative;
+}
+
+[data-protect-media]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: transparent;
+}
+
+[data-protect-media] img {
+  pointer-events: none;
+}
+
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;

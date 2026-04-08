@@ -117,7 +117,7 @@ export default function RootLayout({
 
               const isImageTarget = (target) => {
                 if (!(target instanceof Element)) return false;
-                return target.closest('img') !== null;
+                return target.closest('img, [data-protect-media]') !== null;
               };
 
               document.addEventListener('contextmenu', (event) => {

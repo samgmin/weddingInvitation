@@ -124,6 +124,7 @@ export function InvitationScene({
     <section
       ref={sectionRef}
       id="invitation"
+      data-protect-media
       className="-mx-3 w-[calc(100%+1.5rem)] bg-[#C9BF83] pb-0 pt-10"
     >
       <div ref={wrapRef} className="px-10 pt-16">

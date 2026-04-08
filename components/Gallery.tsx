@@ -224,6 +224,7 @@ export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
             onTouchEnd={onLightboxTouchEnd}
           >
             <div
+              data-protect-media
               className="relative h-full w-full max-h-[min(62dvh,calc(100vh-14rem))] min-h-[180px] max-w-[min(100%,480px)]"
               onClick={(e) => e.stopPropagation()}
             >
@@ -336,7 +337,7 @@ export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
               onClick={() => setActiveId(snap.id)}
               className={`shrink-0 text-left transition-opacity duration-200 ${active ? "opacity-100" : "opacity-[0.9]"}`}
             >
-              <div className="relative h-[248px] w-[188px] overflow-hidden">
+              <div data-protect-media className="relative h-[248px] w-[188px] overflow-hidden">
                 {thumb?.src ? (
                   <Image
                     src={optimizeCloudinaryUrl(thumb.src, 520)}
@@ -430,6 +431,7 @@ export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
                 return (
                   <div key={`${activeSnap?.id}-${image.src}-${idx}`} className="col-span-2">
                     <div
+                      data-protect-media
                       className={imageBoxClass}
                       style={style}
                       role={isOpenable ? "button" : undefined}
@@ -461,6 +463,7 @@ export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
 
               return (
                 <div
+                  data-protect-media
                   key={`${activeSnap?.id}-${image.src}-${idx}`}
                   className={mergedClassName}
                   style={style}
