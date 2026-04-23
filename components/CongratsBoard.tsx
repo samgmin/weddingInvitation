@@ -13,16 +13,15 @@ type CongratsItem = {
 
 type BoardItem = CongratsItem & { placeholder?: boolean };
 
-const CARDS_PER_PAGE = 8;
 const NOTE_COLORS = [
-  "#F2DFAC", // warm wheat
+  "#F8F1DE", // ivory (warm yellow replaced)
   "#F0CFCF", // rose beige
   "#CEE2B4", // sage
-  "#C9E0EA", // blue gray
+  "#C4DFF0", // blue gray (slightly bluer)
   "#DEC9EE", // lavender
   "#F1D2B5", // peach beige
   "#F0E0B6", // oatmeal
-  "#CCE2C1", // mint
+  "#C7DCD8", // mint (less saturated)
 ] as const;
 const NOTE_ROTATIONS = [-2.8, -2.1, -1.4, -0.8, 0.8, 1.4, 2.1, 2.8] as const;
 
@@ -39,11 +38,24 @@ function stableNoteStyleForId(id: number): NoteStyleMeta {
   };
 }
 
+function colorIndexOf(color: string) {
+  const idx = NOTE_COLORS.indexOf(color as (typeof NOTE_COLORS)[number]);
+  return idx < 0 ? 0 : idx;
+}
+
+function fixedColorByName(name: string) {
+  const normalized = name.trim();
+  if (normalized === "지원") return "#F8F1DE"; // ivory
+  if (normalized === "태형") return "#F0E0B6"; // oatmeal
+  if (normalized === "너의 락동지 지연이가") return "#F0E0B6"; // oatmeal
+  if (normalized === "상민") return "#F0E0B6"; // oatmeal
+  return null;
+}
+
 export function CongratsBoard() {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [items, setItems] = useState<CongratsItem[]>([]);
-  const [page, setPage] = useState(1);
   const [status, setStatus] = useState("");
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -68,35 +80,81 @@ export function CongratsBoard() {
     void load();
   }, []);
 
-  const totalPages = Math.max(1, Math.ceil(items.length / CARDS_PER_PAGE));
-
   const boardItems = useMemo<BoardItem[]>(() => {
-    const safePage = Math.min(page, totalPages);
-    const start = (safePage - 1) * CARDS_PER_PAGE;
-    const pageItems = items.slice(start, start + CARDS_PER_PAGE);
-    if (pageItems.length >= CARDS_PER_PAGE) return pageItems;
-    const minimumCards = 4;
-    const visibleCount = Math.max(minimumCards, pageItems.length);
-    const needed = Math.min(CARDS_PER_PAGE, visibleCount) - pageItems.length;
+    if (items.length > 0) return items;
+    const needed = 4;
     const placeholders = Array.from({ length: needed }, (_, idx) => ({
-        id: -(idx + 1),
-        name: "",
-        message: "",
-        created_at: "",
-        placeholder: true,
-      }));
-    return [...pageItems, ...placeholders];
-  }, [items, page, totalPages]);
-
-  useEffect(() => {
-    if (page > totalPages) setPage(totalPages);
-  }, [page, totalPages]);
+      id: -(idx + 1),
+      name: "",
+      message: "",
+      created_at: "",
+      placeholder: true,
+    }));
+    return placeholders;
+  }, [items]);
 
   const columns = useMemo(() => {
     const left: BoardItem[] = [];
     const right: BoardItem[] = [];
     boardItems.forEach((item, idx) => (idx % 2 === 0 ? left.push(item) : right.push(item)));
     return [left, right];
+  }, [boardItems]);
+
+  const noteStyleById = useMemo(() => {
+    const map = new Map<number, NoteStyleMeta>();
+    const pickedColorIdx = new Map<number, number>();
+
+    boardItems.forEach((item, idx) => {
+      if (item.placeholder) return;
+
+      const base = stableNoteStyleForId(item.id);
+      const baseIdx = colorIndexOf(base.color);
+      const forbidden = new Set<number>();
+
+      // 같은 열의 바로 위 카드와 색상 중복 방지
+      const above = boardItems[idx - 2];
+      if (above && !above.placeholder) {
+        const aboveIdx = pickedColorIdx.get(above.id);
+        if (aboveIdx !== undefined) forbidden.add(aboveIdx);
+      }
+
+      // 같은 행의 좌우 카드와 색상 중복 방지 (오른쪽 카드 처리 시점)
+      if (idx % 2 === 1) {
+        const left = boardItems[idx - 1];
+        if (left && !left.placeholder) {
+          const leftIdx = pickedColorIdx.get(left.id);
+          if (leftIdx !== undefined) forbidden.add(leftIdx);
+        }
+      }
+
+      let chosenIdx = baseIdx;
+      const fixedColor = fixedColorByName(item.name);
+
+      // 요청사항: 특정 작성자는 색상 고정
+      if (fixedColor) {
+        chosenIdx = colorIndexOf(fixedColor);
+      }
+
+      if (!fixedColor && forbidden.has(chosenIdx)) {
+        const candidates = NOTE_COLORS.map((_, i) => i).filter((i) => !forbidden.has(i));
+        if (candidates.length > 0) {
+          // baseIdx와 가장 가까운 후보로 이동해 전체 톤 변화를 최소화
+          chosenIdx = candidates.reduce((best, cur) => {
+            const bestDist = Math.abs(best - baseIdx);
+            const curDist = Math.abs(cur - baseIdx);
+            return curDist < bestDist ? cur : best;
+          }, candidates[0]);
+        }
+      }
+
+      pickedColorIdx.set(item.id, chosenIdx);
+      map.set(item.id, {
+        color: NOTE_COLORS[chosenIdx],
+        rotate: base.rotate,
+      });
+    });
+
+    return map;
   }, [boardItems]);
 
   const onSubmit = async (e: FormEvent) => {
@@ -119,7 +177,6 @@ export function CongratsBoard() {
 
       const newItem = json.item as CongratsItem;
       setItems((prev) => [newItem, ...prev]);
-      setPage(1);
       setName("");
       setMessage("");
       setStatus("축하 메시지가 등록되었습니다!");
@@ -171,7 +228,7 @@ export function CongratsBoard() {
             {col.map((item) => {
               const meta = item.placeholder
                 ? { color: "#F2E4D0", rotate: 0 }
-                : stableNoteStyleForId(item.id);
+                : (noteStyleById.get(item.id) ?? stableNoteStyleForId(item.id));
               const d = item.created_at ? new Date(item.created_at) : null;
               const md = d ? `${d.getMonth() + 1}.${String(d.getDate()).padStart(2, "0")}` : "";
               return (
@@ -210,30 +267,6 @@ export function CongratsBoard() {
           </div>
         ))}
       </div>
-
-      {totalPages > 1 ? (
-        <div className="mt-4 flex items-center justify-center gap-2">
-          <button
-            type="button"
-            onClick={() => setPage((p) => Math.max(1, p - 1))}
-            disabled={page === 1}
-            className="rounded-none bg-[#f7f0e6] px-2.5 py-1 text-xs text-[#5b4d3e] disabled:opacity-45"
-          >
-            이전
-          </button>
-          <span className="text-xs text-[#6e6150]">
-            {page} / {totalPages}
-          </span>
-          <button
-            type="button"
-            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-            disabled={page === totalPages}
-            className="rounded-none bg-[#f7f0e6] px-2.5 py-1 text-xs text-[#5b4d3e] disabled:opacity-45"
-          >
-            다음
-          </button>
-        </div>
-      ) : null}
 
       {loading ? <p className="mt-3 text-center text-xs text-[#6e6150]">메시지 불러오는 중...</p> : null}
     </SectionShell>

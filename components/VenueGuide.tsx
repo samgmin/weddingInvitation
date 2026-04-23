@@ -18,7 +18,7 @@ export function VenueGuide({ guides }: { guides: Guide[] }) {
               key={g.title}
               className={`pb-3 text-left ${
                 isFlowerGuide
-                  ? "mb-5 rounded-md bg-[#f6ebe3] px-3 py-2.5 shadow-[0_5px_14px_rgba(80,62,44,0.10)]"
+                  ? "mb-5 rounded-md border-x-4 border-[#E6B7B7] bg-[#f6ebe3] px-3 py-2.5 shadow-[0_5px_14px_rgba(80,62,44,0.10)]"
                   : ""
               }`}
             >
