@@ -7,6 +7,7 @@ import { AboutStorySection } from "@/components/AboutStorySection";
 import { DateCountdownSection } from "@/components/DateCountdownSection";
 import { Location } from "@/components/Location";
 import { VenueGuide } from "@/components/VenueGuide";
+import { DressCode } from "@/components/DressCode";
 import { RSVP } from "@/components/RSVP";
 import { Gift } from "@/components/Gift";
 import { Gallery } from "@/components/Gallery";
@@ -63,7 +64,7 @@ export default function Page() {
           items={weddingData.storyItems}
         />
       </section>
-      <section id="date-countdown" className="paper-texture -mx-3 w-[calc(100%+1.5rem)] bg-[#cda9a2]">
+      <section id="date-countdown" className="paper-texture -mx-3 w-[calc(100%+1.5rem)] bg-[#e6b7b7]">
         <DateCountdownSection
           dateIso={weddingData.date}
           groomName={weddingData.groom.name}
@@ -82,6 +83,10 @@ export default function Page() {
       <StarDivider />
       <section id="venue-guide" className="-mx-3 w-[calc(100%+1.5rem)] bg-[#f8f2eb]">
         <VenueGuide guides={weddingData.venueGuides} />
+      </section>
+      <StarDivider />
+      <section id="dress-code" className="-mx-3 w-[calc(100%+1.5rem)] bg-[#f8f2eb]">
+        <DressCode title={weddingData.dressCode.title} lines={weddingData.dressCode.lines} />
       </section>
       <StarDivider />
       <section id="rsvp" className="-mx-3 w-[calc(100%+1.5rem)] bg-[#f8f2eb]">

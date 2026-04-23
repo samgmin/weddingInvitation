@@ -92,7 +92,7 @@ export function RsvpReminderPopup({ reminder }: { reminder: RsvpReminderData }) 
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 20, opacity: 0 }}
             transition={{ duration: 0.22, ease: "easeOut" }}
-            className="w-full max-w-md rounded-2xl border border-[#dfd3c1] bg-[#fbf7f1] p-5 shadow-2xl [font-family:var(--font-sans)]"
+            className="w-full max-w-md rounded-2xl bg-[#fbf7f1] p-5 shadow-2xl [font-family:var(--font-sans)]"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -112,7 +112,7 @@ export function RsvpReminderPopup({ reminder }: { reminder: RsvpReminderData }) 
               {reminder.messageLines.join("\n")}
             </p>
 
-            <div className="my-5 border-t border-dashed border-[#d9d2c4]" />
+            <div className="my-5 h-px bg-[#d9d2c4]/70" />
 
             <div className="space-y-1.5 text-center text-base text-[#5A4E40]">
               <p>{reminder.namesLine}</p>
@@ -123,7 +123,7 @@ export function RsvpReminderPopup({ reminder }: { reminder: RsvpReminderData }) 
             <button
               type="button"
               onClick={openRsvp}
-              className="mt-7 w-full rounded-lg bg-[#C9BF83] py-2.5 text-sm font-medium text-[#3F3529]"
+              className="mt-7 mx-auto block w-[94%] rounded-lg bg-[#e8decd] py-2.5 text-sm font-medium text-[#3F3529]"
             >
               {reminder.ctaLabel}
             </button>

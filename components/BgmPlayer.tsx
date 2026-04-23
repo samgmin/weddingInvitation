@@ -37,7 +37,7 @@ export function BgmPlayer({ src }: { src: string }) {
         type="button"
         onClick={toggle}
         aria-label={isPlaying ? "배경음악 정지" : "배경음악 재생"}
-        className="fixed right-5 top-5 z-[90] h-11 w-11 rounded-full bg-forest text-white shadow-lg"
+        className="fixed right-5 top-5 z-[90] h-11 w-11 rounded-lg bg-forest text-white shadow-lg"
       >
         <span aria-hidden className="text-lg leading-none">
           {isPlaying ? "❚❚" : "▶"}

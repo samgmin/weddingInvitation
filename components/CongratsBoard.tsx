@@ -132,7 +132,7 @@ export function CongratsBoard() {
 
   return (
     <SectionShell>
-      <SectionHeading title="MESSAGE BOARD" titleClassName="!text-[20px]" />
+      <SectionHeading title="Message Board" titleClassName="!text-[20px]" />
 
       <form
         onSubmit={onSubmit}
@@ -144,19 +144,19 @@ export function CongratsBoard() {
           onChange={(e) => setName(e.target.value)}
           placeholder="이름"
           maxLength={20}
-          className="h-[42px] rounded-md bg-[#f1e9df] px-3 text-sm text-[#5a4e40] placeholder:text-[#a79b8d] outline-none ring-0 focus:outline-none focus:ring-2 focus:ring-[#c9bf83]/45"
+          className="h-[42px] rounded-none bg-[#f1e9df] px-3 text-sm text-[#5a4e40] placeholder:text-[#a79b8d] outline-none ring-0 focus:outline-none focus:ring-2 focus:ring-[#c9bf83]/45"
         />
         <input
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="축하 메시지를 남겨주세요"
           maxLength={300}
-          className="h-[42px] rounded-md bg-[#f1e9df] px-3 text-sm text-[#5a4e40] placeholder:text-[#a79b8d] outline-none ring-0 focus:outline-none focus:ring-2 focus:ring-[#c9bf83]/45"
+          className="h-[42px] rounded-none bg-[#f1e9df] px-3 text-sm text-[#5a4e40] placeholder:text-[#a79b8d] outline-none ring-0 focus:outline-none focus:ring-2 focus:ring-[#c9bf83]/45"
         />
         <button
           type="submit"
           disabled={saving}
-          className="h-[42px] min-w-[50px] rounded-md bg-[#d9cfb5] px-2.5 text-xl font-semibold text-[#4f4336] disabled:opacity-60"
+          className="h-[42px] min-w-[50px] rounded-lg bg-[#d9cfb5] px-2.5 text-xl font-semibold text-[#4f4336] disabled:opacity-60"
           aria-label="축하 메시지 저장"
         >
           ➤
@@ -217,7 +217,7 @@ export function CongratsBoard() {
             type="button"
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1}
-            className="rounded-md bg-[#f7f0e6] px-2.5 py-1 text-xs text-[#5b4d3e] disabled:opacity-45"
+            className="rounded-none bg-[#f7f0e6] px-2.5 py-1 text-xs text-[#5b4d3e] disabled:opacity-45"
           >
             이전
           </button>
@@ -228,7 +228,7 @@ export function CongratsBoard() {
             type="button"
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={page === totalPages}
-            className="rounded-md bg-[#f7f0e6] px-2.5 py-1 text-xs text-[#5b4d3e] disabled:opacity-45"
+            className="rounded-none bg-[#f7f0e6] px-2.5 py-1 text-xs text-[#5b4d3e] disabled:opacity-45"
           >
             다음
           </button>

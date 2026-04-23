@@ -263,21 +263,21 @@ export function ShareActions({
         <button
           type="button"
           onClick={shareKakao}
-          className="flex items-center gap-1.5 rounded-full bg-[#e9dcc8] px-3 py-1.5 text-center shadow-[0_2px_6px_rgba(84,66,44,0.10)]"
+          className="flex items-center gap-1.5 rounded-lg bg-[#e9dcc8] px-3 py-1.5 text-center shadow-[0_2px_6px_rgba(84,66,44,0.10)]"
         >
           <Image
             src="/brands/kakaotalk.jpg"
             alt="카카오톡"
             width={16}
             height={16}
-            className="h-4 w-4 rounded"
+            className="h-4 w-4 rounded-none"
           />
           <span className="text-[11px] font-medium leading-none text-[#6a5d4d]">카카오 공유</span>
         </button>
         <button
           type="button"
           onClick={copyLink}
-          className="flex items-center gap-1.5 rounded-full bg-[#e9dcc8] px-3 py-1.5 text-center shadow-[0_2px_6px_rgba(84,66,44,0.10)]"
+          className="flex items-center gap-1.5 rounded-lg bg-[#e9dcc8] px-3 py-1.5 text-center shadow-[0_2px_6px_rgba(84,66,44,0.10)]"
         >
           <span className="flex h-4 w-4 items-center justify-center text-[12px] leading-none text-[#6a5d4d]">
             🔗

@@ -16,13 +16,16 @@ function optimizeCloudinaryUrl(src: string, width = 1200) {
 
 export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
   const coverLabelBySnapId: Record<string, string> = {
-    "snap-1": "2월 스튜디오\n흰 배경과 빛 - 많은 카메라",
-    "snap-2": "8월 런던\nBig Ben, Westminster - 여름 오후의 노을빛",
-    "snap-3": "1월 동해\n속초 켄싱턴호텔, 고성 삼포해변 - 정신을 쏙 빼놓은 바닷바람",
-    "snap-4": "5월 경주\n국립경주박물관, 첨성대 가는길, 황리단길 - 부슬부슬 내리던 비",
+    "snap-1": "2월 스튜디오\n하얀 배경과 빛 - 많은 카메라",
+    "snap-2": "8월 런던\nBig Ben, Westminster\n- 여름 오후의 흐린 노을 빛",
+    "snap-3": "1월 동해\n속초 켄싱턴호텔, 고성 삼포해변\n- 정신을 쏙 빼놓은 바닷바람",
+    "snap-4": "5월 경주\n국립경주박물관, 첨성대 가는 길, 황리단길\n- 부슬부슬 내리던 비",
   };
   const [activeId, setActiveId] = useState(snaps[0]?.id ?? "");
   const activeSnap = snaps.find((snap) => snap.id === activeId) ?? snaps[0];
+  const coverLabel = coverLabelBySnapId[activeSnap?.id ?? ""] ?? `${activeSnap?.label ?? "SNAP"}\n`;
+  const [coverTitle, ...coverDetailParts] = coverLabel.split("\n");
+  const coverDetail = coverDetailParts.join("\n");
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [startScrollLeft, setStartScrollLeft] = useState(0);
@@ -284,7 +287,7 @@ export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
                     aria-selected={i === lightboxIndex}
                     aria-label={`${i + 1}번째 사진`}
                     onClick={() => setLightboxIndex(i)}
-                    className={`h-2 w-2 shrink-0 rounded-full transition-transform ${
+                    className={`h-2 w-2 shrink-0 rounded-none transition-transform ${
                       i === lightboxIndex
                         ? "scale-125 bg-[#5c4d3d]"
                         : "bg-[#5c4d3d]/30 hover:bg-[#5c4d3d]/50"
@@ -300,7 +303,7 @@ export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
               <button
                 type="button"
                 onClick={closeLightbox}
-                className="rounded-full bg-[#f6f0e8]/90 px-6 py-2 text-xs text-[#3d352b] shadow-sm transition-colors active:scale-[0.99] [font-family:var(--font-sans)]"
+                className="rounded-lg bg-[#f6f0e8]/90 px-6 py-2 text-xs text-[#3d352b] shadow-sm transition-colors active:scale-[0.99] [font-family:var(--font-sans)]"
                 aria-label="닫기"
               >
                 닫기
@@ -316,7 +319,7 @@ export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
     <SectionShell animateChildrenInView className="mx-0 w-full bg-[#d2c3ad]/65">
       {lightboxPortal}
 
-      <SectionHeading title="GALLERY" titleClassName="!text-[20px]" />
+      <SectionHeading title="Gallery" titleClassName="!text-[20px]" />
 
       <div
         className={`no-scrollbar mt-4 flex gap-3 overflow-x-auto pb-1 ${
@@ -343,7 +346,11 @@ export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
                     src={optimizeCloudinaryUrl(thumb.src, 520)}
                     alt={thumb.alt}
                     fill
-                    className="object-contain"
+                    className={`object-contain transition-[filter,transform,opacity] duration-300 ${
+                      active
+                        ? "scale-[1.01] opacity-100 saturate-100 brightness-100"
+                        : "opacity-90 saturate-[0.82] brightness-[0.95]"
+                    }`}
                     sizes="188px"
                   />
                 ) : (
@@ -353,6 +360,20 @@ export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
                 )}
               </div>
             </button>
+          );
+        })}
+      </div>
+      <div className="mt-3 flex items-center justify-center gap-2" aria-label="갤러리 캐러셀 인디케이터">
+        {snaps.map((snap) => {
+          const isActive = activeSnap?.id === snap.id;
+          return (
+            <span
+              key={`snap-indicator-${snap.id}`}
+              aria-hidden
+              className={`h-1.5 w-9 rounded-none transition-colors duration-200 ${
+                isActive ? "bg-[#6f5b45]" : "bg-[#6f5b45]/25"
+              }`}
+            />
           );
         })}
       </div>
@@ -454,8 +475,9 @@ export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
                         </div>
                       )}
                     </div>
-                    <p className="mb-5 mt-2 mx-auto w-[86%] whitespace-pre-line text-left text-[12px] leading-5 tracking-[0.01em] text-[#6a5d4d] [font-family:var(--font-sans)]">
-                      {coverLabelBySnapId[activeSnap?.id ?? ""] ?? `${activeSnap?.label ?? "SNAP"}\n`}
+                    <p className="mb-5 mt-2 mx-auto w-[86%] text-left text-[12px] leading-[1.72] tracking-[0.01em] text-[#6a5d4d] [font-family:var(--font-sans)]">
+                      <span className="block font-semibold text-[#5f5141]">{coverTitle}</span>
+                      {coverDetail ? <span className="mt-2 block whitespace-pre-line">{coverDetail}</span> : null}
                     </p>
                   </div>
                 );
@@ -503,7 +525,7 @@ export function Gallery({ snaps }: { snaps: GallerySnap[] }) {
           type="button"
           onClick={scrollToGalleryTop}
           aria-label="갤러리 상단으로 이동"
-          className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#f6ede2]/80 text-[#6c5a45] transition-colors hover:bg-[#f1e5d7]"
+          className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-[#f6ede2]/80 text-[#6c5a45] transition-colors hover:bg-[#f1e5d7]"
         >
           <svg
             aria-hidden

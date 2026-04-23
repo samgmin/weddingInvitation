@@ -18,7 +18,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="flex-1 rounded-lg bg-[#C9BF83] py-2.5 text-sm text-[#3F3529] disabled:opacity-60"
+      className="flex-1 rounded-lg bg-[#e8decd] py-2.5 text-[16px] text-[#4B3F33] disabled:opacity-60"
     >
       {pending ? "저장 중…" : "제출하기"}
     </button>
@@ -46,8 +46,8 @@ function RsvpModal({
       className="mx-auto mt-8 max-h-[85vh] max-w-md overflow-y-auto rounded-2xl bg-white p-5"
       onClick={(e) => e.stopPropagation()}
     >
-      <h3 className="text-xl text-[#3F3529]">참석 의사</h3>
-      <form action={formAction} className="mt-4 space-y-4">
+      <h3 className="text-[1.125rem] text-[#4B3F33]">참석 의사</h3>
+      <form action={formAction} className="mt-4 space-y-3">
         <FieldSet label="누구 손님이신가요?">
           <Radio name="guestSide" value="groom" label="신랑" defaultChecked />
           <Radio name="guestSide" value="bride" label="신부" />
@@ -88,7 +88,7 @@ function RsvpModal({
         <div className="flex gap-2 pt-2">
           <button
             type="button"
-            className="flex-1 rounded-lg bg-[#e9decd] py-2.5 text-sm text-[#5A4E40]"
+            className="flex-1 rounded-lg bg-[#f7efe5] py-2.5 text-[16px] text-[#746556]"
             onClick={onClose}
           >
             닫기
@@ -105,8 +105,8 @@ function RsvpMessage({ state }: { state: RsvpState }) {
   return (
     <p
       role="status"
-      className={`text-center text-sm ${
-        state.ok ? "text-[#5A4E40]" : "text-coral"
+      className={`text-center text-[16px] ${
+        state.ok ? "text-[#746556]" : "text-coral"
       }`}
     >
       {state.message}
@@ -145,14 +145,14 @@ export function RSVP() {
       <SectionHeading
         title="RSVP"
         description="참석 여부를 알려주시면 준비에 큰 도움이 됩니다."
-        titleClassName="![font-family:var(--font-sans)] !text-[16px] !font-normal"
-        descriptionClassName="!text-[12px] !leading-[1.65]"
+        titleClassName="![font-family:var(--font-sans)] !text-[17.5px] !font-normal"
+        descriptionClassName="!text-[13px] !leading-[1.58]"
         underlineBelowTitle
       />
       <button
         type="button"
         onClick={openModal}
-        className="mt-4 inline-flex rounded-full bg-[#C9BF83] px-6 py-2.5 text-sm font-medium text-[#3F3529]"
+        className="mt-4 inline-flex rounded-lg bg-[#e8decd] px-6 py-2.5 text-[14.5px] font-medium text-[#4B3F33]"
       >
         참석의사 체크하기
       </button>
@@ -187,8 +187,8 @@ function FieldSet({
   children: React.ReactNode;
 }) {
   return (
-    <fieldset className="space-y-2">
-      <legend className="mb-1 text-sm font-medium text-[#5A4E40]">{label}</legend>
+    <fieldset className="space-y-1.5">
+      <legend className="mb-1 text-[16px] font-medium text-[#746556]">{label}</legend>
       <div className="flex flex-wrap gap-4">{children}</div>
     </fieldset>
   );
@@ -206,13 +206,13 @@ function Radio({
   defaultChecked?: boolean;
 }) {
   return (
-    <label className="inline-flex items-center gap-2 text-sm text-[#5A4E40]">
+    <label className="inline-flex items-center gap-2 text-[16px] text-[#746556]">
       <input
         type="radio"
         name={name}
         value={value}
         defaultChecked={defaultChecked}
-        className="h-4 w-4 accent-[#7B8452]"
+        className="h-4 w-4 accent-[#e8decd]"
       />
       {label}
     </label>
@@ -224,11 +224,11 @@ function Input({
   ...props
 }: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) {
   return (
-    <label className="block text-sm text-[#6B5F50]">
+    <label className="block text-[16px] text-[#746556]">
       {label}
       <input
         {...props}
-        className="mt-1 block w-full rounded-lg border border-[#e3dece] bg-[#f7f1e7] px-3 py-2 text-sm text-[#3F3529] outline-none focus:border-[#7B8452]"
+        className="mt-1 block w-full rounded-lg bg-[#faf5ee] px-3 py-2 text-[16px] text-[#4B3F33] outline-none focus:ring-2 focus:ring-[#BFD3C1]/60"
       />
     </label>
   );

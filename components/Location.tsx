@@ -118,13 +118,13 @@ export function Location({
   return (
     <SectionShell id="location" className="px-11">
       <SectionHeading
-        title="LOCATION"
-        titleClassName="![font-family:var(--font-sans)] !text-[16px] !font-normal"
+        title="Location"
+        titleClassName="![font-family:var(--font-sans)] !text-[18px] !font-normal"
       />
-      <p className="mt-4 text-sm font-semibold text-[#3F3529]">{venueName}</p>
-      <p className="text-sm leading-6 text-[#6B5F50]">{address}</p>
+      <p className="mt-4 text-[14px] font-semibold text-[#4B3F33]">{venueName}</p>
+      <p className="text-[13.5px] leading-6 text-[#746556]">{address}</p>
 
-      <div className="mt-4">
+      <div className="mt-5">
         <NaverMap
           lat={mapLat}
           lng={mapLng}
@@ -133,13 +133,13 @@ export function Location({
           markerLabel="새마을운동중앙회"
         />
       </div>
-      <div className="mt-5 grid grid-cols-3 gap-2">
+      <div className="mt-6 grid grid-cols-3 gap-2">
         <button
           type="button"
           onClick={handleOpenNaver}
-          className="group flex w-full items-center justify-center gap-1.5 rounded-lg bg-[#efe6d8] px-1.5 py-2 text-center shadow-[0_2px_6px_rgba(84,66,44,0.06)]"
+          className="group flex w-full items-center justify-center gap-1.5 rounded-lg bg-[#f3e8d8] px-1.5 py-2 text-center shadow-[0_2px_6px_rgba(84,66,44,0.06)]"
         >
-          <span className="overflow-hidden rounded-sm bg-white transition-transform duration-200 group-active:scale-95">
+          <span className="overflow-hidden rounded-none bg-white transition-transform duration-200 group-active:scale-95">
             <Image
               src="/brands/naver-map.jpg"
               alt="네이버지도"
@@ -148,16 +148,16 @@ export function Location({
               className="h-5 w-5"
             />
           </span>
-          <span className="whitespace-nowrap text-[10px] font-medium leading-none tracking-[-0.01em] text-[#5A4E40]">
+          <span className="whitespace-nowrap text-[10.5px] font-medium leading-none tracking-[-0.01em] text-[#746556]">
             네이버지도
           </span>
         </button>
         <button
           type="button"
           onClick={handleOpenTmap}
-          className="group flex w-full items-center justify-center gap-1.5 rounded-lg bg-[#efe6d8] px-1.5 py-2 text-center shadow-[0_2px_6px_rgba(84,66,44,0.06)]"
+          className="group flex w-full items-center justify-center gap-1.5 rounded-lg bg-[#f3e8d8] px-1.5 py-2 text-center shadow-[0_2px_6px_rgba(84,66,44,0.06)]"
         >
-          <span className="overflow-hidden rounded-sm bg-white transition-transform duration-200 group-active:scale-95">
+          <span className="overflow-hidden rounded-none bg-white transition-transform duration-200 group-active:scale-95">
             <Image
               src="/brands/tmap.jpg"
               alt="T맵"
@@ -166,16 +166,16 @@ export function Location({
               className="h-5 w-5"
             />
           </span>
-          <span className="whitespace-nowrap text-[10px] font-medium leading-none tracking-[-0.01em] text-[#5A4E40]">
+          <span className="whitespace-nowrap text-[10.5px] font-medium leading-none tracking-[-0.01em] text-[#746556]">
             T맵
           </span>
         </button>
         <button
           type="button"
           onClick={handleOpenKakao}
-          className="group flex w-full items-center justify-center gap-1.5 rounded-lg bg-[#efe6d8] px-1.5 py-2 text-center shadow-[0_2px_6px_rgba(84,66,44,0.06)]"
+          className="group flex w-full items-center justify-center gap-1.5 rounded-lg bg-[#f3e8d8] px-1.5 py-2 text-center shadow-[0_2px_6px_rgba(84,66,44,0.06)]"
         >
-          <span className="overflow-hidden rounded-sm bg-white transition-transform duration-200 group-active:scale-95">
+          <span className="overflow-hidden rounded-none bg-white transition-transform duration-200 group-active:scale-95">
             <Image
               src="/brands/kakao-map.jpg"
               alt="카카오맵"
@@ -184,29 +184,29 @@ export function Location({
               className="h-5 w-5"
             />
           </span>
-          <span className="whitespace-nowrap text-[10px] font-medium leading-none tracking-[-0.01em] text-[#5A4E40]">
+          <span className="whitespace-nowrap text-[10.5px] font-medium leading-none tracking-[-0.01em] text-[#746556]">
             카카오맵
           </span>
         </button>
       </div>
       <div className="mt-5 space-y-3 p-4 text-left">
-        <div className="grid grid-cols-[72px_1fr] items-start gap-x-4 gap-y-0.5">
-          <p className="text-left text-sm font-semibold text-[#5A4E40]">🚗 자가용</p>
-          <p className="whitespace-pre-line break-keep text-right text-sm leading-7 text-[#6B5F50]">
+        <div className="space-y-2.5">
+          <p className="text-left text-[14px] font-semibold text-[#4B3F33]">🚗 자가용</p>
+          <p className="whitespace-pre-line break-keep pl-0.5 text-left text-[13px] leading-[1.88] text-[#746556]">
             {"새마을운동중앙회 내부 무료주차 가능"}
           </p>
         </div>
         <div className="h-px bg-[#b7a68d]/25" />
-        <div className="grid grid-cols-[72px_1fr] items-start gap-x-4 gap-y-0.5">
-          <p className="text-left text-sm font-semibold text-[#5A4E40]">🚎 대중교통</p>
-          <p className="whitespace-pre-line break-keep text-right text-sm leading-7 text-[#6B5F50]">
+        <div className="space-y-2.5">
+          <p className="text-left text-[14px] font-semibold text-[#4B3F33]">🚎 대중교통</p>
+          <p className="whitespace-pre-line break-keep pl-0.5 text-left text-[13px] leading-[1.88] text-[#746556]">
             {"[수인분당선 서현역] AK플라자 2층 출구\n육교 맞은편 [누리 2번] 탑승\n'새마을연수원사거리' 하차 후 도보 10분"}
           </p>
         </div>
         <div className="h-px bg-[#b7a68d]/25" />
-        <div className="grid grid-cols-[72px_1fr] items-start gap-x-4 gap-y-0.5">
-          <p className="text-left text-sm font-semibold text-[#5A4E40]">🚌 셔틀버스</p>
-          <p className="whitespace-pre-line break-keep text-right text-sm leading-7 text-[#6B5F50]">
+        <div className="space-y-2.5">
+          <p className="text-left text-[14px] font-semibold text-[#4B3F33]">🚌 셔틀버스</p>
+          <p className="whitespace-pre-line break-keep pl-0.5 text-left text-[13px] leading-[1.88] text-[#746556]">
             {"[수인분당선 서현역] 2번 출구 앞 탑승\n11:30부터 20분 간격 운행"}
           </p>
         </div>
@@ -215,7 +215,7 @@ export function Location({
         <div className="pointer-events-none fixed inset-x-0 top-6 z-50 flex justify-center px-4">
           <p
             role="alert"
-            className="rounded-xl bg-zinc-900/90 px-4 py-2 text-sm font-medium text-white shadow-lg backdrop-blur"
+            className="rounded-none bg-zinc-900/90 px-4 py-2 text-sm font-medium text-white shadow-lg backdrop-blur"
           >
             {toast}
           </p>

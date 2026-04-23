@@ -28,7 +28,7 @@ function StoryPhotos({
 }) {
   if (!photos.length) {
     return (
-      <div className="flex h-32 w-full max-w-[200px] items-center justify-center rounded-2xl bg-[#ece3d7] text-xs text-[#867863]">
+      <div className="flex h-32 w-full max-w-[200px] items-center justify-center rounded-none bg-[#ece3d7] text-xs text-[#867863]">
         사진
       </div>
     );
@@ -43,7 +43,7 @@ function StoryPhotos({
           <img
             src={lead.src}
             alt={lead.alt}
-            className={`absolute left-[1%] top-[1%] h-auto max-h-[398px] w-[100%] rounded-xl object-contain shadow-[0_8px_16px_rgba(40,28,16,0.16)] rotate-[-5deg] ${
+            className={`absolute left-[1%] top-[1%] h-auto max-h-[398px] w-[100%] rounded-none object-contain shadow-[0_8px_16px_rgba(40,28,16,0.16)] rotate-[-5deg] ${
               firstStory ? "z-[3]" : "z-[1]"
             }`}
             loading="lazy"
@@ -51,7 +51,7 @@ function StoryPhotos({
           <img
             src={follow.src}
             alt={follow.alt}
-            className={`absolute right-[1%] z-[2] h-auto max-h-[398px] w-[100%] rounded-xl object-contain shadow-[0_8px_16px_rgba(40,28,16,0.18)] rotate-[5deg] ${
+            className={`absolute right-[1%] z-[2] h-auto max-h-[398px] w-[100%] rounded-none object-contain shadow-[0_8px_16px_rgba(40,28,16,0.18)] rotate-[5deg] ${
               firstStory ? "top-[36%]" : "top-[42%]"
             }`}
             loading="lazy"
@@ -62,7 +62,7 @@ function StoryPhotos({
             key={`${ph.src}-${i + 2}`}
             src={ph.src}
             alt={ph.alt}
-            className="mt-2 h-auto max-h-[416px] w-auto max-w-full rounded-xl object-contain"
+            className="mt-2 h-auto max-h-[416px] w-auto max-w-full rounded-none object-contain"
             loading="lazy"
           />
         ))}
@@ -77,7 +77,7 @@ function StoryPhotos({
           key={`${ph.src}-${i}`}
           src={ph.src}
           alt={ph.alt}
-          className={`h-auto max-w-full rounded-xl object-contain ${
+          className={`h-auto max-w-full rounded-none object-contain ${
             storyIndex === 1 || storyIndex === 2
               ? "w-[102%] max-h-[580px]"
               : "w-auto max-w-full max-h-[559px]"

@@ -52,7 +52,7 @@ export function Gift({ accounts }: { accounts: Account[] }) {
             transition={{ duration: 0.24, ease: "easeOut" }}
             className="overflow-hidden"
           >
-            <div className="space-y-1.5 pt-1">
+            <div className="space-y-1 pt-1">
               {list.map((account) => {
                 const key = `${account.role}-${account.number}`;
                 const copied = copiedKey === key;
@@ -60,8 +60,8 @@ export function Gift({ accounts }: { accounts: Account[] }) {
                   <div key={key} className="grid grid-cols-[1fr_auto] gap-2 px-3 py-2.5 text-left">
                     <div className="text-left">
                       <p className="whitespace-nowrap leading-snug">
-                        <span className="text-[14px] font-medium text-[#3F3529]">{account.name}</span>
-                        <span className="ml-2.5 text-[12px] font-normal tracking-[0.01em] text-[#6B5F50]">
+                        <span className="text-[14.5px] font-medium text-[#3F3529]">{account.name}</span>
+                        <span className="ml-2.5 text-[12.5px] font-normal tracking-[0.01em] text-[#6B5F50]">
                           {account.bank} {account.number}
                         </span>
                       </p>
@@ -69,7 +69,7 @@ export function Gift({ accounts }: { accounts: Account[] }) {
                     <button
                       type="button"
                       onClick={() => copyAccount(account)}
-                      className="h-8 w-8 self-center rounded-full bg-[#f8f2eb] text-sm text-[#5A4E40]"
+                      className="h-8 w-8 self-center rounded-none bg-[#f8f2eb] text-sm text-[#5A4E40]"
                       aria-label={copied ? "복사 완료" : "계좌 복사"}
                     >
                       {copied ? "✓" : "⧉"}
@@ -97,33 +97,33 @@ export function Gift({ accounts }: { accounts: Account[] }) {
     <SectionShell className="px-11 !pb-[5.4rem]">
       <SectionHeading
         title="마음 전하실 곳"
-        titleClassName="![font-family:var(--font-sans)] !text-[16px] !font-normal"
+        titleClassName="![font-family:var(--font-sans)] !text-[17.5px] !font-normal"
       />
       <div className="mt-3 space-y-2.5">
-        <div className="overflow-hidden rounded-xl bg-[#efe6d8] shadow-[0_2px_8px_rgba(84,66,44,0.06)]">
+        <div className="overflow-hidden rounded-none bg-[#efe6d8] shadow-[0_2px_8px_rgba(84,66,44,0.06)]">
           <button
             type="button"
             onClick={() => toggle("groom")}
             className="flex w-full items-center justify-between px-3.5 py-2.5 text-left transition-colors hover:bg-[#e8decd]"
             aria-expanded={openSections.groom}
           >
-            <span className="text-[15px] font-semibold text-[#3F3529]">신랑측</span>
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#f8f2eb]">
+            <span className="text-[15.5px] font-semibold text-[#3F3529]">신랑측</span>
+            <span className="flex h-8 w-8 items-center justify-center rounded-none bg-[#f8f2eb]">
               {caret(openSections.groom)}
             </span>
           </button>
           {renderRows("groom", grouped.groom)}
         </div>
 
-        <div className="overflow-hidden rounded-xl bg-[#efe6d8] shadow-[0_2px_8px_rgba(84,66,44,0.06)]">
+        <div className="overflow-hidden rounded-none bg-[#efe6d8] shadow-[0_2px_8px_rgba(84,66,44,0.06)]">
           <button
             type="button"
             onClick={() => toggle("bride")}
             className="flex w-full items-center justify-between px-3.5 py-2.5 text-left transition-colors hover:bg-[#e8decd]"
             aria-expanded={openSections.bride}
           >
-            <span className="text-[15px] font-semibold text-[#3F3529]">신부측</span>
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#f8f2eb]">
+            <span className="text-[15.5px] font-semibold text-[#3F3529]">신부측</span>
+            <span className="flex h-8 w-8 items-center justify-center rounded-none bg-[#f8f2eb]">
               {caret(openSections.bride)}
             </span>
           </button>

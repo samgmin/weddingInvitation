@@ -36,7 +36,7 @@ export function ParentsSection({
         <div className="flex flex-col items-center pb-3 text-center">
           <div
             data-protect-media
-            className="relative aspect-[3/4] w-full max-w-[200px] overflow-hidden rounded-[4px] bg-[#f4ebdf] shadow-[0_6px_20px_rgba(0,0,0,0.08)]"
+            className="relative aspect-[3/4] w-full max-w-[200px] overflow-hidden rounded-none-[4px] bg-[#f4ebdf] shadow-[0_6px_20px_rgba(0,0,0,0.08)]"
           >
             {groom[0]?.image ? (
               <Image
@@ -68,7 +68,7 @@ export function ParentsSection({
         <div className="flex flex-col items-center pb-3 text-center">
           <div
             data-protect-media
-            className="relative aspect-[3/4] w-full max-w-[200px] overflow-hidden rounded-[4px] bg-[#f4ebdf] shadow-[0_6px_20px_rgba(0,0,0,0.08)]"
+            className="relative aspect-[3/4] w-full max-w-[200px] overflow-hidden rounded-none-[4px] bg-[#f4ebdf] shadow-[0_6px_20px_rgba(0,0,0,0.08)]"
           >
             {bride[0]?.image ? (
               <Image

@@ -49,6 +49,11 @@ export type RsvpReminderData = {
   dismissForTodayLabel: string;
 };
 
+export type DressCodeData = {
+  title: string;
+  lines: string[];
+};
+
 export const weddingData = {
   /** 커버 이미지 URL (GIF/JPG 등) */
   coverGif: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775576845/cover_2_mxja9x.png",
@@ -71,7 +76,7 @@ export const weddingData = {
   /** 카카오 공유 시 썸네일 (반드시 https 절대 URL 권장, 비우면 현재 도메인/hero.svg 사용) */
   shareImageUrl: "https://res.cloudinary.com/dp4u12ke2/image/upload/v1775578483/IMG_6672_afqt8j.jpg",
   shareTitle: "정상민 🖤 장혜림",
-  shareDescription: "2026년 5월 24일 (일) 오후 12시 30분\n새마을운동중앙회 돌뜰정원",
+  shareDescription: "26년 5월 24일 (일) 오후 12시 30분\n새마을운동중앙회 돌뜰정원",
   invitationMessage: [
     "꽃이 피는 5월, 저희 결혼합니다.",
     "소중한 분들 앞에서 두사람이 서로를 약속하려 합니다.",
@@ -245,18 +250,30 @@ export const weddingData = {
     {
       title: "화환 안내",
       description:
-        "화환은 정중히 사양합니다\n예식 장소 특성상 화환 관리가 어려워 부득이하게 반송될 예정입니다 \n마음만 감사히 받겠습니다",
+        "화환은 정중히 사양합니다\n예식 장소 특성상 화환 관리가 어려워\n부득이하게 반송될 예정입니다.\n마음만 감사히 받겠습니다",
     },
-    { title: "🚗 주차 안내", description: "예식 당일 새마을운동중앙회 내 주차장을 이용하실 수 있습니다." },
+    {
+      title: "🚗 주차 안내",
+      description: "예식 당일 새마을운동중앙회 내 주차장을\n이용하실 수 있습니다.",
+    },
     {
       title: "🍽️ 식사 안내",
-      description: "식사는 본식 1부 종료 후 시작됩니다.",
+      description: "식사는 1부 종료 후 시작되고, 2부와 동시 진행됩니다.",
     },
     {
       title: "🏧 ATM 안내",
-      description: "예식장 내 ATM이 마련되어 있지 않으니, 양해 부탁드립니다.",
+      description: "예식장 내 ATM이 마련되어 있지 않으니,\n양해 부탁드립니다.",
     },
   ] as VenueGuideItem[],
+  dressCode: {
+    title: "Dress Code",
+    lines: [
+      "👗 Spring look",
+      "밝고 화사한 봄 느낌",
+      "5월 야외 예식으로 날씨가 더울 수 있어요.",
+      "가볍고 편안한 착장으로 와주시면 더 예쁠 것 같아요 :)",
+    ],
+  } as DressCodeData,
   notice:
     "화환은 정중히 사양합니다.\n예식 장소 특성상 화환 관리가 어려워 부득이하게 반송될 예정입니다. \n마음만 감사히 받겠습니다",
   accounts: [

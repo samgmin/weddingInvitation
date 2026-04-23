@@ -13,7 +13,7 @@ function getRemaining(target: Date) {
 }
 
 const PEACH_BEIGE_TILE =
-  "rounded-lg border border-[#ae998f]/40 bg-[#dccdc4] py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.5)]";
+  "rounded-md bg-[#e9e0da] py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.5)]";
 
 export function DateCountdownSection({
   dateIso,
@@ -62,7 +62,7 @@ export function DateCountdownSection({
         {`${hour12}:${String(target.getMinutes()).padStart(2, "0")} ${meridiem}`}
       </p>
 
-      <div className="mx-auto mt-5 w-[92%] max-w-[320px] rounded-xl bg-[#f3d8cf]/82 px-2 py-5">
+      <div className="mx-auto mt-5 w-[92%] max-w-[320px] rounded-sm bg-[#fbf2f0]/92 px-2 py-5">
         <p className="mb-2.5 text-center text-[14px] font-semibold tracking-[0.2em] text-[#5A4E40] [font-family:var(--font-serif)]">
           {monthLabel}
         </p>

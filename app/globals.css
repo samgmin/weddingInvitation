@@ -25,7 +25,7 @@
 
 html {
   scroll-behavior: smooth;
-  font-size: clamp(11.5px, 3.1vw, 13.5px);
+  font-size: clamp(11.3px, 3.05vw, 13.3px);
   overflow-x: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -42,8 +42,8 @@ body {
   overflow-x: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  background-color: #f6eee6;
-  color: #3d352b;
+  background-color: #f8f1e9;
+  color: #4b3f33;
   font-family: "Pretendard", var(--font-sans), system-ui, sans-serif;
   background-image: var(--paper-texture-layers);
   touch-action: manipulation;

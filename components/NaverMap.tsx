@@ -103,11 +103,11 @@ function OsmFallbackMap({
 
   return (
     <div className="space-y-3">
-      <div className="overflow-hidden rounded-2xl">
+      <div className="overflow-hidden rounded-none">
         <iframe
           title="지도 (OpenStreetMap)"
           src={osmSrc}
-          className="h-[240px] w-full border-0"
+          className="h-[240px] w-full"
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
         />
@@ -117,7 +117,7 @@ function OsmFallbackMap({
           href={naverSearchUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 rounded-full bg-[#03C75A] py-2.5 text-center text-sm font-semibold text-white"
+          className="flex-1 rounded-none bg-[#03C75A] py-2.5 text-center text-sm font-semibold text-white"
         >
           네이버 지도에서 보기
         </a>
@@ -125,14 +125,14 @@ function OsmFallbackMap({
           href={`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 rounded-full py-2.5 text-center text-sm font-medium text-forest"
+          className="flex-1 rounded-none py-2.5 text-center text-sm font-medium text-forest"
         >
           구글 지도에서 보기
         </a>
       </div>
       <p className="text-center text-[11px] leading-relaxed text-zinc-500">
         네이버 Dynamic Map이 막힌 경우(도메인 미등록 등) 위 지도·링크로 안내합니다. 네이버 클라우드에서 Web 서비스 URL에{" "}
-        <code className="rounded bg-zinc-100 px-1">http://localhost:3000</code> 등을 등록해 보세요.
+        <code className="rounded-none bg-zinc-100 px-1">http://localhost:3000</code> 등을 등록해 보세요.
       </p>
     </div>
   );
@@ -223,9 +223,9 @@ export function NaverMap({
   if (!clientId) {
     return (
       <div className="space-y-3">
-        <div className="flex min-h-[100px] flex-col items-center justify-center gap-2 rounded-2xl bg-[#f8f5ef] px-4 py-4 text-center text-sm text-zinc-600">
+        <div className="flex min-h-[100px] flex-col items-center justify-center gap-2 rounded-none bg-[#f8f5ef] px-4 py-4 text-center text-sm text-zinc-600">
           <p>
-            <code className="rounded bg-white px-1">NEXT_PUBLIC_NAVER_MAP_CLIENT_ID</code>가 없어 네이버 지도 대신
+            <code className="rounded-none bg-white px-1">NEXT_PUBLIC_NAVER_MAP_CLIENT_ID</code>가 없어 네이버 지도 대신
             아래 지도를 표시합니다.
           </p>
         </div>
@@ -242,11 +242,11 @@ export function NaverMap({
     <div className="relative min-h-[240px] w-full">
       <div
         ref={containerRef}
-        className="min-h-[240px] w-full overflow-hidden rounded-2xl"
+        className="min-h-[240px] w-full overflow-hidden rounded-none"
         role="presentation"
       />
       {loading ? (
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-2xl bg-[#faf8f3]/95 text-sm text-zinc-500">
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-none bg-[#faf8f3]/95 text-sm text-zinc-500">
           지도 불러오는 중…
         </div>
       ) : null}
